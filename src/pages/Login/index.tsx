@@ -1,0 +1,103 @@
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import logo from '../../shared/media/imgs/logo.png';
+import { useNavigate } from 'react-router-dom';
+const Index = () => {
+    const navigate = useNavigate();
+
+    const formik = useFormik({
+        initialValues: {
+            email: '',
+            password: '',
+        },
+        validationSchema: Yup.object({
+            email: Yup.string()
+                .email('Düzgün email daxil edin')
+                .required('Email tələb olunur'),
+            password: Yup.string()
+                .min(6, 'Şifrə minimum 6 simvol olmalıdır')
+                .required('Şifrə tələb olunur'),
+        }),
+        onSubmit: (values) => {
+            console.log('Form data:', values);
+            navigate('/');
+        },
+    });
+
+    return (
+        <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+            <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+                <img alt="Your Company" src={logo} className="mx-auto h-10 w-auto" />
+                <h2 className="mt-10 text-center text-2xl font-bold tracking-tight text-gray-900">
+                    Hesabınıza daxil olun
+                </h2>
+            </div>
+
+            <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+                <form onSubmit={formik.handleSubmit} className="space-y-6">
+
+                    <div>
+                        <label htmlFor="email" className="block text-sm font-medium text-gray-900">
+                            Email ünvanı
+                        </label>
+                        <div className="mt-2">
+                            <input
+                                id="email"
+                                name="email"
+                                type="email"
+                                placeholder="Daxil edin"
+                                autoComplete="email"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.email}
+                                className={`block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 border ${formik.touched.email && formik.errors.email
+                                    ? 'border-red-500'
+                                    : 'border-secondary-blue'
+                                    } focus:outline-none focus:ring-1 focus:ring-secondary-blue placeholder:text-gray-400 sm:text-sm`}
+                            />
+                            {formik.touched.email && formik.errors.email && (
+                                <p className="mt-1 text-sm text-red-500">{formik.errors.email}</p>
+                            )}
+                        </div>
+                    </div>
+
+                    <div>
+                        <label htmlFor="password" className="block text-sm font-medium text-gray-900">
+                            Şifrə
+                        </label>
+                        <div className="mt-2">
+                            <input
+                                id="password"
+                                name="password"
+                                type="password"
+                                placeholder="Daxil edin"
+                                autoComplete="current-password"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.password}
+                                className={`block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 border ${formik.touched.password && formik.errors.password
+                                    ? 'border-red-500'
+                                    : 'border-secondary-blue'
+                                    } focus:outline-none focus:ring-1 focus:ring-secondary-blue placeholder:text-gray-400 sm:text-sm`}
+                            />
+                            {formik.touched.password && formik.errors.password && (
+                                <p className="mt-1 text-sm text-red-500">{formik.errors.password}</p>
+                            )}
+                        </div>
+                    </div>
+
+                    <div>
+                        <button
+                            type="submit"
+                            className="flex w-full justify-center rounded-md bg-secondary-blue px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-secondary-blue focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                        >
+                            Daxil ol
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    );
+};
+
+export default Index;
