@@ -24,13 +24,15 @@ const Index = () => {
       message: Yup.string().required("Mesaj tələb olunur"),
     }),
     onSubmit: (values, { resetForm }) => {
-      alert("Müraciətiniz qəbul edildi!");
+      console.log(values);
+
+      alert("Müraciətiniz qəbul edildi!",);
       resetForm();
     },
   });
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-16">
+    <div className="container mx-auto py-16">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
         {/* Left Contact Info */}
         <div className="space-y-8">
@@ -96,11 +98,10 @@ const Index = () => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.name}
-                className={`block w-full rounded-md border px-3 py-2 pr-10 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-secondary-blue ${
-                  formik.touched.name && formik.errors.name
+                className={`block w-full rounded-md border px-3 py-2 pr-10 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-secondary-blue ${formik.touched.name && formik.errors.name
                     ? "border-red-500"
                     : "border-gray-300"
-                } text-gray-900`}
+                  } text-gray-900`}
               />
               <HiOutlineUser className="absolute right-3 top-2.5 text-gray-400 w-5 h-5" />
             </div>
@@ -126,11 +127,10 @@ const Index = () => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.email}
-                className={`block w-full rounded-md border px-3 py-2 pr-10 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-secondary-blue ${
-                  formik.touched.email && formik.errors.email
+                className={`block w-full rounded-md border px-3 py-2 pr-10 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-secondary-blue ${formik.touched.email && formik.errors.email
                     ? "border-red-500"
                     : "border-gray-300"
-                } text-gray-900`}
+                  } text-gray-900`}
               />
               <HiOutlineMail className="absolute right-3 top-2.5 text-gray-400 w-5 h-5" />
             </div>
@@ -155,11 +155,10 @@ const Index = () => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.subject}
-              className={`block w-full rounded-md border px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-secondary-blue ${
-                formik.touched.subject && formik.errors.subject
+              className={`block w-full rounded-md border px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-secondary-blue ${formik.touched.subject && formik.errors.subject
                   ? "border-red-500"
                   : "border-gray-300"
-              } text-gray-900`}
+                } text-gray-900`}
             />
             {formik.touched.subject && formik.errors.subject && (
               <p className="mt-1 text-sm text-red-600">{formik.errors.subject}</p>
@@ -182,11 +181,10 @@ const Index = () => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.message}
-              className={`block w-full rounded-md border px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-secondary-blue ${
-                formik.touched.message && formik.errors.message
+              className={`block w-full rounded-md border px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-secondary-blue ${formik.touched.message && formik.errors.message
                   ? "border-red-500"
                   : "border-gray-300"
-              } text-gray-900`}
+                } text-gray-900`}
             />
             {formik.touched.message && formik.errors.message && (
               <p className="mt-1 text-sm text-red-600">{formik.errors.message}</p>
@@ -195,7 +193,7 @@ const Index = () => {
 
           <button
             type="submit"
-            className="w-full bg-secondary-blue text-white py-3 rounded-md font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary-blue"
+            className="w-full bg-indigo-600 text-white py-3 rounded-md font-semibold hover:bg-indigo-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:indigo-600"
           >
             Göndər
           </button>

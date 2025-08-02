@@ -6,7 +6,7 @@ import { FaFacebookF, FaTwitter, FaYoutube, FaLinkedinIn } from "react-icons/fa"
 const Footer = () => {
 
     return (
-        <div className="bg-primary-blue">
+        <div className="bg-indigo-600">
             <div className="flex flex-col gap-6">
                 <div className="container px-2 mx-auto flex flex-col items-center gap-10 py-12">
                     <div className="flex flex-col items-center gap-4">
@@ -27,11 +27,9 @@ const Footer = () => {
                         </div>
                     </div>
                     <div className="flex gap-6 text-white text-xl">
-                        <Link className='hover:underline hover:text-secondary-blue duration-300' to='#'>Bloqlar</Link>
-                        <Link className='hover:underline hover:text-secondary-blue duration-300' to='#'>Haqqımızda</Link>
-                        <Link className='hover:underline hover:text-secondary-blue duration-300' to='#'>Şəxsiyyət testləri</Link>
-                        <Link className='hover:underline hover:text-secondary-blue duration-300' to='#'>Biznes testləri</Link>
-                        <Link className='hover:underline hover:text-secondary-blue duration-300' to='#'>Əlaqə</Link>
+                        <Link className='hover:underline hover:text-secondary-blue duration-300' to='/blogs'>Bloqlar</Link>
+                        <Link className='hover:underline hover:text-secondary-blue duration-300' to='/about-us'>Haqqımızda</Link>
+                        <Link className='hover:underline hover:text-secondary-blue duration-300' to='/contact-us'>Əlaqə</Link>
                     </div>
                 </div>
                 <span className='w-full h-[1px] bg-white opacity-50'></span>

@@ -28,7 +28,7 @@ const TestResult = () => {
                     <div className="p-4 text-center bg-zinc-100">
                         <p className='text-xl font-semibold text-stone-800 pb-4'>Sizin nəticəniz</p>
                         <p className='text-primary-blue font-bold text-lg'>Virtuoz</p>
-                        <p className='text-stone-600 font-bold text-sm'>ISTP-A</p>
+                        <p className='text-stone-600 font-bold text-sm'>ISTP</p>
                     </div>
                     <div className="p-4 flex flex-col gap-6">
                         <div className="flex flex-col gap-1">
@@ -54,7 +54,7 @@ const TestResult = () => {
                             </div>
                             <div className="text-sm flex justify-between font-medium">
                                 <span>İntuitiv</span>
-                                <span className='text-primary-blue font-bold'>Müşahidəçi</span>
+                                <span className='text-primary-blue font-bold'>Hissiyyatlı</span>
                             </div>
                         </div>
                         <div className="flex flex-col gap-1">
@@ -66,7 +66,7 @@ const TestResult = () => {
                                 <span>46%</span>
                             </div>
                             <div className="text-sm flex justify-between font-medium">
-                                <span className='text-primary-blue font-bold'>Düşünən</span>
+                                <span className='text-primary-blue font-bold'>Məntiq</span>
                                 <span>Hiss edən</span>
                             </div>
                         </div>
@@ -80,20 +80,7 @@ const TestResult = () => {
                             </div>
                             <div className="text-sm flex justify-between font-medium">
                                 <span>Mühakiməçi</span>
-                                <span className='text-primary-blue font-bold'>Tədqiqatçı</span>
-                            </div>
-                        </div>
-                        <div className="flex flex-col gap-1">
-                            <div className="flex items-center gap-2">
-                                <span>69%</span>
-                                <span className='bg-zinc-200 h-3 w-full rounded-full flex overflow-hidden'>
-                                    <span className='w-[69%] h-full bg-primary-blue'></span>
-                                </span>
-                                <span>31%</span>
-                            </div>
-                            <div className="text-sm flex justify-between font-medium">
-                                <span className='text-primary-blue font-bold'>İnadkar</span>
-                                <span>Coşğun</span>
+                                <span className='text-primary-blue font-bold'>Qavrayıcı</span>
                             </div>
                         </div>
                     </div>

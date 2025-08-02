@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 // import '../../styles/test-page.css'
+import { User } from '../../types/user';
 
 const TestPage = () => {
     const [currentQuestionSet, setCurrentQuestionSet] = useState(0);
@@ -60,7 +61,6 @@ const TestPage = () => {
             setErrors(newErrors);
             return;
         }
-        console.log(answers);
         navigate('/result');
     };
 
@@ -132,6 +132,15 @@ const TestPage = () => {
         return renderedQuestions;
     };
 
+
+    useEffect(() => {
+        const storedUser = localStorage.getItem('user');
+        const user: User | null = storedUser ? JSON.parse(storedUser) : null;
+
+        if (!user) {
+            navigate('/login');
+        }
+    }, []);
 
 
     return (

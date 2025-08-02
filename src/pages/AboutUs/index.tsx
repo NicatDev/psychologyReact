@@ -1,14 +1,16 @@
+
 const Index = () => {
   return (
-    <div className="max-w-6xl mx-auto px-6 py-16 bg-white text-gray-900">
+    <div className="container mx-auto  py-16 bg-white text-gray-900">
       {/* Başlıq */}
+
       <h1 className="text-5xl font-extrabold mb-8 text-primary-blue">
         Biz Kimik?
       </h1>
 
       {/* Ümumi təsvir */}
       <p className="text-lg max-w-3xl mb-12 leading-relaxed">
-        Şirkətimiz müştərilərinə yüksək keyfiyyətli və innovativ texnoloji həllər təqdim edir. 
+        Şirkətimiz müştərilərinə yüksək keyfiyyətli və innovativ texnoloji həllər təqdim edir.
         Məqsədimiz biznesinizin inkişafına dəstək olmaqdır.
       </p>
 

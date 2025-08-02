@@ -49,7 +49,7 @@ const blogs = [
 const Index = () => {
     return (
         <section className="py-24">
-            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="mx-auto container">
                 <div className="text-center mb-12">
                     <h2 className="text-4xl font-bold text-gray-900 leading-[3.25rem] mb-5">
                         Ən son <span className="text-indigo-600">bloqlarımız</span>

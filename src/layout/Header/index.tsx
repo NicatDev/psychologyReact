@@ -1,98 +1,24 @@
 import { Link } from 'react-router-dom'
 import logo from '../../shared/media/imgs/logo.png'
-import { IoMdArrowDropdown } from "react-icons/io";
+import { User } from "../../types/user"
+import ProfileDropdown from '../../shared/components/ProfileDropDown';
 
 const Header = () => {
 
-    const menu = [
-        {
-            title: 'Şəxsiyyət testləri',
-            link: '#',
-            submenu: [
-                {
-                    title: 'Enneaqram şəxsiyyət testi',
-                    link: '/test',
-                },
-                {
-                    title: '16 tip şəxsiyyət testi',
-                    link: '/test',
-                },
-                {
-                    title: 'Böyük beşlik şəxsiyyət testi',
-                    link: '/test',
-                },
-                {
-                    title: 'Disk şəxsiyyət testi',
-                    link: '/test',
-                },
-                {
-                    title: 'Karyera qabiliyyəti testi',
-                    link: '/test',
-                },
-                {
-                    title: 'Emosional zəka testi',
-                    link: '/test',
-                },
-                {
-                    title: 'Bütün testlər',
-                    link: '/test',
-                }
-            ]
-        },
-        {
-            title: 'Biznes üçün',
-            link: '#',
-            submenu: [
-                {
-                    title: 'Komanda testi',
-                    link: '#',
-                },
-                {
-                    title: 'Müştəri testi',
-                    link: '#',
-                }
-            ]
-        },
-        {
-            title: 'Əlavə',
-            link: '#',
-            submenu: [
-                {
-                    title: 'Şəxsiyyət bloqu',
-                    link: '#',
-                },
-                {
-                    title: 'Enneaqram tipləri',
-                    link: '#',
-                },
-                {
-                    title: 'Enneaqram haqqında',
-                    link: '#',
-                },
+    const storedUser = localStorage.getItem('user');
+    const user: User | null = storedUser ? JSON.parse(storedUser) : null;
 
-                {
-                    title: 'Tipinizə uyğun peşə',
-                    link: '#',
-                },
-                {
-                    title: 'Peşə testləri haqqında',
-                    link: '#',
-                },
-                {
-                    title: 'Şəxsiyyət testləri haqqında',
-                    link: '#',
-                },
-                {
-                    title: 'Böyük beşlik haqqında',
-                    link: '#',
-                },
-                {
-                    title: 'Tiplər və uyğunluq',
-                    link: '#',
-                },
-            ]
-        }
+    const menu = [
+        { title: 'Haqqımızda', link: '/about-us' },
+        { title: 'Bizimlə əlaqə', link: '/contact-us' },
+        { title: 'Bloqlar', link: '/blogs' },
+        { title: 'Test', link: '/test' },
     ]
+
+
+    const handleLogout = () => {
+        console.log('User logged out');
+    };
 
     return (
         <div className="bg-white sticky top-0 z-40 shadow-lg">
@@ -110,21 +36,12 @@ const Header = () => {
                                     className='font-medium flex gap-2 items-center group-hover:text-primary-blue duration-300'
                                     to={item.link}>
                                     {item.title}
-                                    {item.submenu && <IoMdArrowDropdown className='group-hover:rotate-180 duration-300' />}
                                 </Link>
-                                <div className="absolute z-40 hidden text-[16px] bg-white border border-solid p-3 pr-6 group-hover:flex flex-col gap-3 w-52 text-right right-0 top-16">
-                                    {
-                                        item?.submenu.map((subitem, index) => (
-                                            <Link className='hover:text-primary-blue duration-300' key={index} to={subitem.link}>
-                                                {subitem.title}
-                                            </Link>
-                                        ))
-                                    }
-                                </div>
+                             
                             </div>
                         ))
                     }
-                    <Link className='font-medium bg-secondary-blue text-white py-2 px-10' to='/login'>Daxil ol</Link>
+                    {!user ? <Link className='font-medium bg-indigo-600 text-white py-2 px-10' to='/login'>Daxil ol</Link> : <ProfileDropdown user={user} onLogout={handleLogout} />}
                 </div>
             </div>
         </div>
