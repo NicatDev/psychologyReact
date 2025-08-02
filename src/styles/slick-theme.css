@@ -50,6 +50,11 @@
     background: transparent;
 }
 
+.container {
+       padding-left: 16px;
+    padding-right: 16px !important;
+}
+
 .slick-prev:hover:before,
 .slick-prev:focus:before,
 .slick-next:hover:before,

@@ -5,7 +5,7 @@ import ProfileDropdown from '../../shared/components/ProfileDropDown';
 
 const Header = () => {
 
-    const storedUser = localStorage.getItem('user');
+    const storedUser = sessionStorage.getItem('user');
     const user: User | null = storedUser ? JSON.parse(storedUser) : null;
 
     const menu = [
@@ -13,6 +13,7 @@ const Header = () => {
         { title: 'Bizimlə əlaqə', link: '/contact-us' },
         { title: 'Bloqlar', link: '/blogs' },
         { title: 'Test', link: '/test' },
+        { title: 'Planlar', link: '/test-packages' },
     ]
 
 

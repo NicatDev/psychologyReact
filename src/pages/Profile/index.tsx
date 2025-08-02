@@ -116,9 +116,9 @@ const ProfilePage: React.FC = () => {
         avatarUrl: null,
     });
 
-    // Sessiyadan user-u götür və state-ə set et
+  
     useEffect(() => {
-        const storedUserString = localStorage.getItem("user");
+        const storedUserString = sessionStorage.getItem("user");
         if (storedUserString) {
             try {
                 const storedUser = JSON.parse(storedUserString);

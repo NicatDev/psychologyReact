@@ -134,7 +134,7 @@ const TestPage = () => {
 
 
     useEffect(() => {
-        const storedUser = localStorage.getItem('user');
+        const storedUser = sessionStorage.getItem('user');
         const user: User | null = storedUser ? JSON.parse(storedUser) : null;
 
         if (!user) {

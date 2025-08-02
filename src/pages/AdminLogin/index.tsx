@@ -20,12 +20,12 @@ const Index = () => {
         }),
         onSubmit: (values) => {
             console.log('Form data:', values);
-            sessionStorage.setItem('user', JSON.stringify({
+            sessionStorage.setItem('adminUser', JSON.stringify({
                 id: 1,
-                name: 'User',
+                name: 'Admin',
                 email: values.email,
             }));
-            navigate('/');
+            navigate('/admin');
         },
     });
 
@@ -34,7 +34,7 @@ const Index = () => {
             <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                 <img alt="Your Company" src={logo} className="mx-auto h-10 w-auto" />
                 <h2 className="mt-10 text-center text-2xl font-bold tracking-tight text-gray-900">
-                    Hesabınıza daxil olun
+                    Admin panelə daxil olun
                 </h2>
             </div>
 
