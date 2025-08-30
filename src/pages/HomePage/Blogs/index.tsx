@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import BlogCard from "../../../shared/components/BlogCard";
 
 const Blogs = () => {
   const blogs = [

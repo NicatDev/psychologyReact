@@ -23,7 +23,7 @@ const BlogDetail = () => {
         <section className="max-w-6xl mx-auto py-16 px-6 grid grid-cols-1  gap-12">
             {/* Main Content */}
             <article className="lg:col-span-2 space-y-8">
-                <h1 className="text-5xl font-extrabold text-transparent bg-clip-text bg-primary-blue leading-tight">
+                <h1 className="text-3xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-primary-blue leading-tight">
                     {blogDetail.title}
                 </h1>
 

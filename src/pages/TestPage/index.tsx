@@ -1,7 +1,5 @@
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { useNavigate } from "react-router-dom";
-// import '../../styles/test-page.css'
-import { User } from "../../types/user";
 
 const TestPage = () => {
   const [currentQuestionSet, setCurrentQuestionSet] = useState(0);
