@@ -1,51 +1,44 @@
+import ab01 from "../../shared/media/ab01.jpg";
 
 const Index = () => {
   return (
-    <div className="container mx-auto  py-16 bg-white text-gray-900">
-      {/* Başlıq */}
+    <div className="container mx-auto flex justify-between items-center py-3 px-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+        {/* Solda yazılar */}
+        <div>
+          <h1 className="text-5xl font-extrabold mb-8 text-primary-blue">
+            Potensialınızı üzə çıxarın
+          </h1>
 
-      <h1 className="text-5xl font-extrabold mb-8 text-primary-blue">
-        Biz Kimik?
-      </h1>
+          <p className="text-lg mb-6 text-slate-500 leading-relaxed">
+            Fərdi və komanda şəxsiyyət testləri
+          </p>
 
-      {/* Ümumi təsvir */}
-      <p className="text-lg max-w-3xl mb-12 leading-relaxed">
-        Şirkətimiz müştərilərinə yüksək keyfiyyətli və innovativ texnoloji həllər təqdim edir.
-        Məqsədimiz biznesinizin inkişafına dəstək olmaqdır.
-      </p>
+          <p className="text-lg mb-12 font-[600] leading-relaxed">
+            Octopus şəxsiyyət testləri təşkilatlara daha güclü və məhsuldar
+            komandalar qurmağa kömək edir. Bu testlər sayəsində ünsiyyət
+            yaxşılaşır, münaqişələr azalır və əməkdaşlar bir-birini daha yaxşı
+            anlayır. Amma bu imkanlar yalnız şirkətlər üçün deyil. Octopus
+            fərdlərə də özlərini daha dərindən tanımağa, güclü və zəif
+            tərəflərini anlamağa, özlərinə uyğun iş mühiti və karyera seçimləri
+            etməyə dəstək olur. Testlərimiz məşhur psixoloq Karl Yungun
+            psixoloji nəzəriyyəsinə və dünya miqyasında geniş tətbiq olunan MBTI
+            modelinə əsaslanır. Bu yanaşma həm şəxsi, həm də peşəkar inkişaf
+            üçün dərin və praktik baxış bucağı təqdim edir. İstər komanda idarə
+            edirsiniz, istərsə də şəxsi inkişaf yolundasınız, Octopus şəxsiyyət
+            testləri sizə uğur üçün düzgün istiqamət göstərir.
+          </p>
+        </div>
 
-      {/* Bölmələr */}
-
-      <section className="mb-16">
-        <h2 className="text-3xl font-bold mb-4 text-primary-blue">Missiyamız</h2>
-        <p className="text-base max-w-3xl leading-relaxed">
-          Biz müştərilərimizin ehtiyaclarını anlamaq və onlara ən effektiv həllər təqdim etmək üçün çalışırıq. Dayanıqlı və uzunmüddətli tərəfdaşlıq yaratmaq əsas prioritetimizdir.
-        </p>
-      </section>
-
-      <section className="mb-16">
-        <h2 className="text-3xl font-bold mb-4 text-primary-blue">Dəyərlərimiz</h2>
-        <ul className="list-disc list-inside max-w-3xl space-y-2 text-base leading-relaxed">
-          <li>Etibar və şəffaflıq</li>
-          <li>İnnovasiya və kreativlik</li>
-          <li>Müştəri məmnuniyyəti</li>
-          <li>Komanda işi və əməkdaşlıq</li>
-        </ul>
-      </section>
-
-      <section className="mb-16">
-        <h2 className="text-3xl font-bold mb-4 text-primary-blue">Təcrübəmiz</h2>
-        <p className="text-base max-w-3xl leading-relaxed">
-          10 ildən çox sahədə təcrübəmizlə proqram təminatı, data analitikası və sistem inteqrasiyası kimi müxtəlif xidmətlər göstəririk.
-        </p>
-      </section>
-
-      <section className="mb-16">
-        <h2 className="text-3xl font-bold mb-4 text-primary-blue">Komandamız</h2>
-        <p className="text-base max-w-3xl leading-relaxed">
-          Peşəkar və yaradıcı komandamız sizin layihənizi uğurla həyata keçirmək üçün həmişə hazırdır.
-        </p>
-      </section>
+        {/* Sağda şəkil */}
+        <div className="flex justify-center md:justify-center">
+          <img
+            src={ab01}
+            alt="Octopus personality test"
+            className="rounded-xl shadow-lg max-h-[700px] w-auto object-cover"
+          />
+        </div>
+      </div>
     </div>
   );
 };

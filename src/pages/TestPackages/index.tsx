@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom"; // ✨ bunu əlavə et
+import { useNavigate } from "react-router-dom";
 
 const packages = [
   {
@@ -27,55 +27,34 @@ const packages = [
 
 export default function Packages() {
   const [selectedInfo, setSelectedInfo] = useState<string | null>(null);
-  const [selectedCard, setSelectedCard] = useState("standard");
-  const navigate = useNavigate(); // ✨ navigate funksiyası
+  const navigate = useNavigate();
 
   const toggleInfo = (id: string) => {
-    if (selectedInfo === id) {
-      setSelectedInfo(null);
-    } else {
-      setSelectedInfo(id);
-    }
+    setSelectedInfo((prev) => (prev === id ? null : id));
   };
 
-  const selectCard = (id: string) => {
-    setSelectedCard(id);
-  };
-
-  // ✨ Satın alma funksiyası
   const handleBuy = (e: React.MouseEvent, pkgId: string) => {
     e.stopPropagation();
-
     const user = sessionStorage.getItem("user");
     if (!user) {
       navigate("/login");
     } else {
-      // Əgər user varsa, burada istədiyin əməliyyatı edə bilərsən
       console.log("Paket alındı:", pkgId);
     }
   };
 
   return (
-    <div className="max-w-6xl mx-auto p-6">
+    <div className="max-w-7xl mx-auto p-6">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {packages.map((pkg) => {
-          const isSelected = selectedCard === pkg.id;
-
           return (
             <div
               key={pkg.id}
-              onClick={() => selectCard(pkg.id)}
-              className={`cursor-pointer flex flex-col rounded-lg border ${
-                isSelected
-                  ? "border-indigo-600 shadow-lg"
-                  : "border-gray-200 shadow-sm"
-              } bg-white p-8 text-center transition hover:shadow-xl`}
+              className={`cursor-pointer flex flex-col rounded-lg border 
+              border-yellow-500 bg-white p-8 text-center 
+              transition hover:border-blue-600`}
             >
-              <span
-                className={`text-sm font-semibold tracking-widest uppercase ${
-                  isSelected ? "text-indigo-600" : "text-gray-500"
-                }`}
-              >
+              <span className="text-sm font-semibold tracking-widest uppercase text-gray-700">
                 {pkg.name}
               </span>
 
@@ -90,33 +69,25 @@ export default function Packages() {
               <ul className="mb-6 space-y-3 text-left">
                 <li className="flex items-center text-gray-600">
                   <svg
-                    className="w-5 h-5 text-indigo-600 mr-2 flex-shrink-0"
+                    className="w-5 h-5 text-gray-400 mr-2 flex-shrink-0"
                     fill="none"
                     stroke="currentColor"
                     strokeWidth="2"
                     viewBox="0 0 24 24"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M5 13l4 4L19 7"
-                    />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                   </svg>
                   Test sayı: {pkg.tests}
                 </li>
                 <li className="flex items-center text-gray-600">
                   <svg
-                    className="w-5 h-5 text-indigo-600 mr-2 flex-shrink-0"
+                    className="w-5 h-5 text-gray-400 mr-2 flex-shrink-0"
                     fill="none"
                     stroke="currentColor"
                     strokeWidth="2"
                     viewBox="0 0 24 24"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M5 13l4 4L19 7"
-                    />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                   </svg>
                   Qiymət: {pkg.price} manat
                 </li>
@@ -127,14 +98,39 @@ export default function Packages() {
                   e.stopPropagation();
                   toggleInfo(pkg.id);
                 }}
-                className="mb-4 text-indigo-700 font-medium hover:underline focus:outline-none"
+                className="mb-4 text-blue-600 font-medium hover:underline focus:outline-none"
               >
                 {selectedInfo === pkg.id ? "Məlumatı bağla" : "Ətraflı məlumat"}
               </button>
 
+              {selectedInfo === pkg.id && (
+                <div
+                  className="my-4 p-4 border-l-4 rounded-lg shadow-sm animate-fadeIn bg-blue-50 border-blue-500 text-blue-600"
+                >
+                  <div className="flex items-start">
+                    <svg
+                      className="w-5 h-5 mt-0.5 mr-3 flex-shrink-0"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M13 16h-1v-4h-1m1-4h.01M12 20c4.418 
+                        0 8-3.582 8-8s-3.582-8-8-8-8 
+                        3.582-8 8 3.582 8 8 8z"
+                      />
+                    </svg>
+                    <p className="text-sm leading-relaxed">{pkg.info}</p>
+                  </div>
+                </div>
+              )}
+
               <button
                 onClick={(e) => handleBuy(e, pkg.id)}
-                className={`mt-auto bg-indigo-600 text-white font-semibold py-3 rounded hover:bg-indigo-700 transition`}
+                className="mt-auto bg-blue-600 text-white font-semibold py-3 rounded hover:bg-blue-700 transition"
               >
                 İndi al
               </button>

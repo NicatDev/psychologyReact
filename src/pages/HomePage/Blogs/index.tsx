@@ -1,43 +1,102 @@
-import BlogCard from "../../../shared/components/BlogCard"
+import { Link } from "react-router-dom";
+import BlogCard from "../../../shared/components/BlogCard";
 
 const Blogs = () => {
-    const blogs = [
-        {
-            title: 'Müsahibədən kəsildiniz? INFJ bunun öhdəsindən necə gələ bilər',
-            image: 'https://d31u95r9ywbjex.cloudfront.net/blog/sites/default/files/styles/latest_updates/public/media/image/2024-04/118419007_m_normal_none.jpg?itok=jfrnq0nV',
-            date: {
-                month: '10 aprel',
-                year: '2024'
-            }
-        },
-        {
-            title: 'Kim olduğunu bilməyəndə etməli olduğun 7 şey',
-            image: 'https://d31u95r9ywbjex.cloudfront.net/blog/sites/default/files/styles/latest_updates/public/media/image/2024-03/193874033_m_normal_none.jpg?itok=o8shQ6JC',
-            date: {
-                month: '2 aprel',
-                year: '2024'
-            }
-        },
-        {
-            title: 'ESFJ-lərin iş mühitində onları əvəzedilməz edən 7 xüsusiyyətləri',
-            image: 'https://d31u95r9ywbjex.cloudfront.net/blog/sites/default/files/styles/latest_updates/public/media/image/2024-04/97269127_m_normal_none.jpg?itok=FymY3uTg',
-            date: {
-                month: '21 mart',
-                year: '2024'
-            }
-        },
-    ]
-
-    return (
-        <div className="py-20">
-            <div className="container px-2 mx-auto flex flex-col gap-10">
-                <h2 className="text-4xl font-bold text-center text-primary-blue">Ən son məqalələrimiz</h2>
-                <div className="grid grid-cols-3 gap-6">
-                    {blogs.map(((blog, index) => <BlogCard key={index} blog={blog} />))}
-                </div>
+  const blogs = [
+    {
+      id: 1,
+      img: "https://pagedone.io/asset/uploads/1696244059.png",
+      title:
+        "Portfelinizi təşkil etmək üçün məhsula ağıllı investisiya yolları",
+      desc: "Portfelinizi səmərəli və nizama salmaq üçün ağıllı investisiya strategiyalarını kəşf edin. Optimizasiya üçün innovativ yanaşmaları araşdırın...",
+    },
+    {
+      id: 2,
+      img: "https://pagedone.io/asset/uploads/1696244074.png",
+      title:
+        "Bizimlə sistemli investisiya vasitəsilə gəlirinizi necə artırmaq olar",
+      desc: "Bizimlə sistemli investisiyanın gücünü açın və gəlirlərinizin artmasını izləyin. Peşəkar komandamız sizi maliyyə yolunda yönləndirəcək..",
+    },
+    {
+      id: 3,
+      img: "https://pagedone.io/asset/uploads/1696244059.png",
+      title:
+        "Portfelinizi təşkil etmək üçün məhsula ağıllı investisiya yolları",
+      desc: "Portfelinizi səmərəli və nizama salmaq üçün ağıllı investisiya strategiyalarını kəşf edin. Optimizasiya üçün innovativ yanaşmaları araşdırın...",
+    },
+    {
+      id: 4,
+      img: "https://pagedone.io/asset/uploads/1696244074.png",
+      title:
+        "Bizimlə sistemli investisiya vasitəsilə gəlirinizi necə artırmaq olar",
+      desc: "Bizimlə sistemli investisiyanın gücünü açın və gəlirlərinizin artmasını izləyin. Peşəkar komandamız sizi maliyyə yolunda yönləndirəcək..",
+    },
+    {
+      id: 5,
+      img: "https://pagedone.io/asset/uploads/1696244074.png",
+      title:
+        "Bizimlə sistemli investisiya vasitəsilə gəlirinizi necə artırmaq olar",
+      desc: "Bizimlə sistemli investisiyanın gücünü açın və gəlirlərinizin artmasını izləyin. Peşəkar komandamız sizi maliyyə yolunda yönləndirəcək..",
+    },
+    {
+      id: 6,
+      img: "https://pagedone.io/asset/uploads/1696244074.png",
+      title:
+        "Bizimlə sistemli investisiya vasitəsilə gəlirinizi necə artırmaq olar",
+      desc: "Bizimlə sistemli investisiyanın gücünü açın və gəlirlərinizin artmasını izləyin. Peşəkar komandamız sizi maliyyə yolunda yönləndirəcək..",
+    },
+  ];
+  return (
+    <div className="py-20">
+      <div className="container px-2 mx-auto flex flex-col gap-10">
+        <h2 className="text-4xl font-bold text-center text-primary-blue">
+          Ən son məqalələrimiz
+        </h2>
+        <div className="grid gap-10 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+          {blogs.map(({ id, img, title, desc }) => (
+            <div
+              key={id}
+              className="bg-white rounded-2xl shadow-md p-6 flex flex-col hover:shadow-lg transition-shadow duration-300"
+            >
+              <div className="overflow-hidden rounded-xl h-48 mb-6">
+                <img
+                  src={img}
+                  alt={title}
+                  className="object-cover w-full h-full rounded-xl"
+                />
+              </div>
+              <h3 className="text-xl text-gray-900 font-semibold leading-8 mb-4 hover:text-indigo-600 cursor-pointer">
+                {title}
+              </h3>
+              <p className="text-gray-500 flex-grow">{desc}</p>
+              <Link
+                to={`/blog-detail/${id}`}
+                className="mt-6 flex items-center gap-2 text-lg text-indigo-700 font-semibold cursor-pointer group"
+              >
+                Daha çox oxu
+                <svg
+                  width="15"
+                  height="12"
+                  viewBox="0 0 15 12"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="transition-transform duration-300 ease-in-out group-hover:translate-x-2"
+                >
+                  <path
+                    d="M1.25 6L13.25 6M9.5 10.5L13.4697 6.53033C13.7197 6.28033 13.8447 6.15533 13.8447 6C13.8447 5.84467 13.7197 5.71967 13.4697 5.46967L9.5 1.5"
+                    stroke="#4338CA"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </Link>
             </div>
+          ))}
         </div>
-    )
-}
+      </div>
+    </div>
+  );
+};
 
-export default Blogs
+export default Blogs;

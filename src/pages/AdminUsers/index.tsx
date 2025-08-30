@@ -17,7 +17,7 @@ interface Test {
 }
 
 const Users: React.FC = () => {
-  const [users, setUsers] = useState<User[]>([
+  const [users] = useState<User[]>([
     {
       id: 1,
       name: "Ali",

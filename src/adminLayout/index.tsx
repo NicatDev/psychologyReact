@@ -5,7 +5,6 @@ import { FiShoppingCart } from "react-icons/fi";
 import { HiMenuAlt3, HiX, HiChevronLeft, HiChevronRight } from "react-icons/hi";
 import { useState } from "react";
 import { Breadcrumb } from "antd";
-import type { MenuProps } from "antd";
 import UserImg from "../shared/media/imgs/userImg.jpg";
 import Logo from "../shared/media/imgs/logo.png";
 
