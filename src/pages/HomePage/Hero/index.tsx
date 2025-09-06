@@ -1,7 +1,7 @@
 import teamwork from '../../../shared/media/imgs/teamwork.jpg'
 const Hero = () => {
     return (
-        <div className="relative h-[80vh] mb-5 w-full overflow-hidden">
+        <div className="relative h-[80vh] w-full overflow-hidden">
             <span className='absolute z-20 inset-0 bg-black opacity-10'></span>
             <span className='absolute z-10 inset-0 bg-gradient-to-b from-primary-blue to-transparent opacity-70'></span>
             <img className='absolute h-full w-full object-cover blur-sm z-0' src={teamwork} alt="teamwork" />

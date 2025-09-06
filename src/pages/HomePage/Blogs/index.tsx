@@ -1,6 +1,10 @@
 import { Link } from "react-router-dom";
 
-const Blogs = () => {
+interface Props {
+  showThree?: boolean;
+}
+
+const Blogs = ({ showThree }: Props) => {
   const blogs = [
     {
       id: 1,
@@ -52,7 +56,7 @@ const Blogs = () => {
           Ən son məqalələrimiz
         </h2>
         <div className="grid gap-10 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
-          {blogs.map(({ id, img, title, desc }) => (
+          {blogs.slice(0, showThree ? 3 : 6).map(({ id, img, title, desc }) => (
             <div
               key={id}
               className="bg-white rounded-2xl shadow-md p-6 flex flex-col hover:shadow-lg transition-shadow duration-300"

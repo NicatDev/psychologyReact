@@ -51,8 +51,8 @@ export default function Packages() {
             <div
               key={pkg.id}
               className={`cursor-pointer flex flex-col rounded-lg border 
-              border-yellow-500 bg-white p-8 text-center 
-              transition hover:border-blue-600`}
+  border-yellow-500 bg-white p-8 text-center 
+  transition hover:border-blue-600 hover:shadow-xl hover:shadow-blue-200`}
             >
               <span className="text-sm font-semibold tracking-widest uppercase text-gray-700">
                 {pkg.name}
@@ -75,7 +75,11 @@ export default function Packages() {
                     strokeWidth="2"
                     viewBox="0 0 24 24"
                   >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M5 13l4 4L19 7"
+                    />
                   </svg>
                   Test sayı: {pkg.tests}
                 </li>
@@ -87,7 +91,11 @@ export default function Packages() {
                     strokeWidth="2"
                     viewBox="0 0 24 24"
                   >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M5 13l4 4L19 7"
+                    />
                   </svg>
                   Qiymət: {pkg.price} manat
                 </li>
@@ -104,9 +112,7 @@ export default function Packages() {
               </button>
 
               {selectedInfo === pkg.id && (
-                <div
-                  className="my-4 p-4 border-l-4 rounded-lg shadow-sm animate-fadeIn bg-blue-50 border-blue-500 text-blue-600"
-                >
+                <div className="my-4 p-4 border-l-4 rounded-lg shadow-sm animate-fadeIn bg-blue-50 border-blue-500 text-blue-600">
                   <div className="flex items-start">
                     <svg
                       className="w-5 h-5 mt-0.5 mr-3 flex-shrink-0"

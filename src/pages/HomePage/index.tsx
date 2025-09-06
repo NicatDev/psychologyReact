@@ -7,7 +7,7 @@ const HomePage = () => {
         <div>
             <Hero />
             <Business />
-            <Blogs />
+            <Blogs showThree={true} />
         </div>
     )
 }
