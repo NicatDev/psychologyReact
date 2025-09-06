@@ -21,37 +21,37 @@ const Footer = () => {
           {/* Menu */}
           <div className="flex flex-col lg:flex-row gap-4 lg:gap-6 text-white text-lg text-center">
             <Link
-              className="hover:underline hover:text-secondary-blue duration-300"
+              className="hover:underline hover:text-primary-blue duration-300"
               to="/blogs"
             >
               Bloqlar
             </Link>
             <Link
-              className="hover:underline hover:text-secondary-blue duration-300"
+              className="hover:underline hover:text-primary-blue duration-300"
               to="/about-us"
             >
               Haqqımızda
             </Link>
             <Link
-              className="hover:underline hover:text-secondary-blue duration-300"
+              className="hover:underline hover:text-primary-blue duration-300"
               to="/contact-us"
             >
               Əlaqə
             </Link>
             <Link
-              className="hover:underline hover:text-secondary-blue duration-300"
+              className="hover:underline hover:text-primary-blue duration-300"
               to="/test"
             >
               Testlər
             </Link>
             <Link
-              className="hover:underline hover:text-secondary-blue duration-300"
+              className="hover:underline hover:text-primary-blue duration-300"
               to="/personality-tests"
             >
               Şəxsiyyət testləri
             </Link>
             <Link
-              className="hover:underline hover:text-secondary-blue duration-300"
+              className="hover:underline hover:text-primary-blue duration-300"
               to="/business-tests"
             >
               Biznes testləri
@@ -60,16 +60,16 @@ const Footer = () => {
 
           {/* Social icons */}
           <div className="flex gap-4 lg:gap-6 text-xl lg:text-2xl text-primary-blue">
-            <div className="bg-white rounded-full p-2 hover:bg-secondary-blue hover:text-white duration-300 cursor-pointer">
+            <div className="bg-white rounded-full p-2 hover:bg-primary-blue hover:text-white duration-300 cursor-pointer">
               <FaFacebookF />
             </div>
-            <div className="bg-white rounded-full p-2 hover:bg-secondary-blue hover:text-white duration-300 cursor-pointer">
+            <div className="bg-white rounded-full p-2 hover:bg-primary-blue hover:text-white duration-300 cursor-pointer">
               <FaTwitter />
             </div>
-            <div className="bg-white rounded-full p-2 hover:bg-secondary-blue hover:text-white duration-300 cursor-pointer">
+            <div className="bg-white rounded-full p-2 hover:bg-primary-blue hover:text-white duration-300 cursor-pointer">
               <FaYoutube />
             </div>
-            <div className="bg-white rounded-full p-2 hover:bg-secondary-blue hover:text-white duration-300 cursor-pointer">
+            <div className="bg-white rounded-full p-2 hover:bg-primary-blue hover:text-white duration-300 cursor-pointer">
               <FaLinkedinIn />
             </div>
           </div>

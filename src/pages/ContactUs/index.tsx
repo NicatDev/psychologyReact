@@ -45,17 +45,17 @@ const Index = () => {
 
           <div className="space-y-6">
             <div className="flex items-center space-x-4">
-              <HiOutlineLocationMarker className="text-secondary-blue w-6 h-6" />
+              <HiOutlineLocationMarker className="text-primary-blue w-6 h-6" />
               <p className="text-gray-800">
                 Bakı şəhəri, Nizami küçəsi 100, Azərbaycan
               </p>
             </div>
             <div className="flex items-center space-x-4">
-              <HiOutlinePhone className="text-secondary-blue w-6 h-6" />
+              <HiOutlinePhone className="text-primary-blue w-6 h-6" />
               <p className="text-gray-800">+994 12 345 67 89</p>
             </div>
             <div className="flex items-center space-x-4">
-              <HiOutlineMail className="text-secondary-blue w-6 h-6" />
+              <HiOutlineMail className="text-primary-blue w-6 h-6" />
               <p className="text-gray-800">info@yourcompany.az</p>
             </div>
           </div>
@@ -98,7 +98,7 @@ const Index = () => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.name}
-                className={`block w-full rounded-md border px-3 py-2 pr-10 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-secondary-blue ${formik.touched.name && formik.errors.name
+                className={`block w-full rounded-md border px-3 py-2 pr-10 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-primary-blue ${formik.touched.name && formik.errors.name
                     ? "border-red-500"
                     : "border-gray-300"
                   } text-gray-900`}
@@ -127,7 +127,7 @@ const Index = () => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.email}
-                className={`block w-full rounded-md border px-3 py-2 pr-10 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-secondary-blue ${formik.touched.email && formik.errors.email
+                className={`block w-full rounded-md border px-3 py-2 pr-10 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-primary-blue ${formik.touched.email && formik.errors.email
                     ? "border-red-500"
                     : "border-gray-300"
                   } text-gray-900`}
@@ -155,7 +155,7 @@ const Index = () => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.subject}
-              className={`block w-full rounded-md border px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-secondary-blue ${formik.touched.subject && formik.errors.subject
+              className={`block w-full rounded-md border px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-primary-blue ${formik.touched.subject && formik.errors.subject
                   ? "border-red-500"
                   : "border-gray-300"
                 } text-gray-900`}
@@ -181,7 +181,7 @@ const Index = () => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.message}
-              className={`block w-full rounded-md border px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-secondary-blue ${formik.touched.message && formik.errors.message
+              className={`block w-full rounded-md border px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-primary-blue ${formik.touched.message && formik.errors.message
                   ? "border-red-500"
                   : "border-gray-300"
                 } text-gray-900`}

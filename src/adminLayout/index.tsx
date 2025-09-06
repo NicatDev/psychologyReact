@@ -42,9 +42,9 @@ const AdminLayout = () => {
         ${isCollapsed ? "w-20" : "w-64"}`}
       >
         {/* Sidebar Header */}
-        <div className="h-16 flex items-center justify-between px-4 border-b">
+        <div className="h-[90px] flex items-center justify-between px-4 border-b">
           {!isCollapsed && (
-            <img src={Logo} width={60} className="mx-auto" alt="Logo" />
+            <img src={Logo}  className="mx-auto w-full h-full" alt="Logo" />
           )}
           <button
             onClick={() => setIsCollapsed(!isCollapsed)}
@@ -105,7 +105,7 @@ const AdminLayout = () => {
       {/* Main content */}
       <div className="flex-1 flex flex-col overflow-hidden ml-0">
         {/* Header */}
-        <header className="h-16 bg-white border-b flex items-center justify-between px-4 shadow-sm">
+        <header className="h-[90px] bg-white border-b flex items-center justify-between px-4 shadow-sm">
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
             className="lg:hidden text-gray-700"
