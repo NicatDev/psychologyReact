@@ -1,4 +1,4 @@
-import teamwork from '../../../shared/media/imgs/teamwork.jpg'
+import teamwork from '../../../shared/media/DSC03779.jpg'
 const Hero = () => {
     return (
         <div className="relative h-[80vh] w-full overflow-hidden">

@@ -2,11 +2,13 @@ import { FaUser, FaCalendarAlt, FaShareAlt } from "react-icons/fa";
 import dayjs from "dayjs";
 import "dayjs/locale/az";
 dayjs.locale("az");
+import blog1 from '../../shared/media/DSC03779.jpg'
+
 
 
 const blogDetail = {
     title: "Portfelinizi təşkil etmək üçün məhsula ağıllı investisiya yolları",
-    img: "https://pagedone.io/asset/uploads/1696244059.png",
+    img: blog1,
     author: "Admin",
     date: "2024-07-20",
     content: `

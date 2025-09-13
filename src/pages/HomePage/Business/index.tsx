@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import team from '../../../shared/media/imgs/team.jpg'
+import team from '../../../shared/media/b8b57763-111c-4efb-88fb-ea4261150657.jpg'
 const Business = () => {
     return (
         <div className="h-[90vh] relative">

@@ -1,44 +1,50 @@
 import { Link } from "react-router-dom";
+import blog1 from '../../shared/media/DSC03779.jpg'
+import blog2 from '../../shared/media/DSC03251.jpg'
+import blog3 from "../../shared/media/DSC09363.jpg"
+import blog4 from "../../shared/media/DSC03934.jpg"
+import blog5 from "../../shared/media/interview.jpg"
+import blog6 from "../../shared/media/start.jpg"
 
 const blogs = [
     {
         id: 1,
-        img: "https://pagedone.io/asset/uploads/1696244059.png",
+        img: blog1,
         title: "Portfelinizi təşkil etmək üçün məhsula ağıllı investisiya yolları",
         desc:
             "Portfelinizi səmərəli və nizama salmaq üçün ağıllı investisiya strategiyalarını kəşf edin. Optimizasiya üçün innovativ yanaşmaları araşdırın...",
     },
     {
         id: 2,
-        img: "https://pagedone.io/asset/uploads/1696244074.png",
+        img: blog2,
         title: "Bizimlə sistemli investisiya vasitəsilə gəlirinizi necə artırmaq olar",
         desc:
             "Bizimlə sistemli investisiyanın gücünü açın və gəlirlərinizin artmasını izləyin. Peşəkar komandamız sizi maliyyə yolunda yönləndirəcək..",
     },
     {
         id: 3,
-        img: "https://pagedone.io/asset/uploads/1696244059.png",
+        img: blog3,
         title: "Portfelinizi təşkil etmək üçün məhsula ağıllı investisiya yolları",
         desc:
             "Portfelinizi səmərəli və nizama salmaq üçün ağıllı investisiya strategiyalarını kəşf edin. Optimizasiya üçün innovativ yanaşmaları araşdırın...",
     },
     {
         id: 4,
-        img: "https://pagedone.io/asset/uploads/1696244074.png",
+        img:blog4,
         title: "Bizimlə sistemli investisiya vasitəsilə gəlirinizi necə artırmaq olar",
         desc:
             "Bizimlə sistemli investisiyanın gücünü açın və gəlirlərinizin artmasını izləyin. Peşəkar komandamız sizi maliyyə yolunda yönləndirəcək..",
     },
     {
         id: 5,
-        img: "https://pagedone.io/asset/uploads/1696244074.png",
+        img: blog5,
         title: "Bizimlə sistemli investisiya vasitəsilə gəlirinizi necə artırmaq olar",
         desc:
             "Bizimlə sistemli investisiyanın gücünü açın və gəlirlərinizin artmasını izləyin. Peşəkar komandamız sizi maliyyə yolunda yönləndirəcək..",
     },
     {
         id: 6,
-        img: "https://pagedone.io/asset/uploads/1696244074.png",
+        img: blog6,
         title: "Bizimlə sistemli investisiya vasitəsilə gəlirinizi necə artırmaq olar",
         desc:
             "Bizimlə sistemli investisiyanın gücünü açın və gəlirlərinizin artmasını izləyin. Peşəkar komandamız sizi maliyyə yolunda yönləndirəcək..",
