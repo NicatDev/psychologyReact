@@ -1,171 +1,211 @@
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import image from "../../shared/media/imgs/intj-male.svg";
+import { personalityTypes } from "../../data/personalityTypes"; // metinler buradan gələcək
+import SidebarChart from "./Chart";
 
 const TestResult = () => {
+  const [result, setResult] = useState(null);
+  const [searchParams] = useSearchParams();
+  const userType = searchParams.get("type") || "INTJ";
+
+  const scores = {
+    E: 81,
+    S: 124,
+    T: 164,
+    J: 36,
+    // lazım olsa yeni 4 skala əlavə et
+    O: 80,
+    F1: 45,
+    M: 110,
+    P1: 40,
+  };
+
+  const scaleData = [
+    { label: "Ekstrovasiya", key: "E" },
+    { label: "İntuisiya", key: "S" },
+    { label: "Məntiq", key: "T" },
+    { label: "Mühakimə", key: "J" },
+    { label: "Açıq Fikirli", key: "O" },
+    { label: "Fokuslu", key: "F1" },
+    { label: "Hərəkətli", key: "M" },
+    { label: "Planlı", key: "P1" },
+  ];
+  useEffect(() => {
+    if (userType && personalityTypes[userType]) {
+      setResult(personalityTypes[userType]);
+    }
+  }, [userType]);
+
+  if (!result) return <p>Nəticə yüklənir...</p>;
+
+  // Funksiya: array tipindəki məlumatları list olaraq göstərmək
+  const renderList = (title, items) => (
+    <>
+      <h4 className="font-bold text-3xl text-primary-blue mt-12">{title}</h4>
+      <ul className="list-disc pl-6">
+        {items.map((item, idx) => (
+          <li key={idx}>{item}</li>
+        ))}
+      </ul>
+    </>
+  );
+
   return (
     <div className="">
+      {/* Header */}
       <div className="bg-primary-blue">
-        <div className="container mx-auto px-auto py-16 flex items-center justify-between">
+        <div className="container mx-auto px-2 py-16 flex items-center justify-between">
           <h2 className="text-white text-6xl font-bold w-1/2 leading-tight">
             16 tip şəxsiyyət testinin nəticəsi
           </h2>
-          <img className="w-40" src={image} alt="enneagram" />
+          <img className="w-40" src={image} alt={userType} />
         </div>
       </div>
-      <div className="container mx-auto px-auto py-20 flex justify-between gap-10 flex-col md:flex-row">
-        <div className="w-full md:w-full md:w-full flex flex-col gap-6 text-lg">
-          <h4 className="font-bold text-3xl text-primary-blue">ISTP kimdir?</h4>
-          <p>
-            ISTP şəxsiyyət tipinə (virtuozlara) sahib insanlar dünyanı əlləri və
-            gözləri ilə araşdırmağı, ona toxunmağı və təsirli bir çalışqanlıq,
-            rahat maraq və sağlam bir şübhə ilə öyrənməyi sevirlər. Layihədən
-            layihəyə keçən, zövq üçün faydalı və lazımsız şeylər yaradan və
-            getdikcə ətraf mühitdən dərs alan təbii yaradıcılardır. Əllərini
-            çirkləndirməkdən, şeyləri parçalamaqdan və geri yığmaqdan,
-            əvvəlkindən daha yaxşı bir görünüş verməkdən daha böyük sevinc
-            yoxdur.
-          </p>
-          <p>
-            ISTP-lər mürəkkəb problemlərin aradan qaldırılması üsullarından daha
-            çox sadə həllər axtararaq problemlərə birbaşa yanaşmağı üstün
-            tuturlar. Bu şəxsiyyət tipinə sahib insanlar fikir və layihələrini
-            həyata keçirmək üçün şəxsi təcrübələrə, sınaq və səhvlərə çox
-            güvənirlər. Bunu edərkən, ümumiyyətlə öz sürətləri ilə, öz şərtləri
-            ilə və lazımsız fasilələr olmadan işləməyi üstün tuturlar.
-          </p>
-          <p>
-            Bu, məqsədlərinə çatmaq üçün lazım olanı aşaraq ünsiyyət qurmağa
-            meylli insanlar deyil. Əslində, ISTP şəxsiyyətləri müntəzəm
-            ünsiyyəti ağır hesab edirlər. İnsanlarla görüşməyə qərar verdikdə,
-            demək olar ki, həmişə daha kiçik və daha mənalı qarşılıqlı əlaqələri
-            səthi şəkildə qurmağa üstünlük verirlər.
-          </p>
-          <h4 className="font-bold text-3xl text-primary-blue mt-12">
-            Birbaşa və qətiyyətli
+
+      {/* Main content */}
+      <div className="container mx-auto px-2 py-20 flex justify-between gap-10 flex-col md:flex-row">
+        <div className="w-full md:w-full flex flex-col gap-6 text-lg">
+          <h4 className="font-bold text-3xl text-primary-blue">
+            {userType} kimdir?
           </h4>
-          <p>
-            Bu növə verdikləri bütün sirrlərə baxmayaraq, gördüyünüz şey əldə
-            etdiyiniz şeydir. Birbaşa, lakin təmkinli, sakit, lakin
-            gözlənilmədən kortəbii, çalışqan, lakin öz prioritetlərinə yönəlmiş
-            ISTP şəxsiyyət tipinə sahib insanları, hətta dostlarını və
-            qohumlarını da təxmin etmək çətin ola bilər. Bir müddət çox balanslı
-            görünə bilərlər, ancaq maraqlarını cəsarətli yeni bir istiqamətə
-            yönəldərək xəbərdarlıq etmədən partlayan impulsiv enerji ehtiyatı
-            yığmağa meyllidirlər.
+          <p>{result.summary}</p>
+          <p>{result.workplacePersonality}</p>
+
+          {renderList("Əsas motivatorlar", result.keyMotivators)}
+          {renderList("İdeal iş mühiti", result.idealWorkEnvironment)}
+          {renderList("Əsas dəyərlər", result.coreValues)}
+          {renderList("Sevdiyi iş tapşırıqları", result.preferredWorkTasks)}
+          {renderList("Təşkilata töhfələr", result.contributionsToOrganization)}
+          <p className="mt-8 font-semibold text-lg">Komanda ilə işləmə tərzi</p>
+          <p>{result.workingWithTeam}</p>
+          {renderList(
+            "Komandaya kömək edə biləcək bacarıqlar",
+            result.teamHelp
+          )}
+          {renderList(
+            "Komandada narahatlıq yaradan hallar",
+            result.teamIrritate
+          )}
+          {renderList(
+            "Komanda bacarıqlarını inkişaf etdirmək üçün addımlar",
+            result.teamActionSteps
+          )}
+
+          <p className="mt-8 font-semibold text-lg">Ünsiyyət</p>
+          <p>{result.communicatingWithOthers}</p>
+          {renderList(
+            "Ünsiyyətdə güclü tərəflər",
+            result.communicationStrengths
+          )}
+          {renderList(
+            "Ünsiyyət problemləri",
+            result.communicationMisunderstanding
+          )}
+          {renderList(
+            "Ünsiyyət bacarıqlarını inkişaf etdirmək üçün addımlar",
+            result.communicationActionSteps
+          )}
+
+          <p className="mt-8 font-semibold text-lg">Münaqişələrin idarəsi</p>
+          <p>{result.managingConflict}</p>
+          {renderList("Münaqişəyə kömək", result.conflictHelp)}
+          {renderList("Münaqişə yaradan hallar", result.conflictTriggeredBy)}
+          {renderList(
+            "Münaqişədə narahat edən hallar",
+            result.conflictIrritate
+          )}
+          {renderList(
+            "Münaqişə bacarıqlarını inkişaf etdirmək üçün addımlar",
+            result.conflictActionSteps
+          )}
+
+          <p className="mt-8 font-semibold text-lg">Liderlik</p>
+          <p>{result.takingTheLead}</p>
+          {renderList(
+            "Başqalarını ilhamlandırmaq üçün yollar",
+            result.inspireOthers
+          )}
+          {renderList("İşləri həyata keçirmək", result.makeThingsHappen)}
+          {renderList(
+            "Liderlik bacarıqlarını inkişaf etdirmək üçün addımlar",
+            result.leadershipDevelopment
+          )}
+
+          <p className="mt-8 font-semibold text-lg">Qərar vermə</p>
+          <p>{result.makingDecisions}</p>
+          {renderList(
+            "Qərar vermənin güclü tərəfləri",
+            result.decisionStrengths
+          )}
+          {renderList(
+            "Qərar vermənin çətin tərəfləri",
+            result.decisionChallenges
+          )}
+          {renderList(
+            "Qərar vermə bacarıqlarını inkişaf etdirmək üçün addımlar",
+            result.decisionActionSteps
+          )}
+
+          <p className="mt-8 font-semibold text-lg">
+            Tapşırıqları yerinə yetirmə
           </p>
-          <p>
-            Decisions made by ISTPs may largely stem from their rational nature
-            and their sense of what feels practical for them at any given
-            moment, but that doesn’t mean that they don’t get swept away by
-            their passions from time to time. Once their flame is lit, they tend
-            to commit their time and energy with an impressive intensity until
-            another equally compelling, or perhaps more gratifying, opportunity
-            arises. And when it does, people with this personality type have no
-            qualms about walking away from projects or situations that seem
-            unfruitful or drained of potential.
-          </p>
-          <p>
-            One of the biggest issues that they are likely to face is that,
-            because they often act out of haste, they might rub people the wrong
-            way sometimes. ISTPs are not the type to sugarcoat their opinions or
-            feelings. They tend to have a very straightforward communication
-            style that is often misinterpreted as bluntness or a lack of
-            sensitivity, but it is simply the way these genuine souls operate.
-            ISTP personalities have no time for people-pleasing or unnecessary
-            social niceties. With them, there is little need to question their
-            motives.
-          </p>
-          <h4 className="font-bold text-3xl text-primary-blue mt-12">
-            Qaydalara meydan oxumaq
-          </h4>
-          <p>
-            ISTP nümayəndələri həqiqətən unikal insanlar qrupudur. Onlar
-            mahiyyət etibarilə sosial norma və qaydalara riayət etmək əvəzinə öz
-            nağaralarının ritminə gedən orijinal şəxsiyyətlərdir. Fürsətçi
-            dünyagörüşləri və həyata birbaşa yanaşmaları, bu şəxsiyyət tipinə
-            sahib insanlar üçün zəngin bir təcrübə və qarşılıqlı əlaqə palitrası
-            yaratmağa meyllidir – bəziləri inanılmaz dərəcədə əsəbi, bəziləri
-            isə böyük məmnuniyyət verir.
-          </p>
-          <p>
-            Öz biliklərini və əllərində olan faktiki məlumatları rəhbər tutaraq,
-            ISTP-lər həyatı hiss və ilhamla idarə edir, Tez-tez əvvəlcədən
-            qurulmuş prosedurlardan uzaqlaşır və instinktlərinə əməl edirlər.
-            Heç bir Konvensiyaya bağlı deyillər, etdikləri hər şeydə öz
-            kurslarını izləməyi üstün tuturlar.
-          </p>
-          <p>
-            Əslində, ISTP şəxsiyyət tipinə sahib insanlar öz şərtləri ilə
-            sərbəst yaşayırlar, Şəxsi muxtariyyəti hər şeydən üstün tuturlar.
-            Sosial gözləntilərdən keçərək, hələ də icazə veriləndən kənara
-            çıxmaq üçün bir yol tapırlar. Onların yolu ümumi qəbul edilmiş
-            normalara uyğun olmaya bilər, lakin bu, onların unikal
-            dünyagörüşünün gücü və gözəlliyidir. Azadlıq, məkan və
-            gözlənilməzliyə olan ehtiyaclarını başa düşən insanlarla birlikdə
-            yaşaya biləcəkləri bir mühit tapsalar, bu onlara çox xoşbəxt illər
-            verəcəkdir.
-          </p>
+          <p>{result.gettingThingsDone}</p>
+          {renderList("Tapşırıqda kömək edən hallar", result.tasksHelp)}
+          {renderList(
+            "Tapşırıqda narahatlıq yaradan hallar",
+            result.tasksIrritate
+          )}
+          {renderList(
+            "Tapşırıq bacarıqlarını inkişaf etdirmək üçün addımlar",
+            result.tasksActionSteps
+          )}
+
+          <p className="mt-8 font-semibold text-lg">İnkişaf və öyrənmə</p>
+          <p>{result.growthAndDevelopment}</p>
+          {renderList(
+            "Öyrənməyi yaxşılaşdıran hallar",
+            result.learningImproved
+          )}
+          {renderList("Öyrənməyə mane olan hallar", result.learningHindered)}
+          {renderList("Dəyişikliyə baxış", result.howYouViewChange)}
+          {renderList("İnkişaf imkanları", result.opportunitiesForGrowth)}
+
+          <p className="mt-8 font-semibold text-lg">Stress ilə başa çıxma</p>
+          <p>{result.copingWithStress}</p>
+          {renderList("Stress tetikleyiciləri", result.stressTriggers)}
+          {renderList(
+            "Ən yaxşı stress reaksiyaları",
+            result.bestStressResponse
+          )}
+          {renderList("Başkalarının stressdə köməyi", result.othersHelpStress)}
+          {renderList("Ən pis stress reaksiyaları", result.worstStressResponse)}
+          {renderList(
+            "Başkalarının stressi artıran davranışları",
+            result.othersWorsenStress
+          )}
+
+          <p className="mt-8 font-semibold text-lg">Uğura çatmaq</p>
+          <p>{result.achievingSuccess}</p>
+          {renderList("Potensial problemlər", result.potentialProblems)}
+          {renderList("Tövsiyələr – etməli olduğunuz", result.suggestionsDo)}
+          {renderList(
+            "Tövsiyələr – etməməli olduğunuz",
+            result.suggestionsDont
+          )}
         </div>
-        <div className="border border-solid border-zinc-300 w-full md:w-1/4 rounded-lg h-fit overflow-hidden static md:sticky top-32">
+
+        {/* Sidebar */}
+        {/* Sidebar */}
+        <div className="border border-solid border-zinc-300 w-full md:w-2/5 rounded-lg h-fit overflow-hidden ">
           <div className="p-4 text-center bg-zinc-100">
             <p className="text-xl font-semibold text-stone-800 pb-4">
               Sizin nəticəniz
             </p>
-            <p className="text-primary-blue font-bold text-lg">Virtuoz</p>
-            <p className="text-stone-600 font-bold text-sm">ISTP</p>
+            <p className="text-primary-blue font-bold text-lg">{userType}</p>
           </div>
-          <div className="p-4 flex flex-col gap-6">
-            <div className="flex flex-col gap-1">
-              <div className="flex items-center gap-2">
-                <span>41%</span>
-                <span className="bg-zinc-200 h-3 w-full rounded-full flex overflow-hidden justify-end">
-                  <span className="w-[59%] h-full bg-primary-blue"></span>
-                </span>
-                <span>59%</span>
-              </div>
-              <div className="text-sm flex justify-between font-medium">
-                <span>Ekstrovert</span>
-                <span className="text-primary-blue font-bold">İntrovert</span>
-              </div>
-            </div>
-            <div className="flex flex-col gap-1">
-              <div className="flex items-center gap-2">
-                <span>34%</span>
-                <span className="bg-zinc-200 h-3 w-full rounded-full flex overflow-hidden justify-end">
-                  <span className="w-[66%] h-full bg-primary-blue"></span>
-                </span>
-                <span>66%</span>
-              </div>
-              <div className="text-sm flex justify-between font-medium">
-                <span>İntuitiv</span>
-                <span className="text-primary-blue font-bold">Hissiyyatlı</span>
-              </div>
-            </div>
-            <div className="flex flex-col gap-1">
-              <div className="flex items-center gap-2">
-                <span>54%</span>
-                <span className="bg-zinc-200 h-3 w-full rounded-full flex overflow-hidden">
-                  <span className="w-[54%] h-full bg-primary-blue"></span>
-                </span>
-                <span>46%</span>
-              </div>
-              <div className="text-sm flex justify-between font-medium">
-                <span className="text-primary-blue font-bold">Məntiq</span>
-                <span>Hiss edən</span>
-              </div>
-            </div>
-            <div className="flex flex-col gap-1">
-              <div className="flex items-center gap-2">
-                <span>36%</span>
-                <span className="bg-zinc-200 h-3 w-full rounded-full flex overflow-hidden justify-end">
-                  <span className="w-[54%] h-full bg-primary-blue"></span>
-                </span>
-                <span>54%</span>
-              </div>
-              <div className="text-sm flex justify-between font-medium">
-                <span>Mühakiməçi</span>
-                <span className="text-primary-blue font-bold">Qavrayıcı</span>
-              </div>
-            </div>
+          <div className="p-4">
+            <SidebarChart scores={scores} scaleData={scaleData} />
           </div>
         </div>
       </div>

@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ant-design/colors": "^7.2.1",
+    "@ant-design/plots": "^2.6.6",
     "antd": "^5.26.7",
     "dayjs": "^1.11.13",
     "formik": "^2.4.6",
