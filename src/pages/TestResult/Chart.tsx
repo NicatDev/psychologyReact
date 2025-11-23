@@ -1,32 +1,26 @@
-// ./Chart.jsx
-import React from "react";
+// ./Chart.tsx
 import { Bar } from "@ant-design/plots";
 
-const SidebarChart = ({ scores, scaleData }) => {
-  const data = scaleData.map((scale) => ({
+// scores və scaleData tiplərini 'any' kimi qəbul edirik
+const SidebarChart = ({ scores, scaleData }: any) => {
+  // scaleData.map və scores istifadəsi zamanı heç bir tip xətası olmayacaq
+  const data = scaleData.map((scale: any) => ({
     label: scale.label,
     value: scores[scale.key] ?? 0,
   }));
 
-  const config = {
+  const config: any = {
     data,
     xField: "label",
     yField: "value",
-    
-    // 1. Hər bir barın fərqli rəngdə olması üçün:
-    //    'label' sahəsini rəngləmə sahəsi olaraq təyin edirik.
-    colorField: "label", 
-    //    seriesField-i silirik (və ya colorField-ə keçirik), 
-    //    həmçinin monoxromatik rəngi silirik.
-    //    color: "#3b82f6", // Bu sətri silməlisiniz.
-    
-    // 2. Bar hündürlüyünün (qalınlığının) çox olması üçün:
-    //    'maxBarWidth' xüsusiyyəti ilə maksimum qalınlığı təyin edirik.
-    //    Bar itemlarınızın sayına uyğun olaraq dəyəri tənzimləyə bilərsiniz.
+
+    // Hər bir bar üçün fərqli rəng
+    colorField: "label",
+
     legend: false,
     barStyle: { radius: [4, 4, 0, 0] },
-    
-    // Əgər maxBarWidth kömək etmirsə, köhnə versiyalar üçün (və ya əlavə olaraq) bunu sınayın:
+
+    // Bar hündürlüyü / qalınlığı
     style: {
       maxWidth: 35,
     },
