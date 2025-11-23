@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import image from "../../shared/media/imgs/intj-male.svg";
+//@ts-ignore
 import { personalityTypes } from "../../data/personalityTypes"; // metinler buradan gələcək
 import SidebarChart from "./Chart";
 

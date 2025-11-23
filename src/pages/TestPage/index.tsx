@@ -1,17 +1,19 @@
 import { useState } from "react";
-import questionsData from "../../data/questions";
+//@ts-ignore
+import questionsDataImport from "../../data/questions"; // any ilə bypass
 import { Link } from "react-router-dom";
-import { Modal, Button } from "antd"; // ⭐ Modal və Button əlavə OLUNDU
+import { Modal, Button } from "antd";
+
+const questionsData: any = questionsDataImport;
 
 const TestPage = () => {
-  const [currentQuestionSet, setCurrentQuestionSet] = useState(0);
-  const [answers, setAnswers] = useState(Array(questionsData.length).fill(0));
-  const [errors, setErrors] = useState(Array(questionsData.length).fill(false));
-  const [score, setScore] = useState(null);
+  const [currentQuestionSet, setCurrentQuestionSet] = useState<number>(0);
+  const [answers, setAnswers] = useState<any[]>(Array(questionsData.length).fill(null));
+  const [errors, setErrors] = useState<boolean[]>(Array(questionsData.length).fill(false));
+  const [score, setScore] = useState<any>(null);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  const [isModalOpen, setIsModalOpen] = useState(false); // ⭐ Modal state
-
-  const handleRadioChange = (index, value) => {
+  const handleRadioChange = (index: number, value: any) => {
     const newAnswers = [...answers];
     newAnswers[index] = value;
     setAnswers(newAnswers);
@@ -44,7 +46,7 @@ const TestPage = () => {
     window.scrollTo(0, 0);
   };
 
-  const getMBTIType = (scores) => {
+  const getMBTIType = (scores: any) => {
     let type = "";
     type += scores.E >= scores.I ? "E" : "I";
     type += scores.S >= scores.N ? "S" : "N";
@@ -54,8 +56,8 @@ const TestPage = () => {
   };
 
   const submitAnswers = () => {
-    const scoresByType = {};
-    answers.forEach((answer, index) => {
+    const scoresByType: any = {};
+    answers.forEach((answer: any, index: number) => {
       if (answer === null) return;
       const selectedOption = questionsData[index].options[answer];
       if (!selectedOption) return;
@@ -67,17 +69,14 @@ const TestPage = () => {
     });
 
     setScore(scoresByType);
-    setIsModalOpen(true); // ⭐ Nəticə çıxanda modal açılsın
+    setIsModalOpen(true);
   };
 
   const renderQuestions = () => {
     const startIndex = currentQuestionSet * 10;
-    const endIndex = Math.min(
-      (currentQuestionSet + 1) * 10,
-      questionsData.length
-    );
+    const endIndex = Math.min((currentQuestionSet + 1) * 10, questionsData.length);
 
-    return questionsData.slice(startIndex, endIndex).map((q, i) => {
+    return questionsData.slice(startIndex, endIndex).map((q: any, i: number) => {
       const index = startIndex + i;
       const isSelected = answers[index] !== null;
 
@@ -94,7 +93,7 @@ const TestPage = () => {
       if (q.options.length === 2) levelShort = ["<<", ">>"];
       else if (q.options.length === 3) levelShort = ["<<", "•", ">>"];
       else if (q.options.length === 5) levelShort = ["<<", "<", "•", ">", ">>"];
-      else levelShort = q.options.map((_, idx) => idx + 1);
+      else levelShort = q.options.map((_: any, idx: number) => idx + 1);
 
       return (
         <div
@@ -102,11 +101,9 @@ const TestPage = () => {
           className="content text-center font-semibold text-xl text-primary-blue flex flex-col gap-8 w-full"
           style={contentStyle}
         >
-          <p className="test-quiz pt-6 text-[14px] md:text-[20px]">
-            {q.question}
-          </p>
+          <p className="test-quiz pt-6 text-[14px] md:text-[20px]">{q.question}</p>
           <div className="input flex justify-center gap-2">
-            {q.options.map((option, j) => (
+            {q.options.map((option: any, j: number) => (
               <label
                 key={j}
                 className="relative cursor-pointer flex flex-col items-center select-none min-w-[50px] md:min-w-[80px] max-w-[120px] md:max-w-[150px] text-center"
@@ -141,8 +138,7 @@ const TestPage = () => {
     <div className="bg-zinc-100">
       <div className="container mx-auto px-2 py-20">
         <p className="style-p mb-8 text-lg text-center">
-          Bu pulsuz şəxsiyyət testi sizə 9 şəxsiyyət tipindən hansının sizə ən
-          uyğun olduğunu göstərəcək.
+          Bu pulsuz şəxsiyyət testi sizə 9 şəxsiyyət tipindən hansının sizə ən uyğun olduğunu göstərəcək.
         </p>
 
         <div>
@@ -173,8 +169,7 @@ const TestPage = () => {
               </button>
             )}
 
-            {currentQuestionSet ===
-              Math.ceil(questionsData.length / 10) - 1 && (
+            {currentQuestionSet === Math.ceil(questionsData.length / 10) - 1 && (
               <button
                 type="button"
                 className="button-submit border-primary-blue border-[3px] rounded-lg py-2 px-6 font-medium text-primary-blue text-lg border-solid bg-white hover:bg-primary-blue hover:text-white duration-300"
@@ -186,7 +181,6 @@ const TestPage = () => {
           </div>
         </div>
 
-        {/* ⭐⭐⭐ NƏTİCƏ MODALI ⭐⭐⭐ */}
         <Modal
           title="Sizin MBTI Nəticəniz"
           open={isModalOpen}
