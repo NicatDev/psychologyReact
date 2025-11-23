@@ -89,11 +89,11 @@ const TestPage = () => {
         border: errors[index] ? "1px solid red" : "1px solid transparent",
       };
 
-      let levelShort = [];
-      if (q.options.length === 2) levelShort = ["<<", ">>"];
-      else if (q.options.length === 3) levelShort = ["<<", "•", ">>"];
-      else if (q.options.length === 5) levelShort = ["<<", "<", "•", ">", ">>"];
-      else levelShort = q.options.map((_: any, idx: number) => idx + 1);
+      // let levelShort = [];
+      // if (q.options.length === 2) levelShort = ["<<", ">>"];
+      // else if (q.options.length === 3) levelShort = ["<<", "•", ">>"];
+      // else if (q.options.length === 5) levelShort = ["<<", "<", "•", ">", ">>"];
+      // else levelShort = q.options.map((_: any, idx: number) => idx + 1);
 
       return (
         <div
