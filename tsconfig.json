@@ -9,15 +9,20 @@
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": false,
-    "noEmitOnError": false,       
 
-    /* Strict mode bypass */
+    /* Type xətalarına baxmayaraq emit et */
+    "noEmit": false,
+    "noEmitOnError": false,
+
+    /* Strict və lint qaydalarını söndür */
     "strict": false,
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "noImplicitAny": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+
+    /* TS uzantılı faylları import etmək üçün false saxla */
+    "allowImportingTsExtensions": false
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
