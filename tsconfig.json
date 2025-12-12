@@ -7,18 +7,16 @@
     "baseUrl": ".",
     "paths": { "@/*": ["src/*"] },
     "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": false,
-    "noEmitOnError": false,       // tip xətalarına baxmayaraq emit et
-    "skipLibCheck": true,         // library check-ləri atla
+    "noEmitOnError": false,       
 
     /* Strict mode bypass */
     "strict": false,
-    "noUnusedLocals": false,      // istifadə olunmayan dəyişənlərə görə dayanmır
+    "noUnusedLocals": false,
     "noUnusedParameters": false,
-    "noImplicitAny": false,       // any tipini qəbul et
+    "noImplicitAny": false,
     "noFallthroughCasesInSwitch": false
   },
   "include": ["src"],
