@@ -4,12 +4,14 @@ import image from "../../shared/media/imgs/intj-male.svg";
 //@ts-ignore
 import { personalityTypes } from "../../data/personalityTypes"; // metinler buradan gələcək
 import SidebarChart from "./Chart";
-
+import { useUser } from "@/context/UserContext";
 const TestResult = () => {
   const [result, setResult] = useState<any>(null); // any ilə bypass
   const [searchParams] = useSearchParams();
-  const userType = searchParams.get("type") || "INTJ";
-
+  const userType = searchParams.get("type") || null;
+  const testSelected = searchParams.get("test") || null;
+ const { user } = useUser();
+ console.log(user,testSelected)
   const scores: any = {
     E: 81,
     S: 124,
@@ -21,16 +23,16 @@ const TestResult = () => {
     P1: 40,
   };
 
-  const scaleData: any[] = [
-    { label: "Ekstrovasiya", key: "E" },
-    { label: "İntuisiya", key: "S" },
-    { label: "Məntiq", key: "T" },
-    { label: "Mühakimə", key: "J" },
-    { label: "Açıq Fikirli", key: "O" },
-    { label: "Fokuslu", key: "F1" },
-    { label: "Hərəkətli", key: "M" },
-    { label: "Planlı", key: "P1" },
-  ];
+const scaleData: any[] = [
+  { label: "Ekstrovasiya", key: "E" },      // E vs I
+  { label: "İntuisiya", key: "N" },         // N vs S
+  { label: "Məntiq", key: "T" },            // T vs F
+  { label: "Fərqindəlik / Hiss", key: "F" },// F vs T
+  { label: "Mühakimə", key: "J" },          // J vs P
+  { label: "Planlılıq", key: "P" },         // P vs J
+  { label: "Sensing / Hiss Etmə", key: "S" },// S vs N
+  { label: "İnnovativ / Nəzəri", key: "N" }, // N vs S
+];
 
   useEffect(() => {
     if (userType && (personalityTypes as any)[userType]) {
@@ -51,6 +53,7 @@ const TestResult = () => {
       </ul>
     </>
   );
+
 
   return (
     <div className="">
@@ -142,7 +145,10 @@ const TestResult = () => {
             <p className="text-primary-blue font-bold text-lg">{userType}</p>
           </div>
           <div className="p-4">
-            <SidebarChart scores={scores} scaleData={scaleData} />
+          <SidebarChart
+  scores={user?.tests?.find(test => test.id === Number(testSelected))?.result_values || {}}
+  scaleData={scaleData}
+/>
           </div>
         </div>
       </div>

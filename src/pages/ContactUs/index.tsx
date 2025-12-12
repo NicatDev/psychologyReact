@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import {
@@ -6,28 +7,76 @@ import {
   HiOutlinePhone,
   HiOutlineLocationMarker,
 } from "react-icons/hi";
+import API from "@/api";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-const Index = () => {
+interface ContactInfo {
+  id: number;
+  location: string;
+  location_url: string;
+  phone: string;
+  email: string;
+}
+
+const ContactPage = () => {
+  const [contactInfo, setContactInfo] = useState<ContactInfo | null>(null);
+
+  // Contact info-u API-dən çəkmək
+  const getContactInfo = async () => {
+    try {
+      const response = await API.Auth.contactInfo();
+      if (response.status === 200) {
+        setContactInfo(response.data);
+      } else {
+        throw new Error("Contact məlumatını yükləmək alınmadı");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getContactInfo();
+  }, []);
+
   const formik = useFormik({
     initialValues: {
-      name: "",
+      full_name: "",
       email: "",
       subject: "",
       message: "",
     },
     validationSchema: Yup.object({
-      name: Yup.string().required("Ad tələb olunur"),
+      full_name: Yup.string().required("Ad tələb olunur"),
       email: Yup.string()
         .email("Düzgün email daxil edin")
         .required("Email tələb olunur"),
       subject: Yup.string().required("Mövzu tələb olunur"),
       message: Yup.string().required("Mesaj tələb olunur"),
     }),
-    onSubmit: (values, { resetForm }) => {
-      console.log(values);
-
-      alert("Müraciətiniz qəbul edildi!",);
-      resetForm();
+    onSubmit: async (values, { resetForm }) => {
+      try {
+        const response = await API.Auth.contact(values);
+        if (response.status === 201) {
+          toast.success("Müraciətiniz qəbul edildi!", {
+            position: "top-right",
+            autoClose: 3000,
+          });
+          resetForm();
+        } else {
+          toast.success("Xəta baş verdi, zəhmət olmasa yenidən cəhd edin.", {
+            position: "top-right",
+            autoClose: 3000,
+          });
+        }
+      } catch (error) {
+        console.error(error);
+        toast.success("Xəta baş verdi, zəhmət olmasa yenidən cəhd edin.", {
+          position: "top-right",
+          autoClose: 3000,
+        });
+      }
     },
   });
 
@@ -40,25 +89,33 @@ const Index = () => {
             Bizimlə əlaqə
           </h2>
           <p className="text-gray-700 max-w-lg">
-            Suallarınız və ya təklifləriniz üçün bizimlə əlaqə saxlaya bilərsiniz.
+            Suallarınız və ya təklifləriniz üçün bizimlə əlaqə saxlaya
+            bilərsiniz.
           </p>
 
-          <div className="space-y-6">
-            <div className="flex items-center space-x-4">
-              <HiOutlineLocationMarker className="text-primary-blue w-6 h-6" />
-              <p className="text-gray-800">
-                Bakı şəhəri, Nizami küçəsi 100, Azərbaycan
-              </p>
+          {contactInfo && (
+            <div className="space-y-6">
+              <div className="flex items-center space-x-4">
+                <HiOutlineLocationMarker className="text-primary-blue w-6 h-6" />
+                <a
+                  href={contactInfo.location_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-800 hover:underline"
+                >
+                  {contactInfo.location}
+                </a>
+              </div>
+              <div className="flex items-center space-x-4">
+                <HiOutlinePhone className="text-primary-blue w-6 h-6" />
+                <p className="text-gray-800">{contactInfo.phone}</p>
+              </div>
+              <div className="flex items-center space-x-4">
+                <HiOutlineMail className="text-primary-blue w-6 h-6" />
+                <p className="text-gray-800">{contactInfo.email}</p>
+              </div>
             </div>
-            <div className="flex items-center space-x-4">
-              <HiOutlinePhone className="text-primary-blue w-6 h-6" />
-              <p className="text-gray-800">+994 12 345 67 89</p>
-            </div>
-            <div className="flex items-center space-x-4">
-              <HiOutlineMail className="text-primary-blue w-6 h-6" />
-              <p className="text-gray-800">info@yourcompany.az</p>
-            </div>
-          </div>
+          )}
 
           {/* Google Map */}
           <div className="mt-10 rounded-lg overflow-hidden shadow-lg h-64">
@@ -81,32 +138,32 @@ const Index = () => {
           className="bg-white p-8 rounded-lg shadow-lg space-y-6"
           noValidate
         >
-          {/* Name */}
+          {/* Full Name */}
           <div>
             <label
-              htmlFor="name"
+              htmlFor="full_name"
               className="block text-sm font-medium text-gray-700"
             >
               Ad
             </label>
-            <div className="relative mt-1">
-              <input
-                id="name"
-                name="name"
-                type="text"
-                placeholder="Adınızı daxil edin"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.name}
-                className={`block w-full rounded-md border px-3 py-2 pr-10 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-primary-blue ${formik.touched.name && formik.errors.name
-                    ? "border-red-500"
-                    : "border-gray-300"
-                  } text-gray-900`}
-              />
-              <HiOutlineUser className="absolute right-3 top-2.5 text-gray-400 w-5 h-5" />
-            </div>
-            {formik.touched.name && formik.errors.name && (
-              <p className="mt-1 text-sm text-red-600">{formik.errors.name}</p>
+            <input
+              id="full_name"
+              name="full_name"
+              type="text"
+              placeholder="Adınızı daxil edin"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.full_name}
+              className={`block w-full rounded-md border px-3 py-2 ${
+                formik.touched.full_name && formik.errors.full_name
+                  ? "border-red-500"
+                  : "border-gray-300"
+              } focus:outline-none focus:ring-1 focus:ring-primary-blue text-gray-900`}
+            />
+            {formik.touched.full_name && formik.errors.full_name && (
+              <p className="mt-1 text-sm text-red-600">
+                {formik.errors.full_name}
+              </p>
             )}
           </div>
 
@@ -118,22 +175,20 @@ const Index = () => {
             >
               Email ünvanı
             </label>
-            <div className="relative mt-1">
-              <input
-                id="email"
-                name="email"
-                type="email"
-                placeholder="Email ünvanınızı daxil edin"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.email}
-                className={`block w-full rounded-md border px-3 py-2 pr-10 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-primary-blue ${formik.touched.email && formik.errors.email
-                    ? "border-red-500"
-                    : "border-gray-300"
-                  } text-gray-900`}
-              />
-              <HiOutlineMail className="absolute right-3 top-2.5 text-gray-400 w-5 h-5" />
-            </div>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              placeholder="Email ünvanınızı daxil edin"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.email}
+              className={`block w-full rounded-md border px-3 py-2 ${
+                formik.touched.email && formik.errors.email
+                  ? "border-red-500"
+                  : "border-gray-300"
+              } focus:outline-none focus:ring-1 focus:ring-primary-blue text-gray-900`}
+            />
             {formik.touched.email && formik.errors.email && (
               <p className="mt-1 text-sm text-red-600">{formik.errors.email}</p>
             )}
@@ -155,13 +210,16 @@ const Index = () => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.subject}
-              className={`block w-full rounded-md border px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-primary-blue ${formik.touched.subject && formik.errors.subject
+              className={`block w-full rounded-md border px-3 py-2 ${
+                formik.touched.subject && formik.errors.subject
                   ? "border-red-500"
                   : "border-gray-300"
-                } text-gray-900`}
+              } focus:outline-none focus:ring-1 focus:ring-primary-blue text-gray-900`}
             />
             {formik.touched.subject && formik.errors.subject && (
-              <p className="mt-1 text-sm text-red-600">{formik.errors.subject}</p>
+              <p className="mt-1 text-sm text-red-600">
+                {formik.errors.subject}
+              </p>
             )}
           </div>
 
@@ -181,13 +239,16 @@ const Index = () => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.message}
-              className={`block w-full rounded-md border px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-primary-blue ${formik.touched.message && formik.errors.message
+              className={`block w-full rounded-md border px-3 py-2 ${
+                formik.touched.message && formik.errors.message
                   ? "border-red-500"
                   : "border-gray-300"
-                } text-gray-900`}
+              } focus:outline-none focus:ring-1 focus:ring-primary-blue text-gray-900`}
             />
             {formik.touched.message && formik.errors.message && (
-              <p className="mt-1 text-sm text-red-600">{formik.errors.message}</p>
+              <p className="mt-1 text-sm text-red-600">
+                {formik.errors.message}
+              </p>
             )}
           </div>
 
@@ -199,8 +260,10 @@ const Index = () => {
           </button>
         </form>
       </div>
+
+      <ToastContainer />
     </div>
   );
 };
 
-export default Index;
+export default ContactPage;

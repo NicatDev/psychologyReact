@@ -1,10 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
-import { User } from '../../types/user';
 import { FiUser, FiLogOut } from 'react-icons/fi';
 import { Link } from "react-router-dom";
 
 interface ProfileDropdownProps {
-    user: User;
+    user: any;
     onLogout: () => void;
 }
 
@@ -22,20 +21,23 @@ export default function ProfileDropdown({ user, onLogout }: ProfileDropdownProps
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
+
+     console.log(user,'--------------');
+     
     return (
         <div className="relative" ref={menuRef}>
             <button
                 onClick={() => setOpen(!open)}
                 className="flex items-center space-x-2 hover:bg-gray-100 p-2 rounded-full focus:outline-none"
             >
-                {user.avatarUrl ? (
-                    <img src={user.avatarUrl} alt="Avatar" className="w-8 h-8 rounded-full" />
+                {user?.image ? (
+                    <img src={user?.image} alt="Avatar" className="w-8 h-8 rounded-full" />
                 ) : (
-                    <div className='flex gap-2 items-center'>
+                    <div className='flex gap-2 items-center justify-center'>
                         <div className="w-8 h-8 bg-blue-500 text-white flex items-center justify-center rounded-full text-sm uppercase">
-                            {user.name[0]}
+                            {user?.first_name?.[0]}
                         </div>
-                        <span>{user.name}</span>
+                    <span className='sm:hidden inline'>{user?.first_name}</span>
                     </div>
                 )}
             </button>

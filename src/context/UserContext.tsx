@@ -1,0 +1,57 @@
+import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import API from "@/api";
+
+interface User {
+  id?: string | number;
+  first_name: string;
+  last_name: string;
+  email?: string;
+  image?: string;
+}
+
+interface UserContextType {
+  user: User | null;
+  setUser: React.Dispatch<React.SetStateAction<User | null>>;
+  logout: () => void;
+  refreshUser: () => void;
+}
+
+const UserContext = createContext<UserContextType | undefined>(undefined);
+
+export const useUser = () => {
+  const context = useContext(UserContext);
+  if (!context) throw new Error("useUser must be used within UserProvider");
+  return context;
+};
+
+export const UserProvider = ({ children }: { children: ReactNode }) => {
+  const [user, setUser] = useState<User | null>(null);
+
+  const getProfile = async () => {
+    try {
+      const response = await API.Auth.profile();
+      if (response.status === 200) {
+        setUser(response.data);
+      } else {
+        setUser(null);
+      }
+    } catch (err) {
+      setUser(null);
+    }
+  };
+
+  const logout = () => {
+    localStorage.clear();
+    setUser(null);
+  };
+
+  useEffect(() => {
+    getProfile();
+  }, []);
+
+  return (
+    <UserContext.Provider value={{ user, setUser, logout, refreshUser: getProfile }}>
+      {children}
+    </UserContext.Provider>
+  );
+};

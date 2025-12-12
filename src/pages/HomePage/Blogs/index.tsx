@@ -1,57 +1,28 @@
 import { Link } from "react-router-dom";
-import blog1 from '../../../shared/media/DSC03779.jpg'
-import blog2 from '../../../shared/media/DSC03251.jpg'
-import blog3 from "../../../shared/media/DSC03934.jpg"
+import API from "@/api";
+import { useEffect, useState } from "react";
 
 interface Props {
   showThree?: boolean;
 }
 
 const Blogs = ({ showThree }: Props) => {
-  const blogs = [
-    {
-      id: 1,
-      img: blog1,
-      title:
-        "Portfelinizi təşkil etmək üçün məhsula ağıllı investisiya yolları",
-      desc: "Portfelinizi səmərəli və nizama salmaq üçün ağıllı investisiya strategiyalarını kəşf edin. Optimizasiya üçün innovativ yanaşmaları araşdırın...",
-    },
-    {
-      id: 2,
-      img: blog2,
-      title:
-        "Bizimlə sistemli investisiya vasitəsilə gəlirinizi necə artırmaq olar",
-      desc: "Bizimlə sistemli investisiyanın gücünü açın və gəlirlərinizin artmasını izləyin. Peşəkar komandamız sizi maliyyə yolunda yönləndirəcək..",
-    },
-    {
-      id: 3,
-      img: blog3,
-      title:
-        "Portfelinizi təşkil etmək üçün məhsula ağıllı investisiya yolları",
-      desc: "Portfelinizi səmərəli və nizama salmaq üçün ağıllı investisiya strategiyalarını kəşf edin. Optimizasiya üçün innovativ yanaşmaları araşdırın...",
-    },
-    {
-      id: 4,
-      img: "https://pagedone.io/asset/uploads/1696244074.png",
-      title:
-        "Bizimlə sistemli investisiya vasitəsilə gəlirinizi necə artırmaq olar",
-      desc: "Bizimlə sistemli investisiyanın gücünü açın və gəlirlərinizin artmasını izləyin. Peşəkar komandamız sizi maliyyə yolunda yönləndirəcək..",
-    },
-    {
-      id: 5,
-      img: "https://pagedone.io/asset/uploads/1696244074.png",
-      title:
-        "Bizimlə sistemli investisiya vasitəsilə gəlirinizi necə artırmaq olar",
-      desc: "Bizimlə sistemli investisiyanın gücünü açın və gəlirlərinizin artmasını izləyin. Peşəkar komandamız sizi maliyyə yolunda yönləndirəcək..",
-    },
-    {
-      id: 6,
-      img: "https://pagedone.io/asset/uploads/1696244074.png",
-      title:
-        "Bizimlə sistemli investisiya vasitəsilə gəlirinizi necə artırmaq olar",
-      desc: "Bizimlə sistemli investisiyanın gücünü açın və gəlirlərinizin artmasını izləyin. Peşəkar komandamız sizi maliyyə yolunda yönləndirəcək..",
-    },
-  ];
+  const [blogs, setBlogs] = useState([])
+    const getBlogs = async () => {
+      const response = await API.Auth.blog();
+  
+      if (response.status === 200) {
+        setBlogs(response.data.results)
+      } else {
+        throw new Error(response.data);
+      }
+    };
+  
+    useEffect(() => {
+      getBlogs()
+    }, [])
+  
+
   return (
     <div className="py-20">
       <div className="container px-2 mx-auto flex flex-col gap-10">
@@ -59,14 +30,14 @@ const Blogs = ({ showThree }: Props) => {
           Ən son məqalələrimiz
         </h2>
         <div className="grid gap-10 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
-          {blogs.slice(0, showThree ? 3 : 6).map(({ id, img, title, desc }) => (
+          {blogs.slice(0, showThree ? 3 : 6).map(({ id, image, title, content }) => (
             <div
               key={id}
               className="bg-white rounded-2xl shadow-md p-6 flex flex-col hover:shadow-lg transition-shadow duration-300"
             >
               <div className="overflow-hidden rounded-xl h-48 mb-6">
                 <img
-                  src={img}
+                  src={image}
                   alt={title}
                   className="object-cover w-full h-full rounded-xl"
                 />
@@ -74,7 +45,7 @@ const Blogs = ({ showThree }: Props) => {
               <h3 className="text-xl text-gray-900 font-semibold leading-8 mb-4 hover:text-indigo-600 cursor-pointer">
                 {title}
               </h3>
-              <p className="text-gray-500 flex-grow">{desc}</p>
+              <p className="text-gray-500 flex-grow">{content}</p>
               <Link
                 to={`/blog-detail/${id}`}
                 className="mt-6 flex items-center gap-2 text-lg text-indigo-700 font-semibold cursor-pointer group"

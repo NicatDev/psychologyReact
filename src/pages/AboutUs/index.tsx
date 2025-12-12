@@ -1,32 +1,38 @@
+import { useEffect, useState } from "react";
 import ab01 from "../../shared/media/ab01.jpg";
+import API from "@/api";
 
 const Index = () => {
+  const [about, setAbout] = useState({})
+  const getAbout = async () => {
+    const response = await API.Auth.about();
+
+    if (response.status === 200) {
+      setAbout(response.data)
+    } else {
+      throw new Error(response.data);
+    }
+  };
+
+  useEffect(() => {
+    getAbout()
+  }, [])
+
   return (
     <div className="container mx-auto flex justify-between items-center py-3 px-4">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
         {/* Solda yazılar */}
         <div>
           <h1 className="text-5xl font-extrabold mb-8 text-primary-blue">
-            Potensialınızı üzə çıxarın
+            {about.title}
           </h1>
 
           <p className="text-lg mb-6 text-slate-500 leading-relaxed">
-            Fərdi və komanda şəxsiyyət testləri
+          {about.miniTitle}
           </p>
 
           <p className="text-lg mb-12 font-[600] leading-relaxed">
-            Octopus şəxsiyyət testləri təşkilatlara daha güclü və məhsuldar
-            komandalar qurmağa kömək edir. Bu testlər sayəsində ünsiyyət
-            yaxşılaşır, münaqişələr azalır və əməkdaşlar bir-birini daha yaxşı
-            anlayır. Amma bu imkanlar yalnız şirkətlər üçün deyil. Octopus
-            fərdlərə də özlərini daha dərindən tanımağa, güclü və zəif
-            tərəflərini anlamağa, özlərinə uyğun iş mühiti və karyera seçimləri
-            etməyə dəstək olur. Testlərimiz məşhur psixoloq Karl Yungun
-            psixoloji nəzəriyyəsinə və dünya miqyasında geniş tətbiq olunan MBTI
-            modelinə əsaslanır. Bu yanaşma həm şəxsi, həm də peşəkar inkişaf
-            üçün dərin və praktik baxış bucağı təqdim edir. İstər komanda idarə
-            edirsiniz, istərsə də şəxsi inkişaf yolundasınız, Octopus şəxsiyyət
-            testləri sizə uğur üçün düzgün istiqamət göstərir.
+            {about.content}
           </p>
         </div>
 

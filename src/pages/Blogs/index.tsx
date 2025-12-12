@@ -1,115 +1,116 @@
 import { Link } from "react-router-dom";
-import blog1 from '../../shared/media/DSC03779.jpg'
-import blog2 from '../../shared/media/DSC03251.jpg'
-import blog3 from "../../shared/media/DSC09363.jpg"
-import blog4 from "../../shared/media/DSC03934.jpg"
-import blog5 from "../../shared/media/interview.jpg"
-import blog6 from "../../shared/media/start.jpg"
+import { useEffect, useState } from "react";
+import API from "@/api";
 
-const blogs = [
-    {
-        id: 1,
-        img: blog1,
-        title: "Portfelinizi təşkil etmək üçün məhsula ağıllı investisiya yolları",
-        desc:
-            "Portfelinizi səmərəli və nizama salmaq üçün ağıllı investisiya strategiyalarını kəşf edin. Optimizasiya üçün innovativ yanaşmaları araşdırın...",
-    },
-    {
-        id: 2,
-        img: blog2,
-        title: "Bizimlə sistemli investisiya vasitəsilə gəlirinizi necə artırmaq olar",
-        desc:
-            "Bizimlə sistemli investisiyanın gücünü açın və gəlirlərinizin artmasını izləyin. Peşəkar komandamız sizi maliyyə yolunda yönləndirəcək..",
-    },
-    {
-        id: 3,
-        img: blog3,
-        title: "Portfelinizi təşkil etmək üçün məhsula ağıllı investisiya yolları",
-        desc:
-            "Portfelinizi səmərəli və nizama salmaq üçün ağıllı investisiya strategiyalarını kəşf edin. Optimizasiya üçün innovativ yanaşmaları araşdırın...",
-    },
-    {
-        id: 4,
-        img:blog4,
-        title: "Bizimlə sistemli investisiya vasitəsilə gəlirinizi necə artırmaq olar",
-        desc:
-            "Bizimlə sistemli investisiyanın gücünü açın və gəlirlərinizin artmasını izləyin. Peşəkar komandamız sizi maliyyə yolunda yönləndirəcək..",
-    },
-    {
-        id: 5,
-        img: blog5,
-        title: "Bizimlə sistemli investisiya vasitəsilə gəlirinizi necə artırmaq olar",
-        desc:
-            "Bizimlə sistemli investisiyanın gücünü açın və gəlirlərinizin artmasını izləyin. Peşəkar komandamız sizi maliyyə yolunda yönləndirəcək..",
-    },
-    {
-        id: 6,
-        img: blog6,
-        title: "Bizimlə sistemli investisiya vasitəsilə gəlirinizi necə artırmaq olar",
-        desc:
-            "Bizimlə sistemli investisiyanın gücünü açın və gəlirlərinizin artmasını izləyin. Peşəkar komandamız sizi maliyyə yolunda yönləndirəcək..",
-    },
-];
+interface Tag {
+  name: string;
+}
 
+interface Blog {
+  id: number;
+  title: string;
+  content: string;
+  image?: string;
+  tags: Tag[];
+  author: string;
+  created_at: string;
+}
 
-const Index = () => {
-    return (
-        <section className="py-24">
-            <div className="mx-auto container">
-                <div className="text-center mb-12">
-                    <h2 className="text-4xl font-bold text-gray-900 leading-[3.25rem] mb-5">
-                        Ən son <span className="text-indigo-600">bloqlarımız</span>
-                    </h2>
-                    <p className="text-gray-500 max-w-xl mx-auto">
-                        Bloq bölməmizə xoş gəlmisiniz, burada bilik ilhamla görüşür. Mütəxəssis məqalələr, faydalı tövsiyələr və sahəmizdəki ən son tendensiyalarla tanış olun.
-                    </p>
+interface BlogResponse {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: Blog[];
+}
+
+const Blogs = () => {
+  const [blogs, setBlogs] = useState<Blog[]>([]);
+  const [nextPage, setNextPage] = useState<string | null>(null);
+  const [prevPage, setPrevPage] = useState<string | null>(null);
+
+  const fetchBlogs = async (url?: string) => {
+    try {
+      const response = url
+        ? await API.Auth.custom(url) // misal üçün full URL göndərmə funksiyası
+        : await API.Auth.blog();    // default ilk səhifə
+
+      if (response.status === 200) {
+        const data: BlogResponse = response.data;
+        setBlogs(data.results);
+        setNextPage(data.next);
+        setPrevPage(data.previous);
+      } else {
+        throw new Error("Server error");
+      }
+    } catch (error: any) {
+      console.error(error?.response?.data?.message || error.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchBlogs();
+  }, []);
+
+  return (
+    <section className="py-24">
+      <div className="container mx-auto">
+        <h2 className="text-4xl font-bold text-center mb-12">
+          Ən son <span className="text-indigo-600">bloqlarımız</span>
+        </h2>
+
+        <div className="grid gap-10 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+          {blogs.map(({ id, title, content, image }) => (
+            <div
+              key={id}
+              className="bg-white rounded-2xl shadow-md p-6 flex flex-col hover:shadow-lg transition-shadow duration-300"
+            >
+              {image && (
+                <div className="overflow-hidden rounded-xl h-48 mb-6">
+                  <img
+                    src={image}
+                    alt={title}
+                    className="object-cover w-full h-full rounded-xl"
+                  />
                 </div>
-
-                <div className="grid gap-10 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
-                    {blogs.map(({ id, img, title, desc }) => (
-                        <div
-                            key={id}
-                            className="bg-white rounded-2xl shadow-md p-6 flex flex-col hover:shadow-lg transition-shadow duration-300"
-                        >
-                            <div className="overflow-hidden rounded-xl h-48 mb-6">
-                                <img
-                                    src={img}
-                                    alt={title}
-                                    className="object-cover w-full h-full rounded-xl"
-                                />
-                            </div>
-                            <h3 className="text-xl text-gray-900 font-semibold leading-8 mb-4 hover:text-indigo-600 cursor-pointer">
-                                {title}
-                            </h3>
-                            <p className="text-gray-500 flex-grow">{desc}</p>
-                            <Link
-                                to={`/blog-detail/${id}`}
-                                className="mt-6 flex items-center gap-2 text-lg text-indigo-700 font-semibold cursor-pointer group"
-                            >
-                                Daha çox oxu
-                                <svg
-                                    width="15"
-                                    height="12"
-                                    viewBox="0 0 15 12"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="transition-transform duration-300 ease-in-out group-hover:translate-x-2"
-                                >
-                                    <path
-                                        d="M1.25 6L13.25 6M9.5 10.5L13.4697 6.53033C13.7197 6.28033 13.8447 6.15533 13.8447 6C13.8447 5.84467 13.7197 5.71967 13.4697 5.46967L9.5 1.5"
-                                        stroke="#4338CA"
-                                        strokeWidth="1.8"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                    />
-                                </svg>
-                            </Link>
-                        </div>
-                    ))}
-                </div>
+              )}
+              <h3 className="text-xl text-gray-900 font-semibold mb-4 hover:text-indigo-600">
+                {title}
+              </h3>
+              <p className="text-gray-500 flex-grow">{content}</p>
+              <Link
+                to={`/blog-detail/${id}`}
+                className="mt-6 flex items-center gap-2 text-indigo-700 font-semibold cursor-pointer group"
+              >
+                Daha çox oxu
+              </Link>
             </div>
-        </section>
-    );
+          ))}
+        </div>
+
+        {/* Pagination Controls */}
+        <div className="flex justify-center gap-4 mt-10">
+          <button
+            disabled={!prevPage}
+            onClick={() => prevPage && fetchBlogs(prevPage)}
+            className={`px-4 py-2 rounded ${
+              prevPage ? "bg-indigo-600 text-white" : "bg-gray-300 text-gray-500"
+            }`}
+          >
+            Əvvəlki
+          </button>
+          <button
+            disabled={!nextPage}
+            onClick={() => nextPage && fetchBlogs(nextPage)}
+            className={`px-4 py-2 rounded ${
+              nextPage ? "bg-indigo-600 text-white" : "bg-gray-300 text-gray-500"
+            }`}
+          >
+            Sonrakı
+          </button>
+        </div>
+      </div>
+    </section>
+  );
 };
 
-export default Index;
+export default Blogs;
