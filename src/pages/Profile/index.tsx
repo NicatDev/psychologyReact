@@ -110,7 +110,6 @@ const InputField = ({
 };
 
 const ProfilePage: React.FC = () => {
-  const { user, loading } = useUser();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("info");
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
@@ -146,16 +145,9 @@ const ProfilePage: React.FC = () => {
   };
 
   useEffect(() => {
-    if (loading) return;
+    getProfile();
+  }, []);
 
-    if (!user) {
-      navigate("/login", { replace: true });
-    } else {
-      getProfile();
-    }
-  }, [user, loading]);
-
-  // ------------------ Profile Info Update ------------------
   const profileFormik = useFormik<ProfileFormValues>({
     enableReinitialize: true,
     initialValues: {

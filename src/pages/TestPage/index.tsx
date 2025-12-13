@@ -4,7 +4,6 @@ import questionsDataImport from "../../data/questions"; // any ilə bypass
 import { Link } from "react-router-dom";
 import { Modal, Button } from "antd";
 import { useNavigate } from "react-router-dom";
-import { useUser } from "@/context/UserContext";
 interface Option {
   id: number;
   text: string;
@@ -22,7 +21,6 @@ interface Question {
 const questionsData: any = questionsDataImport;
 
 const TestPage = () => {
-  const { user, loading } = useUser();
   const navigate = useNavigate();
   const [questions, setQuestions] = useState<Question[]>([]);
   const [optionIds, setOptionIds] = useState<any>({});
@@ -67,14 +65,8 @@ const TestPage = () => {
   };
 
   useEffect(() => {
-    if (loading) return;
-
-    if (!user) {
-      navigate("/login", { replace: true });
-    } else {
-      fetchQuestions();
-    }
-  }, [user, loading]);
+    fetchQuestions();
+  }, []);
 
   const handleRadioChange = (index: number, value: any, id: number) => {
     const newAnswers = [...answers];
