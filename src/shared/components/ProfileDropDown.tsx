@@ -37,7 +37,7 @@ export default function ProfileDropdown({ user, onLogout }: ProfileDropdownProps
                         <div className="w-8 h-8 bg-blue-500 text-white flex items-center justify-center rounded-full text-sm uppercase">
                             {user?.first_name?.[0]}
                         </div>
-                    <span className='sm:hidden inline'>{user?.first_name}</span>
+                    <span className='sm:hidden inline'>{user?.first_name} {user?.last_name}</span>
                     </div>
                 )}
             </button>

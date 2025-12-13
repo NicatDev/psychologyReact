@@ -146,7 +146,7 @@ const ProfilePage: React.FC = () => {
   };
 
   useEffect(() => {
-    if (loading) return; 
+    if (loading) return;
 
     if (!user) {
       navigate("/login", { replace: true });
@@ -185,6 +185,7 @@ const ProfilePage: React.FC = () => {
             image: prev.image,
           }));
           setProfileStatus({ success: "Profil məlumatları uğurla yeniləndi!" });
+             await getProfile();
         } else {
           setProfileStatus({ error: "Profil yenilənmədi" });
         }
@@ -266,20 +267,22 @@ const ProfilePage: React.FC = () => {
       <div className="container mx-auto mt-10 mb-11 bg-white p-8 rounded shadow">
         <h1 className="text-3xl font-semibold mb-6">Profilim</h1>
 
-        <div className="flex border-b border-gray-300 mb-6">
-          {tabs.map((tab) => (
-            <button
-              key={tab.id}
-              className={`px-4 py-2 -mb-px border-b-2 font-medium text-sm ${
-                activeTab === tab.id
-                  ? "border-blue-500 text-blue-600"
-                  : "border-transparent text-gray-600 hover:text-blue-600"
-              }`}
-              onClick={() => setActiveTab(tab.id)}
-            >
-              {tab.label}
-            </button>
-          ))}
+        <div className="border-b border-gray-300 mb-6">
+          <div className="flex gap-4 overflow-x-auto scrollbar-hide whitespace-nowrap">
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                className={`px-4 py-2 border-b-2 font-medium text-sm shrink-0 ${
+                  activeTab === tab.id
+                    ? "border-blue-500 text-blue-600"
+                    : "border-transparent text-gray-600 hover:text-blue-600"
+                }`}
+                onClick={() => setActiveTab(tab.id)}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
         </div>
 
         <div>
