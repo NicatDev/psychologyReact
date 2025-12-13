@@ -8,10 +8,6 @@ import ProfileTestResults from "../../shared/components/ProfileTestResults";
 import { useUser } from "@/context/UserContext";
 import { useNavigate } from "react-router-dom";
 
-// inside component
-
-
-
 interface ProfileFormValues {
   first_name: string;
   last_name: string;
@@ -46,7 +42,6 @@ const InputField = ({
   formik: any;
   isPassword?: boolean;
 }) => {
-  
   const [showPassword, setShowPassword] = useState(false);
   const inputType = isPassword ? (showPassword ? "text" : "password") : type;
 
@@ -106,15 +101,17 @@ const InputField = ({
       </div>
 
       {hasError && (
-        <p className="mt-1 text-sm text-red-500">{formik.errors[name as string]}</p>
+        <p className="mt-1 text-sm text-red-500">
+          {formik.errors[name as string]}
+        </p>
       )}
     </div>
   );
 };
 
 const ProfilePage: React.FC = () => {
-   const { user } = useUser()
-   const navigate = useNavigate();
+  const { user, loading } = useUser();
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("info");
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
@@ -149,12 +146,14 @@ const ProfilePage: React.FC = () => {
   };
 
   useEffect(() => {
+    if (loading) return; 
+
     if (!user) {
       navigate("/login", { replace: true });
     } else {
       getProfile();
     }
-  }, [user, navigate]);
+  }, [user, loading]);
 
   // ------------------ Profile Info Update ------------------
   const profileFormik = useFormik<ProfileFormValues>({
@@ -167,7 +166,9 @@ const ProfilePage: React.FC = () => {
     validationSchema: Yup.object({
       first_name: Yup.string().required("Ad daxil edin"),
       last_name: Yup.string().required("Soyad daxil edin"),
-      email: Yup.string().email("Doğru email daxil edin").required("Email tələb olunur"),
+      email: Yup.string()
+        .email("Doğru email daxil edin")
+        .required("Email tələb olunur"),
     }),
     onSubmit: async (values, { setSubmitting }) => {
       try {
@@ -211,7 +212,7 @@ const ProfilePage: React.FC = () => {
           setAvatarFile(null);
           setAvatarPreview(null);
           await getProfile();
-          refreshUser()
+          refreshUser();
         } else {
           setStatus({ error: "Şəkil yenilənmədi" });
         }
@@ -232,7 +233,9 @@ const ProfilePage: React.FC = () => {
     },
     validationSchema: Yup.object({
       currentPassword: Yup.string().required("Cari şifrə tələb olunur"),
-      newPassword: Yup.string().min(6, "Şifrə ən az 6 simvol olmalıdır").required("Yeni şifrə tələb olunur"),
+      newPassword: Yup.string()
+        .min(6, "Şifrə ən az 6 simvol olmalıdır")
+        .required("Yeni şifrə tələb olunur"),
       confirmPassword: Yup.string()
         .oneOf([Yup.ref("newPassword")], "Şifrələr uyğun gəlmir")
         .required("Yeni şifrəni təsdiqləyin"),
@@ -301,7 +304,9 @@ const ProfilePage: React.FC = () => {
                 </div>
                 <div>
                   <p className="text-gray-500 text-sm">Email Ünvanı</p>
-                  <p className="text-lg font-medium text-gray-900">{userData.email}</p>
+                  <p className="text-lg font-medium text-gray-900">
+                    {userData.email}
+                  </p>
                 </div>
               </div>
             </div>
@@ -309,13 +314,38 @@ const ProfilePage: React.FC = () => {
 
           {/* ---------- PROFILE INFO UPDATE TAB ---------- */}
           {activeTab === "update" && (
-            <form onSubmit={profileFormik.handleSubmit} noValidate className="space-y-6">
-              <InputField id="first_name" name="first_name" formik={profileFormik} />
-              <InputField id="last_name" name="last_name" formik={profileFormik} />
-              <InputField id="email" name="email" type="email" formik={profileFormik} />
+            <form
+              onSubmit={profileFormik.handleSubmit}
+              noValidate
+              className="space-y-6"
+            >
+              <InputField
+                id="first_name"
+                name="first_name"
+                formik={profileFormik}
+              />
+              <InputField
+                id="last_name"
+                name="last_name"
+                formik={profileFormik}
+              />
+              <InputField
+                id="email"
+                name="email"
+                type="email"
+                formik={profileFormik}
+              />
 
-              {profileStatus.success && <p className="text-green-600 font-medium">{profileStatus.success}</p>}
-              {profileStatus.error && <p className="text-red-600 font-medium">{profileStatus.error}</p>}
+              {profileStatus.success && (
+                <p className="text-green-600 font-medium">
+                  {profileStatus.success}
+                </p>
+              )}
+              {profileStatus.error && (
+                <p className="text-red-600 font-medium">
+                  {profileStatus.error}
+                </p>
+              )}
 
               <button
                 type="submit"
@@ -354,7 +384,8 @@ const ProfilePage: React.FC = () => {
                       setAvatarFile(file);
                       if (file) {
                         const reader = new FileReader();
-                        reader.onloadend = () => setAvatarPreview(reader.result as string);
+                        reader.onloadend = () =>
+                          setAvatarPreview(reader.result as string);
                         reader.readAsDataURL(file);
                       } else {
                         setAvatarPreview(null);
@@ -365,8 +396,16 @@ const ProfilePage: React.FC = () => {
                 </div>
               </div>
 
-              {avatarFormik.status?.success && <p className="text-green-600 font-medium">{avatarFormik.status.success}</p>}
-              {avatarFormik.status?.error && <p className="text-red-600 font-medium">{avatarFormik.status.error}</p>}
+              {avatarFormik.status?.success && (
+                <p className="text-green-600 font-medium">
+                  {avatarFormik.status.success}
+                </p>
+              )}
+              {avatarFormik.status?.error && (
+                <p className="text-red-600 font-medium">
+                  {avatarFormik.status.error}
+                </p>
+              )}
 
               <button
                 type="submit"
@@ -380,13 +419,40 @@ const ProfilePage: React.FC = () => {
 
           {/* ---------- PASSWORD TAB ---------- */}
           {activeTab === "password" && (
-            <form onSubmit={passwordFormik.handleSubmit} noValidate className="space-y-6">
-              <InputField id="currentPassword" name="currentPassword" isPassword formik={passwordFormik} />
-              <InputField id="newPassword" name="newPassword" isPassword formik={passwordFormik} />
-              <InputField id="confirmPassword" name="confirmPassword" isPassword formik={passwordFormik} />
+            <form
+              onSubmit={passwordFormik.handleSubmit}
+              noValidate
+              className="space-y-6"
+            >
+              <InputField
+                id="currentPassword"
+                name="currentPassword"
+                isPassword
+                formik={passwordFormik}
+              />
+              <InputField
+                id="newPassword"
+                name="newPassword"
+                isPassword
+                formik={passwordFormik}
+              />
+              <InputField
+                id="confirmPassword"
+                name="confirmPassword"
+                isPassword
+                formik={passwordFormik}
+              />
 
-              {passwordFormik.status?.success && <p className="text-green-600 font-medium">{passwordFormik.status.success}</p>}
-              {passwordFormik.status?.error && <p className="text-red-600 font-medium">{passwordFormik.status.error}</p>}
+              {passwordFormik.status?.success && (
+                <p className="text-green-600 font-medium">
+                  {passwordFormik.status.success}
+                </p>
+              )}
+              {passwordFormik.status?.error && (
+                <p className="text-red-600 font-medium">
+                  {passwordFormik.status.error}
+                </p>
+              )}
 
               <button
                 type="submit"

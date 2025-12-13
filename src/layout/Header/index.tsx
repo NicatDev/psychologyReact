@@ -10,7 +10,6 @@ const Header = () => {
   const { user, logout } = useUser();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
-
   const menu = [
     { title: "Haqqımızda", link: "/about-us" },
     { title: "Bloqlar", link: "/blogs" },
@@ -18,7 +17,7 @@ const Header = () => {
     { title: "Əlaqə", link: "/contact-us" },
     { title: "Testə başla!", link: "/test", isButton: true },
   ];
-  console.log(user,'0000')
+  console.log(user, "");
   const handleLogout = () => {
     logout();
     navigate("/");
@@ -85,7 +84,7 @@ const Header = () => {
                 {item.title}
               </Link>
             ))}
-            {!user?.first_name ? (
+            {!user ? (
               <Link
                 className="font-medium bg-indigo-600 text-white py-2 px-10 text-center rounded-md"
                 to="/login"

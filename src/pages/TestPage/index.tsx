@@ -22,7 +22,7 @@ interface Question {
 const questionsData: any = questionsDataImport;
 
 const TestPage = () => {
-  const { user } = useUser();
+  const { user, loading } = useUser();
   const navigate = useNavigate();
   const [questions, setQuestions] = useState<Question[]>([]);
   const [optionIds, setOptionIds] = useState<any>({});
@@ -65,13 +65,16 @@ const TestPage = () => {
       console.error("Xəta baş verdi:", err);
     }
   };
+
   useEffect(() => {
-    if (user) {
-      fetchQuestions();
-    } else {
+    if (loading) return;
+
+    if (!user) {
       navigate("/login", { replace: true });
+    } else {
+      fetchQuestions();
     }
-  }, [user, navigate]);
+  }, [user, loading]);
 
   const handleRadioChange = (index: number, value: any, id: number) => {
     const newAnswers = [...answers];

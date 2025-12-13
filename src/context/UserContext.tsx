@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
 import API from "@/api";
 
 interface User {
@@ -14,6 +20,7 @@ interface UserContextType {
   setUser: React.Dispatch<React.SetStateAction<User | null>>;
   logout: () => void;
   refreshUser: () => void;
+  loading: boolean;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -26,6 +33,7 @@ export const useUser = () => {
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
 
   const getProfile = async () => {
     try {
@@ -37,6 +45,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       }
     } catch (err) {
       setUser(null);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -50,7 +60,15 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   return (
-    <UserContext.Provider value={{ user, setUser, logout, refreshUser: getProfile }}>
+    <UserContext.Provider
+      value={{
+        user,
+        setUser,
+        logout,
+        refreshUser: getProfile,
+        loading
+      }}
+    >
       {children}
     </UserContext.Provider>
   );
