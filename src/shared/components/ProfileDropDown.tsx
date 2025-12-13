@@ -40,18 +40,27 @@ export default function ProfileDropdown({
               className="w-8 h-8 rounded-full"
             />
 
-            <span className="sm:hidden inline">
-              {user?.first_name} {user?.last_name}
-            </span>
+            {user?.first_name || user?.last_name ? (
+              <span className="sm:hidden inline">
+                {user?.first_name} {user?.last_name}
+              </span>
+            ) : (
+              <span>Profile</span>
+            )}
           </div>
         ) : (
           <div className="flex gap-2 items-center justify-center">
             <div className="w-8 h-8 bg-blue-500 text-white flex items-center justify-center rounded-full text-sm uppercase">
-              {user?.first_name?.[0]}
+              {user?.first_name ? user?.first_name?.[0] : ""}
             </div>
-            <span className="sm:hidden inline">
-              {user?.first_name} {user?.last_name}
-            </span>
+
+            {user?.first_name || user?.last_name ? (
+              <span className="sm:hidden inline">
+                {user?.first_name} {user?.last_name}
+              </span>
+            ) : (
+              <span>Profile</span>
+            )}
           </div>
         )}
       </button>
