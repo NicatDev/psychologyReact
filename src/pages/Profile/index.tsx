@@ -185,7 +185,7 @@ const ProfilePage: React.FC = () => {
             image: prev.image,
           }));
           setProfileStatus({ success: "Profil məlumatları uğurla yeniləndi!" });
-             await getProfile();
+          await getProfile();
         } else {
           setProfileStatus({ error: "Profil yenilənmədi" });
         }
