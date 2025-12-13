@@ -6,7 +6,7 @@ axios.defaults.baseURL = 'http://46.62.155.59:324/';
 axios.defaults.headers["Content-Type"] = "application/json";
 axios.defaults.headers["X-Requested-With"] = "XMLHttpRequest";
 axios.defaults.timeout = 60 * 1000;
-let isRefreshing = false;
+let isRefreshing = false; //isrefreshing
 let failedRequests = [];
 
 axios.interceptors.request.use(
