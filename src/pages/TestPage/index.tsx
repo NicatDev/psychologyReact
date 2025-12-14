@@ -4,6 +4,8 @@ import questionsDataImport from "../../data/questions"; // any ilə bypass
 import { Link } from "react-router-dom";
 import { Modal, Button } from "antd";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "@/context/UserContext";
+import { toast, ToastContainer } from "react-toastify";
 interface Option {
   id: number;
   text: string;
@@ -24,7 +26,7 @@ const TestPage = () => {
   const navigate = useNavigate();
   const [questions, setQuestions] = useState<Question[]>([]);
   const [optionIds, setOptionIds] = useState<any>({});
-
+  const { user, logout } = useUser();
   const [currentQuestionSet, setCurrentQuestionSet] = useState<number>(0);
   const [answers, setAnswers] = useState<any[]>(
     Array(questions.length).fill(null)
@@ -32,6 +34,9 @@ const TestPage = () => {
   const [errors, setErrors] = useState<boolean[]>(
     Array(questions.length).fill(false)
   );
+
+ 
+  
   const [score, setScore] = useState<any>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
@@ -55,18 +60,29 @@ const TestPage = () => {
   };
   const fetchQuestions = async () => {
     try {
+     
       const response = await API.Tests.questions();
       if (response.status === 200) {
         setQuestions(response.data);
       }
     } catch (err) {
+            if (!user) {
+    toast.error("Zəhmət olmasa daxil olun!");
+
+  }
+
+  if (user?.active_test_count === 0) {
+    toast.error("Aktiv test paketiniz yoxdur!");
+  }
       console.error("Xəta baş verdi:", err);
     }
   };
 
   useEffect(() => {
     fetchQuestions();
+
   }, []);
+  
 
   const handleRadioChange = (index: number, value: any, id: number) => {
     const newAnswers = [...answers];
@@ -245,7 +261,7 @@ const TestPage = () => {
               <span>Tamamilə razıyam</span>
             </div>
           </div>
-
+          
           <form>{renderQuestions()}</form>
 
           <div className="button-flex flex justify-center mt-8 gap-6">
@@ -279,6 +295,7 @@ const TestPage = () => {
               </button>
             )}
           </div>
+          
         </div>
 
         <Modal
@@ -313,6 +330,7 @@ const TestPage = () => {
             </div>
           )}
         </Modal>
+          <ToastContainer />
       </div>
     </div>
   );

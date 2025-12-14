@@ -13,6 +13,7 @@ interface User {
   last_name: string;
   email?: string;
   image?: string;
+  active_test_count:number;
 }
 
 interface UserContextType {
