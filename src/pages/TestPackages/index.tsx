@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import API from "@/api";
 import { toast } from "react-toastify";
+import { Spin } from "antd";
 interface Plan {
   id: number | string;
   title: string;
@@ -82,6 +83,11 @@ const [loading, setLoading] = useState(false);
 
   return (
     <div className="max-w-7xl mx-auto p-6">
+         {loading ? (
+        <div className="flex justify-center items-center h-64">
+          <Spin size="large" />
+        </div>
+      ):<></>}
       {plans?.length?<div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {plans.map((plan) => (
           <div
