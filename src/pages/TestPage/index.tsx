@@ -264,7 +264,7 @@ const TestPage = () => {
           
           <form>{renderQuestions()}</form>
 
-          <div style={{background:'white'}} className="button-flex flex justify-center mt-8 gap-6">
+          <div style={{background:'white',padding:'14px'}} className="button-flex flex justify-center mt-8 gap-6">
             {currentQuestionSet > 0 && (
               <button
                 type="button"
