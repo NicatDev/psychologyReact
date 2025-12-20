@@ -87,8 +87,7 @@ const [loading, setLoading] = useState(false);
         <div className="flex justify-center items-center h-64">
           <Spin size="large" />
         </div>
-      ):<></>}
-      {plans?.length?<div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      ):plans?.length?<div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {plans.map((plan) => (
           <div
             key={plan.id}
@@ -177,6 +176,7 @@ const [loading, setLoading] = useState(false);
           </div>
         ))}
       </div>:<div className="flex w-full items-center justify-center p-10" style={{fontSize:'30px'}}>Plan mövcud deyil</div>}
+      
     </div>
   );
 }
