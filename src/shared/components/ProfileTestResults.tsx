@@ -39,7 +39,7 @@ export default function TestList({ user }: any) {
   return (
     <div className="container mx-auto mt-10 mb-11 bg-white p-8 rounded shadow">
       <h1 className="text-3xl font-semibold mb-6">Test nəticələri</h1>
-
+    {tests?.length?
       <div className="space-y-4">
         {tests
           .sort((a: any, b: any) => b.id - a.id)
@@ -183,7 +183,8 @@ export default function TestList({ user }: any) {
               )}
             </div>
           ))}
-      </div>
+      </div>:<></>}
+      {!tests?.length?<div className="space-y-4 caret-gray-400">Test keçmişiniz mövcud deyil</div>:<></> }
     </div>
   );
 }

@@ -2,7 +2,7 @@ import axios from "axios";
 import API from "@/api";
 
 
-axios.defaults.baseURL = 'http://46.62.155.59:324/';
+axios.defaults.baseURL = 'https://psychology-service.octopus.com.az/';
 axios.defaults.headers["Content-Type"] = "application/json";
 axios.defaults.headers["X-Requested-With"] = "XMLHttpRequest";
 axios.defaults.timeout = 60 * 1000;

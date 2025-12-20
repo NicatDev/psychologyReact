@@ -16,6 +16,9 @@ const Index = {
     blogSingle: (id:any) => Axios.get(`auth/blogs/${id}`).then(res => res),
     contactInfo: () => Axios.get(`auth/contact-info/`).then(res => res),
     custom: (url: string) => Axios.get(url).then(res => res),
+    buyplan: (data:any) => Axios.post('pay/buy-plan/',data).then(res => res),
+    buysuccess: (params:any) => Axios.get('pay/paypal/success/',params).then(res => res),
+    getInvoices: () => Axios.get('pay/my-payments/').then(res => res),
 
 }
 

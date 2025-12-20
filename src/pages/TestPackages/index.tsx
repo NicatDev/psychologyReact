@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import API from "@/api";
-
+import { toast } from "react-toastify";
 interface Plan {
   id: number | string;
   title: string;
@@ -18,7 +18,29 @@ export default function Packages() {
   const [selectedInfo, setSelectedInfo] = useState<string | null>(null);
   const navigate = useNavigate();
 
-  // Backend-dən plans məlumatını çəkmək
+  const location = useLocation();
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const paypal = params.get("paypal");
+    const token = params.get("token");
+    const payerID = params.get("PayerID");
+    if (!token || localStorage.getItem(`paypal-${token}`)) return;
+    if (paypal === "1" && token) {
+      API.Auth.buysuccess({params:{ token: token, payer_id: payerID }})
+        .then(() => {
+          localStorage.setItem(`paypal-${token}`, "done"); // işarə qoy
+          navigate('/profile/?paypal=success', { replace: true })
+        })
+        .catch(() => {
+          if(localStorage.getItem(`paypal-${token}`)=='done')return;
+          toast.error("Ödəniş zamanı xəta baş verdi!");
+        });
+    } else if (paypal === "0") {
+      toast.error("Ödəniş uğursuz oldu, bir şey səhv getdi!");
+    }
+  }, [location.search]);
+
   const getPlans = async () => {
     try {
       const response = await API.Auth.plans();
@@ -40,14 +62,14 @@ export default function Packages() {
     setSelectedInfo((prev) => (prev === id ? null : `${id}`));
   };
 
-  const handleBuy = (planId: string | number) => {
-    console.log(planId)
-    alert('Paymeny system is not active'+planId)
+  const handleBuy = async (planId: string | number) => {
+    const response = await API.Auth.buyplan({plan_id:planId})
+    navigate(response?.data?.approve_url)
   };
 
   return (
     <div className="max-w-7xl mx-auto p-6">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {plans?.length?<div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {plans.map((plan) => (
           <div
             key={plan.id}
@@ -63,7 +85,7 @@ export default function Packages() {
               {plan.customerPrice}
               <span className="text-xl font-normal ml-1">{plan.currency}</span>
             </div>
-            <div className="text-gray-500 mt-2">/{plan.tests_count} test</div>
+            <div className="text-gray-500 mt-2">{plan.tests_count} test</div>
 
             <hr className="my-6 border-gray-300" />
 
@@ -135,7 +157,7 @@ export default function Packages() {
             </button>
           </div>
         ))}
-      </div>
+      </div>:<div className="flex w-full items-center justify-center p-10" style={{fontSize:'30px'}}>Plan mövcud deyil</div>}
     </div>
   );
 }

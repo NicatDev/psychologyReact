@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import API from "@/api";
-import { FiUser, FiMail, FiEye, FiEyeOff } from "react-icons/fi";
+import { FiUser, FiMail, FiEye, FiEyeOff, FiHash  } from "react-icons/fi";
 import UserImg from "../../shared/media/imgs/userImg.jpg";
 import ProfileTestResults from "../../shared/components/ProfileTestResults";
 import { useUser } from "@/context/UserContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
 
 interface ProfileFormValues {
   first_name: string;
@@ -46,6 +47,8 @@ const InputField = ({
   const inputType = isPassword ? (showPassword ? "text" : "password") : type;
 
   const hasError = formik.touched[name] && formik.errors[name];
+
+
 
   return (
     <div className="relative mb-4">
@@ -128,6 +131,18 @@ const ProfilePage: React.FC = () => {
     image: null,
   });
 
+
+  const location = useLocation();
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const paypal = params.get("paypal");
+    if(!paypal)return;
+    sessionStorage.setItem('paypal','1')
+    if(paypal=='success'){
+      toast.success('Ödəniş uğurla tamamlandı!')}
+  }, [location.search]);
+
+
   const [profileStatus, setProfileStatus] = useState<{
     success?: string;
     error?: string;
@@ -188,7 +203,7 @@ const ProfilePage: React.FC = () => {
       }
     },
   });
-  const { refreshUser } = useUser();
+  const { refreshUser, user } = useUser();
   // ------------------ Profile Picture Update ------------------
   const avatarFormik = useFormik({
     initialValues: { image: null },
@@ -292,7 +307,18 @@ const ProfilePage: React.FC = () => {
                   </p>
                 </div>
               </div>
-
+              <div className="flex items-center mb-5">
+                <div className="flex-shrink-0 bg-blue-100 text-blue-600 rounded-full p-3 mr-4">
+                  <FiHash  size={24} />
+                </div>
+                <div>
+                  <p className="text-gray-500 text-sm">Aktiv test cəhdi</p>
+                  <p className="text-lg font-medium text-gray-900">
+                    {user?.active_test_count}
+                  </p>
+                </div>
+              </div>
+              
               <div className="flex items-center">
                 <div className="flex-shrink-0 bg-green-100 text-green-600 rounded-full p-3 mr-4">
                   <FiMail size={24} />
