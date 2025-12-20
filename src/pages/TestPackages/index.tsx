@@ -38,7 +38,7 @@ const [loading, setLoading] = useState(false);
           if(localStorage.getItem(`paypal-${token}`)=='done')return;
           toast.error("Ödəniş zamanı xəta baş verdi!");
         }).finally(() => setLoading(false));;
-    } else if (paypal === "0") {
+    } else if (paypal == "0") {
       toast.error("Ödəniş uğursuz oldu, bir şey səhv getdi!");
     }
   }, [location.search]);
@@ -66,7 +66,7 @@ const [loading, setLoading] = useState(false);
 
   const handleBuy = async (planId: string | number) => {
     try {
-      setLoading(true); // loading start
+      setLoading(true); 
       const response = await API.Auth.buyplan({ plan_id: planId });
       if (response.data.approve_url) {
         window.location.href = response.data.approve_url;
@@ -77,7 +77,7 @@ const [loading, setLoading] = useState(false);
       console.error(err);
       toast.error("Ödəniş prosesində xəta baş verdi");
     } finally {
-      setLoading(false); // loading stop
+      setLoading(false); 
     }
   };
 
