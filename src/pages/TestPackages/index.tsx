@@ -26,6 +26,9 @@ const [loading, setLoading] = useState(false);
     const paypal = params.get("paypal");
     const token = params.get("token");
     const payerID = params.get("PayerID");
+    if (paypal == "0") {
+      toast.error("Ödəniş uğursuz oldu, bir şey səhv getdi!");
+    }
     if (!token || localStorage.getItem(`paypal-${token}`)) return;
     if (paypal === "1" && token) {
       setLoading(true);
@@ -38,9 +41,7 @@ const [loading, setLoading] = useState(false);
           if(localStorage.getItem(`paypal-${token}`)=='done')return;
           toast.error("Ödəniş zamanı xəta baş verdi!");
         }).finally(() => setLoading(false));;
-    } else if (paypal == "0") {
-      toast.error("Ödəniş uğursuz oldu, bir şey səhv getdi!");
-    }
+    } 
   }, [location.search]);
 
   const getPlans = async () => {
