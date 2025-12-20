@@ -64,7 +64,7 @@ export default function Packages() {
 
   const handleBuy = async (planId: string | number) => {
     const response = await API.Auth.buyplan({plan_id:planId})
-    navigate(response?.data?.approve_url)
+    window.location.href = response.data.approve_url
   };
 
   return (
