@@ -17,7 +17,7 @@ export default function Packages() {
   const [plans, setPlans] = useState<Plan[]>([]);
   const [selectedInfo, setSelectedInfo] = useState<string | null>(null);
   const navigate = useNavigate();
-
+const [loading, setLoading] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -27,6 +27,7 @@ export default function Packages() {
     const payerID = params.get("PayerID");
     if (!token || localStorage.getItem(`paypal-${token}`)) return;
     if (paypal === "1" && token) {
+      setLoading(true);
       API.Auth.buysuccess({params:{ token: token, payer_id: payerID }})
         .then(() => {
           localStorage.setItem(`paypal-${token}`, "done"); // işarə qoy
@@ -35,7 +36,7 @@ export default function Packages() {
         .catch(() => {
           if(localStorage.getItem(`paypal-${token}`)=='done')return;
           toast.error("Ödəniş zamanı xəta baş verdi!");
-        });
+        }).finally(() => setLoading(false));;
     } else if (paypal === "0") {
       toast.error("Ödəniş uğursuz oldu, bir şey səhv getdi!");
     }
@@ -63,8 +64,20 @@ export default function Packages() {
   };
 
   const handleBuy = async (planId: string | number) => {
-    const response = await API.Auth.buyplan({plan_id:planId})
-    window.location.href = response.data.approve_url
+    try {
+      setLoading(true); // loading start
+      const response = await API.Auth.buyplan({ plan_id: planId });
+      if (response.data.approve_url) {
+        window.location.href = response.data.approve_url;
+      } else {
+        toast.error("Ödəniş səhifəsinə yönləndirmək alınmadı");
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Ödəniş prosesində xəta baş verdi");
+    } finally {
+      setLoading(false); // loading stop
+    }
   };
 
   return (
