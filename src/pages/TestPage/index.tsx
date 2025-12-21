@@ -6,6 +6,8 @@ import { Modal, Button } from "antd";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "@/context/UserContext";
 import { toast, ToastContainer } from "react-toastify";
+import { Helmet } from "react-helmet-async";
+
 interface Option {
   id: number;
   text: string;
@@ -35,8 +37,6 @@ const TestPage = () => {
     Array(questions.length).fill(false)
   );
 
- 
-  
   const [score, setScore] = useState<any>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
@@ -60,29 +60,25 @@ const TestPage = () => {
   };
   const fetchQuestions = async () => {
     try {
-     
       const response = await API.Tests.questions();
       if (response.status === 200) {
         setQuestions(response.data);
       }
     } catch (err) {
-            if (!user) {
-    toast.error("Zəhmət olmasa daxil olun!");
+      if (!user) {
+        toast.error("Zəhmət olmasa daxil olun!");
+      }
 
-  }
-
-  if (user?.active_test_count === 0) {
-    toast.error("Aktiv test paketiniz yoxdur!");
-  }
+      if (user?.active_test_count === 0) {
+        toast.error("Aktiv test paketiniz yoxdur!");
+      }
       console.error("Xəta baş verdi:", err);
     }
   };
 
   useEffect(() => {
     fetchQuestions();
-
   }, []);
-  
 
   const handleRadioChange = (index: number, value: any, id: number) => {
     const newAnswers = [...answers];
@@ -223,116 +219,127 @@ const TestPage = () => {
   };
 
   return (
-    <div className="bg-zinc-100">
-      <div className="container mx-auto px-2 py-20">
-        <p className="style-p mb-8 text-lg text-center">
-          Bu pulsuz şəxsiyyət testi sizə 9 şəxsiyyət tipindən hansının sizə ən
-          uyğun olduğunu göstərəcək.
-        </p>
+    <>
+      <Helmet>
+        <title>Şəxsiyyət Testi | Octopus</title>
+        <meta
+          name="description"
+          content="Şəxsiyyət testi ilə hansı şəxsiyyət tipinə daha yaxın olduğunuzu öyrənin."
+        />
+      </Helmet>
+      <div className="bg-zinc-100">
+        <div className="container mx-auto px-2 py-20">
+          <p className="style-p mb-8 text-lg text-center">
+            Bu pulsuz şəxsiyyət testi sizə 9 şəxsiyyət tipindən hansının sizə ən
+            uyğun olduğunu göstərəcək.
+          </p>
 
-        <div className="bg-primary-blue">
-          <div className="flex flex-col gap-2 px-3">
-            <h3 className=" text-white p-4 text-center font-medium">
-              ŞƏXSİYYƏT TESTİNDƏN KEÇMƏK
-            </h3>
+          <div className="bg-primary-blue">
+            <div className="flex flex-col gap-2 px-3">
+              <h3 className=" text-white p-4 text-center font-medium">
+                ŞƏXSİYYƏT TESTİNDƏN KEÇMƏK
+              </h3>
 
-            <div className="flex text-white mb-4 sm:text-[14px] text-[12px] sm:gap-4 gap-2 sm:-ml-10 ml-0 items-center justify-center">
-              <span>Qətiyyən razı deyiləm</span>
-              <span
-                style={{
-                  width: 4,
-                  height: 4,
-                  borderRadius: "50%",
-                  background: "white",
-                }}
-                className="flex shrink-0"
-              ></span>
+              <div className="flex text-white mb-4 sm:text-[14px] text-[12px] sm:gap-4 gap-2 sm:-ml-10 ml-0 items-center justify-center">
+                <span>Qətiyyən razı deyiləm</span>
+                <span
+                  style={{
+                    width: 4,
+                    height: 4,
+                    borderRadius: "50%",
+                    background: "white",
+                  }}
+                  className="flex shrink-0"
+                ></span>
 
-              <span>Neytral</span>
-              <span
-                style={{
-                  width: 4,
-                  height: 4,
-                  borderRadius: "50%",
-                  background: "white",
-                }}
-                className="flex shrink-0"
-              ></span>
-              <span>Tamamilə razıyam</span>
+                <span>Neytral</span>
+                <span
+                  style={{
+                    width: 4,
+                    height: 4,
+                    borderRadius: "50%",
+                    background: "white",
+                  }}
+                  className="flex shrink-0"
+                ></span>
+                <span>Tamamilə razıyam</span>
+              </div>
+            </div>
+
+            <form>{renderQuestions()}</form>
+
+            <div
+              style={{ background: "white", padding: "14px" }}
+              className="button-flex flex justify-center mt-8 gap-6"
+            >
+              {currentQuestionSet > 0 && (
+                <button
+                  type="button"
+                  className="border-primary-blue border-[3px] rounded-lg py-2 px-6 font-medium text-primary-blue text-lg border-solid bg-white hover:bg-primary-blue hover:text-white duration-300"
+                  onClick={prevQuestions}
+                >
+                  Geri
+                </button>
+              )}
+
+              {currentQuestionSet < Math.ceil(questions.length / 10) - 1 && (
+                <button
+                  type="button"
+                  className="button-next border-primary-blue border-[3px] rounded-lg py-2 px-6 font-medium text-primary-blue text-lg border-solid bg-white hover:bg-primary-blue hover:text-white duration-300"
+                  onClick={nextQuestions}
+                >
+                  Növbəti
+                </button>
+              )}
+
+              {currentQuestionSet === Math.ceil(questions.length / 10) - 1 && (
+                <button
+                  type="button"
+                  className="button-submit border-primary-blue border-[3px] rounded-lg py-2 px-6 font-medium text-primary-blue text-lg border-solid bg-white hover:bg-primary-blue hover:text-white duration-300"
+                  onClick={submitAnswers}
+                >
+                  Nəticəni göstər
+                </button>
+              )}
             </div>
           </div>
-          
-          <form>{renderQuestions()}</form>
 
-          <div style={{background:'white',padding:'14px'}} className="button-flex flex justify-center mt-8 gap-6">
-            {currentQuestionSet > 0 && (
-              <button
-                type="button"
-                className="border-primary-blue border-[3px] rounded-lg py-2 px-6 font-medium text-primary-blue text-lg border-solid bg-white hover:bg-primary-blue hover:text-white duration-300"
-                onClick={prevQuestions}
-              >
-                Geri
-              </button>
+          <Modal
+            title="Sizin MBTI Nəticəniz"
+            open={isModalOpen}
+            onCancel={() => setIsModalOpen(false)}
+            footer={[
+              <Button key="close" onClick={() => setIsModalOpen(false)}>
+                Bağla
+              </Button>,
+              <Link
+                key="go"
+                to={"/result/?type=" + (score ? getMBTIType(score) : "")}
+                target="_blank"
+              ></Link>,
+            ]}
+          >
+            {score && (
+              <div className="text-center">
+                <p className="text-lg font-semibold mb-3">
+                  Sizin Tipiniz:{" "}
+                  <span className="text-blue-600">
+                    <Link
+                      key="go"
+                      to={"/result/?type=" + (score ? getMBTIType(score) : "")}
+                      target="_blank"
+                    >
+                      {getMBTIType(score)}
+                    </Link>
+                  </span>
+                </p>
+              </div>
             )}
-
-            {currentQuestionSet < Math.ceil(questions.length / 10) - 1 && (
-              <button
-                type="button"
-                className="button-next border-primary-blue border-[3px] rounded-lg py-2 px-6 font-medium text-primary-blue text-lg border-solid bg-white hover:bg-primary-blue hover:text-white duration-300"
-                onClick={nextQuestions}
-              >
-                Növbəti
-              </button>
-            )}
-
-            {currentQuestionSet === Math.ceil(questions.length / 10) - 1 && (
-              <button
-                type="button"
-                className="button-submit border-primary-blue border-[3px] rounded-lg py-2 px-6 font-medium text-primary-blue text-lg border-solid bg-white hover:bg-primary-blue hover:text-white duration-300"
-                onClick={submitAnswers}
-              >
-                Nəticəni göstər
-              </button>
-            )}
-          </div>
-          
-        </div>
-
-        <Modal
-          title="Sizin MBTI Nəticəniz"
-          open={isModalOpen}
-          onCancel={() => setIsModalOpen(false)}
-          footer={[
-            <Button key="close" onClick={() => setIsModalOpen(false)}>
-              Bağla
-            </Button>,
-            <Link
-              key="go"
-              to={"/result/?type=" + (score ? getMBTIType(score) : "")}
-              target="_blank"
-            ></Link>,
-          ]}
-        >
-          {score && (
-            <div className="text-center">
-              <p className="text-lg font-semibold mb-3">
-                Sizin Tipiniz:{" "}
-                <span className="text-blue-600">
-                  <Link
-                    key="go"
-                    to={"/result/?type=" + (score ? getMBTIType(score) : "")}
-                    target="_blank"
-                  >
-                    {getMBTIType(score)}
-                  </Link>
-                </span>
-              </p>
-            </div>
-          )}
-        </Modal>
+          </Modal>
           <ToastContainer />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

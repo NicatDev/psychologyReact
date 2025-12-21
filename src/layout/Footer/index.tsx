@@ -44,18 +44,6 @@ const Footer = () => {
             >
               Testlər
             </Link>
-            <Link
-              className="hover:underline hover:text-primary-blue duration-300"
-              to="/personality-tests"
-            >
-              Şəxsiyyət testləri
-            </Link>
-            <Link
-              className="hover:underline hover:text-primary-blue duration-300"
-              to="/business-tests"
-            >
-              Biznes testləri
-            </Link>
           </div>
 
           {/* Social icons */}
