@@ -200,16 +200,16 @@ const TestResult = () => {
         <div className="w-full md:w-2/5">
           <div
             className="border border-solid border-zinc-300 rounded-lg h-fit overflow-hidden 
-                  sticky top-32"
+                  sticky top-[115px]"
           >
-            <div className="p-4 text-center bg-zinc-100">
+            <div className="p-2 text-center bg-zinc-100">
               <p className="text-xl font-semibold text-stone-800 pb-4">
                 Sizin nəticəniz
               </p>
               <p className="text-primary-blue font-bold text-lg">{userType}</p>
             </div>
 
-            <div className="p-4">
+            <div>
               <SidebarChart
                 scores={
                   user?.tests?.find((test) => test.id === Number(testSelected))
