@@ -45,14 +45,14 @@ const TestPage = () => {
     const type = getMBTIType(scoresByType);
 
     try {
-      const response = await API.Tests.testCreate({
+      await API.Tests.testCreate({
         answers: answersArray,
         result: type,
         result_values: scoresByType,
-      });
-
-      navigate("/result/?type=" + type + "&test=" + response.data.test_id, {
+      }).then((response)=>{
+         navigate("/result/?type=" + type + "&test=" + response.data.test_id, {
         replace: true,
+      });
       });
     } catch (error) {
       console.error("Error submitting test:", error);
@@ -143,7 +143,6 @@ const TestPage = () => {
       });
     });
     setScore(scoresByType);
-    setIsModalOpen(true);
     handleSubmitTest(scoresByType);
   };
 

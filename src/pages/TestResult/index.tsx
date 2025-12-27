@@ -10,34 +10,32 @@ const TestResult = () => {
   const [searchParams] = useSearchParams();
   const userType = searchParams.get("type") || null;
   const testSelected = searchParams.get("test") || null;
- const { user } = useUser();
- console.log(user,testSelected)
-  const scores: any = {
-    E: 81,
-    S: 124,
-    T: 164,
-    J: 36,
-    O: 80,
-    F1: 45,
-    M: 110,
-    P1: 40,
-  };
+  const { user, refreshUser } = useUser();
 
-const scaleData: any[] = [
-  { label: "Ekstrovasiya", key: "E" },      // E vs I
-  { label: "İntuisiya", key: "N" },         // N vs S
-  { label: "Məntiq", key: "T" },            // T vs F
-  { label: "Fərqindəlik / Hiss", key: "F" },// F vs T
-  { label: "Mühakimə", key: "J" },          // J vs P
-  { label: "Planlılıq", key: "P" },         // P vs J
-  { label: "Sensing / Hiss Etmə", key: "S" },// S vs N
-  { label: "İnnovativ / Nəzəri", key: "N" }, // N vs S
-];
+  const scaleData: any[] = [
+    { label: "Ekstrovasiya", key: "E" }, // E vs I
+    { label: "İntuisiya", key: "N" }, // N vs S
+    { label: "Məntiq", key: "T" }, // T vs F
+    { label: "Fərqindəlik / Hiss", key: "F" }, // F vs T
+    { label: "Mühakimə", key: "J" }, // J vs P
+    { label: "Planlılıq", key: "P" }, // P vs J
+    { label: "Sensing / Hiss Etmə", key: "S" }, // S vs N
+    { label: "İnnovativ / Nəzəri", key: "N" }, // N vs S
+  ];
 
   useEffect(() => {
-    if (userType && (personalityTypes as any)[userType]) {
-      setResult((personalityTypes as any)[userType]);
-    }
+    const init = async () => {
+      await refreshUser();
+
+      if (
+        userType &&
+        personalityTypes[userType as keyof typeof personalityTypes]
+      ) {
+        setResult(personalityTypes[userType as keyof typeof personalityTypes]);
+      }
+    };
+
+    init();
   }, [userType]);
 
   if (!result) return <p>Nəticə yüklənir...</p>;
@@ -54,7 +52,6 @@ const scaleData: any[] = [
     </>
   );
 
-
   return (
     <div className="">
       {/* Header */}
@@ -70,7 +67,9 @@ const scaleData: any[] = [
       {/* Main content */}
       <div className="container mx-auto px-2 py-20 flex justify-between gap-10 flex-col md:flex-row">
         <div className="w-full md:w-full flex flex-col gap-6 text-lg">
-          <h4 className="font-bold text-3xl text-primary-blue">{userType} kimdir?</h4>
+          <h4 className="font-bold text-3xl text-primary-blue">
+            {userType} kimdir?
+          </h4>
           <p>{result.summary}</p>
           <p>{result.workplacePersonality}</p>
 
@@ -81,44 +80,94 @@ const scaleData: any[] = [
           {renderList("Təşkilata töhfələr", result.contributionsToOrganization)}
           <p className="mt-8 font-semibold text-lg">Komanda ilə işləmə tərzi</p>
           <p>{result.workingWithTeam}</p>
-          {renderList("Komandaya kömək edə biləcək bacarıqlar", result.teamHelp)}
-          {renderList("Komandada narahatlıq yaradan hallar", result.teamIrritate)}
-          {renderList("Komanda bacarıqlarını inkişaf etdirmək üçün addımlar", result.teamActionSteps)}
+          {renderList(
+            "Komandaya kömək edə biləcək bacarıqlar",
+            result.teamHelp
+          )}
+          {renderList(
+            "Komandada narahatlıq yaradan hallar",
+            result.teamIrritate
+          )}
+          {renderList(
+            "Komanda bacarıqlarını inkişaf etdirmək üçün addımlar",
+            result.teamActionSteps
+          )}
 
           <p className="mt-8 font-semibold text-lg">Ünsiyyət</p>
           <p>{result.communicatingWithOthers}</p>
-          {renderList("Ünsiyyətdə güclü tərəflər", result.communicationStrengths)}
-          {renderList("Ünsiyyət problemləri", result.communicationMisunderstanding)}
-          {renderList("Ünsiyyət bacarıqlarını inkişaf etdirmək üçün addımlar", result.communicationActionSteps)}
+          {renderList(
+            "Ünsiyyətdə güclü tərəflər",
+            result.communicationStrengths
+          )}
+          {renderList(
+            "Ünsiyyət problemləri",
+            result.communicationMisunderstanding
+          )}
+          {renderList(
+            "Ünsiyyət bacarıqlarını inkişaf etdirmək üçün addımlar",
+            result.communicationActionSteps
+          )}
 
           <p className="mt-8 font-semibold text-lg">Münaqişələrin idarəsi</p>
           <p>{result.managingConflict}</p>
           {renderList("Münaqişəyə kömək", result.conflictHelp)}
           {renderList("Münaqişə yaradan hallar", result.conflictTriggeredBy)}
-          {renderList("Münaqişədə narahat edən hallar", result.conflictIrritate)}
-          {renderList("Münaqişə bacarıqlarını inkişaf etdirmək üçün addımlar", result.conflictActionSteps)}
+          {renderList(
+            "Münaqişədə narahat edən hallar",
+            result.conflictIrritate
+          )}
+          {renderList(
+            "Münaqişə bacarıqlarını inkişaf etdirmək üçün addımlar",
+            result.conflictActionSteps
+          )}
 
           <p className="mt-8 font-semibold text-lg">Liderlik</p>
           <p>{result.takingTheLead}</p>
-          {renderList("Başqalarını ilhamlandırmaq üçün yollar", result.inspireOthers)}
+          {renderList(
+            "Başqalarını ilhamlandırmaq üçün yollar",
+            result.inspireOthers
+          )}
           {renderList("İşləri həyata keçirmək", result.makeThingsHappen)}
-          {renderList("Liderlik bacarıqlarını inkişaf etdirmək üçün addımlar", result.leadershipDevelopment)}
+          {renderList(
+            "Liderlik bacarıqlarını inkişaf etdirmək üçün addımlar",
+            result.leadershipDevelopment
+          )}
 
           <p className="mt-8 font-semibold text-lg">Qərar vermə</p>
           <p>{result.makingDecisions}</p>
-          {renderList("Qərar vermənin güclü tərəfləri", result.decisionStrengths)}
-          {renderList("Qərar vermənin çətin tərəfləri", result.decisionChallenges)}
-          {renderList("Qərar vermə bacarıqlarını inkişaf etdirmək üçün addımlar", result.decisionActionSteps)}
+          {renderList(
+            "Qərar vermənin güclü tərəfləri",
+            result.decisionStrengths
+          )}
+          {renderList(
+            "Qərar vermənin çətin tərəfləri",
+            result.decisionChallenges
+          )}
+          {renderList(
+            "Qərar vermə bacarıqlarını inkişaf etdirmək üçün addımlar",
+            result.decisionActionSteps
+          )}
 
-          <p className="mt-8 font-semibold text-lg">Tapşırıqları yerinə yetirmə</p>
+          <p className="mt-8 font-semibold text-lg">
+            Tapşırıqları yerinə yetirmə
+          </p>
           <p>{result.gettingThingsDone}</p>
           {renderList("Tapşırıqda kömək edən hallar", result.tasksHelp)}
-          {renderList("Tapşırıqda narahatlıq yaradan hallar", result.tasksIrritate)}
-          {renderList("Tapşırıq bacarıqlarını inkişaf etdirmək üçün addımlar", result.tasksActionSteps)}
+          {renderList(
+            "Tapşırıqda narahatlıq yaradan hallar",
+            result.tasksIrritate
+          )}
+          {renderList(
+            "Tapşırıq bacarıqlarını inkişaf etdirmək üçün addımlar",
+            result.tasksActionSteps
+          )}
 
           <p className="mt-8 font-semibold text-lg">İnkişaf və öyrənmə</p>
           <p>{result.growthAndDevelopment}</p>
-          {renderList("Öyrənməyi yaxşılaşdıran hallar", result.learningImproved)}
+          {renderList(
+            "Öyrənməyi yaxşılaşdıran hallar",
+            result.learningImproved
+          )}
           {renderList("Öyrənməyə mane olan hallar", result.learningHindered)}
           {renderList("Dəyişikliyə baxış", result.howYouViewChange)}
           {renderList("İnkişaf imkanları", result.opportunitiesForGrowth)}
@@ -126,29 +175,49 @@ const scaleData: any[] = [
           <p className="mt-8 font-semibold text-lg">Stress ilə başa çıxma</p>
           <p>{result.copingWithStress}</p>
           {renderList("Stress tetikleyiciləri", result.stressTriggers)}
-          {renderList("Ən yaxşı stress reaksiyaları", result.bestStressResponse)}
+          {renderList(
+            "Ən yaxşı stress reaksiyaları",
+            result.bestStressResponse
+          )}
           {renderList("Başkalarının stressdə köməyi", result.othersHelpStress)}
           {renderList("Ən pis stress reaksiyaları", result.worstStressResponse)}
-          {renderList("Başkalarının stressi artıran davranışları", result.othersWorsenStress)}
+          {renderList(
+            "Başkalarının stressi artıran davranışları",
+            result.othersWorsenStress
+          )}
 
           <p className="mt-8 font-semibold text-lg">Uğura çatmaq</p>
           <p>{result.achievingSuccess}</p>
           {renderList("Potensial problemlər", result.potentialProblems)}
           {renderList("Tövsiyələr – etməli olduğunuz", result.suggestionsDo)}
-          {renderList("Tövsiyələr – etməməli olduğunuz", result.suggestionsDont)}
+          {renderList(
+            "Tövsiyələr – etməməli olduğunuz",
+            result.suggestionsDont
+          )}
         </div>
 
         {/* Sidebar */}
-        <div className="border border-solid border-zinc-300 w-full md:w-2/5 rounded-lg h-fit overflow-hidden ">
-          <div className="p-4 text-center bg-zinc-100">
-            <p className="text-xl font-semibold text-stone-800 pb-4">Sizin nəticəniz</p>
-            <p className="text-primary-blue font-bold text-lg">{userType}</p>
-          </div>
-          <div className="p-4">
-          <SidebarChart
-  scores={user?.tests?.find(test => test.id === Number(testSelected))?.result_values || {}}
-  scaleData={scaleData}
-/>
+        <div className="w-full md:w-2/5">
+          <div
+            className="border border-solid border-zinc-300 rounded-lg h-fit overflow-hidden 
+                  sticky top-32"
+          >
+            <div className="p-4 text-center bg-zinc-100">
+              <p className="text-xl font-semibold text-stone-800 pb-4">
+                Sizin nəticəniz
+              </p>
+              <p className="text-primary-blue font-bold text-lg">{userType}</p>
+            </div>
+
+            <div className="p-4">
+              <SidebarChart
+                scores={
+                  user?.tests?.find((test) => test.id === Number(testSelected))
+                    ?.result_values || {}
+                }
+                scaleData={scaleData}
+              />
+            </div>
           </div>
         </div>
       </div>
