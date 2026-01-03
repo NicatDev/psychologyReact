@@ -20,6 +20,7 @@
         "already_have_account": "Artıq hesabınız var? Daxil olun",
         "dont_have_account": "Hesabınız yoxdur? Qeydiyyatdan keçin",
         "verify_button": "Təsdiqlə",
+        "verify": "Təsdiqlə",
         "resend_code": "Kodu yenidən göndər"
     },
     "footer": {
