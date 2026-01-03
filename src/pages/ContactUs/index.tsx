@@ -11,6 +11,7 @@ import API from "@/api";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Helmet } from "react-helmet-async";
+import { useTranslation } from "react-i18next";
 
 interface ContactInfo {
   id: number;
@@ -22,6 +23,7 @@ interface ContactInfo {
 
 const ContactPage = () => {
   const [contactInfo, setContactInfo] = useState<ContactInfo | null>(null);
+  const { t } = useTranslation();
 
   const getContactInfo = async () => {
     try {
@@ -29,7 +31,7 @@ const ContactPage = () => {
       if (response.status === 200) {
         setContactInfo(response.data);
       } else {
-        throw new Error("Contact məlumatını yükləmək alınmadı");
+        throw new Error(t("common.error"));
       }
     } catch (error) {
       console.error(error);
@@ -48,31 +50,31 @@ const ContactPage = () => {
       message: "",
     },
     validationSchema: Yup.object({
-      full_name: Yup.string().required("Ad tələb olunur"),
+      full_name: Yup.string().required(t("contact.form.name") + " " + t("common.error")),
       email: Yup.string()
-        .email("Düzgün email daxil edin")
-        .required("Email tələb olunur"),
-      subject: Yup.string().required("Mövzu tələb olunur"),
-      message: Yup.string().required("Mesaj tələb olunur"),
+        .email(t("auth.email") + " " + t("common.error"))
+        .required(t("contact.form.email") + " " + t("common.error")),
+      subject: Yup.string().required(t("contact.form.subject") + " " + t("common.error")),
+      message: Yup.string().required(t("contact.form.message") + " " + t("common.error")),
     }),
     onSubmit: async (values, { resetForm }) => {
       try {
         const response = await API.Auth.contact(values);
         if (response.status === 201) {
-          toast.success("Müraciətiniz qəbul edildi!", {
+          toast.success(t("common.success"), {
             position: "top-right",
             autoClose: 3000,
           });
           resetForm();
         } else {
           toast.error(
-            "Xəta baş verdi, zəhmət olmasa yenidən cəhd edin.",
+            t("common.error"),
             { position: "top-right", autoClose: 3000 }
           );
         }
       } catch (error) {
         console.error(error);
-        toast.error("Xəta baş verdi, zəhmət olmasa yenidən cəhd edin.", {
+        toast.error(t("common.error"), {
           position: "top-right",
           autoClose: 3000,
         });
@@ -83,15 +85,15 @@ const ContactPage = () => {
   return (
     <>
       <Helmet>
-        <title>Bizimlə əlaqə | Octopus</title>
+        <title>{t("contact.title")} | Octopus</title>
         <meta
           name="description"
-          content="Suallarınız və təklifləriniz üçün Octopus ilə əlaqə saxlayın. Əlaqə məlumatlarımız və mesaj göndərmə formumuz buradadır."
+          content={t("contact.subtitle")}
         />
-        <meta property="og:title" content="Bizimlə əlaqə | Octopus" />
+        <meta property="og:title" content={`${t("contact.title")} | Octopus`} />
         <meta
           property="og:description"
-          content="Suallarınız və təklifləriniz üçün Octopus ilə əlaqə saxlayın. Əlaqə məlumatlarımız və mesaj göndərmə formumuz buradadır."
+          content={t("contact.subtitle")}
         />
         <meta property="og:type" content="website" />
       </Helmet>
@@ -100,11 +102,10 @@ const ContactPage = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           <div className="space-y-8">
             <h2 className="text-4xl font-extrabold text-primary-blue mb-6">
-              Bizimlə əlaqə
+              {t("contact.title")}
             </h2>
             <p className="text-gray-700 max-w-lg">
-              Suallarınız və ya təklifləriniz üçün bizimlə əlaqə saxlaya
-              bilərsiniz.
+              {t("contact.subtitle")}
             </p>
 
             {contactInfo && (
@@ -155,21 +156,20 @@ const ContactPage = () => {
                 htmlFor="full_name"
                 className="block text-sm font-medium text-gray-700"
               >
-                Ad
+                {t("contact.form.name")}
               </label>
               <input
                 id="full_name"
                 name="full_name"
                 type="text"
-                placeholder="Adınızı daxil edin"
+                placeholder={t("contact.form.name_placeholder")}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.full_name}
-                className={`block w-full rounded-md border px-3 py-2 ${
-                  formik.touched.full_name && formik.errors.full_name
+                className={`block w-full rounded-md border px-3 py-2 ${formik.touched.full_name && formik.errors.full_name
                     ? "border-red-500"
                     : "border-gray-300"
-                } focus:outline-none focus:ring-1 focus:ring-primary-blue text-gray-900`}
+                  } focus:outline-none focus:ring-1 focus:ring-primary-blue text-gray-900`}
               />
               {formik.touched.full_name && formik.errors.full_name && (
                 <p className="mt-1 text-sm text-red-600">
@@ -183,21 +183,20 @@ const ContactPage = () => {
                 htmlFor="email"
                 className="block text-sm font-medium text-gray-700"
               >
-                Email ünvanı
+                {t("contact.form.email")}
               </label>
               <input
                 id="email"
                 name="email"
                 type="email"
-                placeholder="Email ünvanınızı daxil edin"
+                placeholder={t("contact.form.email_placeholder")}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.email}
-                className={`block w-full rounded-md border px-3 py-2 ${
-                  formik.touched.email && formik.errors.email
+                className={`block w-full rounded-md border px-3 py-2 ${formik.touched.email && formik.errors.email
                     ? "border-red-500"
                     : "border-gray-300"
-                } focus:outline-none focus:ring-1 focus:ring-primary-blue text-gray-900`}
+                  } focus:outline-none focus:ring-1 focus:ring-primary-blue text-gray-900`}
               />
               {formik.touched.email && formik.errors.email && (
                 <p className="mt-1 text-sm text-red-600">
@@ -211,21 +210,20 @@ const ContactPage = () => {
                 htmlFor="subject"
                 className="block text-sm font-medium text-gray-700"
               >
-                Mövzu
+                {t("contact.form.subject")}
               </label>
               <input
                 id="subject"
                 name="subject"
                 type="text"
-                placeholder="Mövzunu daxil edin"
+                placeholder={t("contact.form.subject_placeholder")}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.subject}
-                className={`block w-full rounded-md border px-3 py-2 ${
-                  formik.touched.subject && formik.errors.subject
+                className={`block w-full rounded-md border px-3 py-2 ${formik.touched.subject && formik.errors.subject
                     ? "border-red-500"
                     : "border-gray-300"
-                } focus:outline-none focus:ring-1 focus:ring-primary-blue text-gray-900`}
+                  } focus:outline-none focus:ring-1 focus:ring-primary-blue text-gray-900`}
               />
               {formik.touched.subject && formik.errors.subject && (
                 <p className="mt-1 text-sm text-red-600">
@@ -239,21 +237,20 @@ const ContactPage = () => {
                 htmlFor="message"
                 className="block text-sm font-medium text-gray-700"
               >
-                Mesaj
+                {t("contact.form.message")}
               </label>
               <textarea
                 id="message"
                 name="message"
                 rows={4}
-                placeholder="Mesajınızı yazın"
+                placeholder={t("contact.form.message_placeholder")}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.message}
-                className={`block w-full rounded-md border px-3 py-2 ${
-                  formik.touched.message && formik.errors.message
+                className={`block w-full rounded-md border px-3 py-2 ${formik.touched.message && formik.errors.message
                     ? "border-red-500"
                     : "border-gray-300"
-                } focus:outline-none focus:ring-1 focus:ring-primary-blue text-gray-900`}
+                  } focus:outline-none focus:ring-1 focus:ring-primary-blue text-gray-900`}
               />
               {formik.touched.message && formik.errors.message && (
                 <p className="mt-1 text-sm text-red-600">
@@ -266,7 +263,7 @@ const ContactPage = () => {
               type="submit"
               className="w-full bg-indigo-600 text-white py-3 rounded-md font-semibold hover:bg-indigo-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:indigo-600"
             >
-              Göndər
+              {t("contact.form.send")}
             </button>
           </form>
         </div>

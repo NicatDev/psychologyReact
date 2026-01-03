@@ -4,6 +4,7 @@ import API from "@/api";
 import { toast } from "react-toastify";
 import { Spin } from "antd";
 import { Helmet } from "react-helmet-async";
+import { useTranslation } from "react-i18next";
 
 interface Plan {
   id: number | string;
@@ -17,6 +18,7 @@ interface Plan {
 }
 
 export default function Packages() {
+  const { t } = useTranslation();
   const [plans, setPlans] = useState<Plan[]>([]);
   const [selectedInfo, setSelectedInfo] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -30,7 +32,7 @@ export default function Packages() {
     const payerID = params.get("PayerID");
 
     if (paypal === "0") {
-      toast.error("Ödəniş uğursuz oldu, bir şey səhv getdi!");
+      toast.error(t("plans.payment_fail"));
     }
 
     if (!token || localStorage.getItem(`paypal-${token}`)) return;
@@ -44,11 +46,11 @@ export default function Packages() {
         })
         .catch(() => {
           if (localStorage.getItem(`paypal-${token}`) === "done") return;
-          toast.error("Ödəniş zamanı xəta baş verdi!");
+          toast.error(t("plans.payment_error"));
         })
         .finally(() => setLoading(false));
     }
-  }, [location.search, navigate]);
+  }, [location.search, navigate, t]);
 
   const getPlans = async () => {
     try {
@@ -56,7 +58,7 @@ export default function Packages() {
       if (response.status === 200) {
         setPlans(response.data);
       } else {
-        throw new Error("Plans məlumatını yükləmək alınmadı");
+        throw new Error(t("plans.no_plan"));
       }
     } catch (error) {
       console.error(error);
@@ -78,11 +80,11 @@ export default function Packages() {
       if (response.data.approve_url) {
         window.location.href = response.data.approve_url;
       } else {
-        toast.error("Ödəniş səhifəsinə yönləndirmək alınmadı");
+        toast.error(t("plans.redirect_error"));
       }
     } catch (err) {
       console.error(err);
-      toast.error("Ödəniş prosesində xəta baş verdi");
+      toast.error(t("plans.payment_error"));
     } finally {
       setLoading(false);
     }
@@ -91,12 +93,12 @@ export default function Packages() {
   return (
     <>
       <Helmet>
-        <title>Planlar | Octopus</title>
+        <title>{t("plans.title")} | Octopus</title>
         <meta
           name="description"
           content="Octopus planları ilə fərdi testlər və psixologiya xidmətlərini əldə edin."
         />
-        <meta property="og:title" content="Planlar | Octopus" />
+        <meta property="og:title" content={`${t("plans.title")} | Octopus`} />
         <meta
           property="og:description"
           content="Octopus planları ilə fərdi testlər və psixologiya xidmətlərini əldə edin."
@@ -141,7 +143,7 @@ export default function Packages() {
                     >
                       <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                     </svg>
-                    Test sayı: {plan.tests_count}
+                    {t("plans.test_count")}: {plan.tests_count}
                   </li>
                   <li className="flex items-center text-gray-600">
                     <svg
@@ -153,7 +155,7 @@ export default function Packages() {
                     >
                       <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                     </svg>
-                    Qiymət: {plan.customerPrice} {plan.currency}
+                    {t("plans.price")}: {plan.customerPrice} {plan.currency}
                   </li>
                 </ul>
 
@@ -164,7 +166,7 @@ export default function Packages() {
                   }}
                   className="mb-4 text-blue-600 font-medium hover:underline focus:outline-none"
                 >
-                  {selectedInfo === `${plan.id}` ? "Məlumatı bağla" : "Ətraflı məlumat"}
+                  {selectedInfo === `${plan.id}` ? t("plans.close_info") : t("plans.more_info")}
                 </button>
 
                 {selectedInfo === `${plan.id}` && (
@@ -194,7 +196,7 @@ export default function Packages() {
                   onClick={(e) => handleBuy(plan.id)}
                   className="mt-auto bg-blue-600 text-white font-semibold py-3 rounded hover:bg-blue-700 transition"
                 >
-                  İndi al
+                  {t("plans.buy_now")}
                 </button>
               </div>
             ))}
@@ -204,7 +206,7 @@ export default function Packages() {
             className="flex w-full items-center justify-center p-10"
             style={{ fontSize: "30px" }}
           >
-            Plan mövcud deyil
+            {t("plans.no_plan")}
           </div>
         )}
       </div>

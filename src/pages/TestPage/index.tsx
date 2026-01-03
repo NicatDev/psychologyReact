@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import API from "@/api";
-import { Link } from "react-router-dom";
-import { Modal, Button } from "antd";
+// import { Modal, Button } from "antd";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "@/context/UserContext";
 import { toast, ToastContainer } from "react-toastify";
 import { Helmet } from "react-helmet-async";
+import { useTranslation } from "react-i18next";
 
 interface Option {
   id: number;
@@ -25,6 +25,7 @@ interface Question {
 const TestPage = () => {
   const navigate = useNavigate();
   const { user } = useUser();
+  const { t } = useTranslation();
 
   const [questions, setQuestions] = useState<Question[]>([]);
   const [optionIds, setOptionIds] = useState<Record<number, number>>({});
@@ -35,8 +36,8 @@ const TestPage = () => {
     Array(questions.length).fill(false)
   );
   const [currentQuestionSet, setCurrentQuestionSet] = useState<number>(0);
-  const [score, setScore] = useState<any>(null);
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  // const [score, setScore] = useState<any>(null);
+  // const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   // API-dan sualları gətiririk
   const fetchQuestions = async () => {
@@ -51,12 +52,12 @@ const TestPage = () => {
       }
     } catch (err: any) {
       if (!user) {
-        toast.error("Zəhmət olmasa daxil olun!");
+        toast.error(t("test_intro.error_login"));
       }
       if (user?.active_test_count === 0) {
-        toast.error("Aktiv test paketiniz yoxdur!");
+        toast.error(t("test_intro.error_no_active"));
       }
-      console.error("Xəta baş verdi:", err);
+      console.error(t("common.error"), err);
     }
   };
 
@@ -123,8 +124,8 @@ const TestPage = () => {
         scoresByType[type] += answer[type];
       });
     });
-    setScore(scoresByType);
-    setIsModalOpen(true);
+    // setScore(scoresByType);
+    // setIsModalOpen(true);
     handleSubmitTest(scoresByType);
   };
 
@@ -139,7 +140,7 @@ const TestPage = () => {
         if (answers[i] === null) newErrors[i] = true;
       }
       setErrors(newErrors);
-      toast.warn("Zəhmət olmasa bütün sualları cavablandırın.");
+      toast.warn(t("test_intro.warn_answer_all"));
       return;
     }
 
@@ -163,11 +164,10 @@ const TestPage = () => {
       return (
         <div
           key={index}
-          className={`content text-center font-semibold text-xl flex flex-col gap-8 w-full border transition-all duration-300 rounded mb-4 shadow-sm ${
-            isSelected
+          className={`content text-center font-semibold text-xl flex flex-col gap-8 w-full border transition-all duration-300 rounded mb-4 shadow-sm ${isSelected
               ? "bg-primary-blue text-white border-blue-700"
               : "bg-blue-50 text-primary-blue border-blue-200 hover:bg-blue-100"
-          } ${errors[index] ? "border-red-500 border-2" : ""}`}
+            } ${errors[index] ? "border-red-500 border-2" : ""}`}
           style={{ paddingBottom: 35, paddingTop: 10, margin: "auto" }}
         >
           <p className="test-quiz pt-6 px-4 text-[16px] md:text-[20px]">
@@ -183,9 +183,8 @@ const TestPage = () => {
                 <div key={j} className="flex items-center">
                   {isFirst && (
                     <span
-                      className={`mr-2 text-[11px] md:text-sm leading-[1.2] max-w-[80px] md:max-w-none ${
-                        isSelected ? "text-blue-100" : "text-gray-500"
-                      }`}
+                      className={`mr-2 text-[11px] md:text-sm leading-[1.2] max-w-[80px] md:max-w-none ${isSelected ? "text-blue-100" : "text-gray-500"
+                        }`}
                     >
                       {option.text}
                     </span>
@@ -202,29 +201,26 @@ const TestPage = () => {
                       className="peer sr-only"
                     />
                     <div
-                      className={`w-6 h-6 md:w-9 md:h-9 border-2 rounded-full flex items-center justify-center transition-all ${
-                        isSelected
+                      className={`w-6 h-6 md:w-9 md:h-9 border-2 rounded-full flex items-center justify-center transition-all ${isSelected
                           ? "border-white"
                           : "border-primary-blue bg-white shadow-inner"
-                      }`}
+                        }`}
                     >
                       <div
-                        className={`w-3 h-3 md:w-5 md:h-5 rounded-full transition-all ${
-                          isActive
+                        className={`w-3 h-3 md:w-5 md:h-5 rounded-full transition-all ${isActive
                             ? isSelected
                               ? "bg-white"
                               : "bg-primary-blue"
                             : "bg-transparent"
-                        }`}
+                          }`}
                       ></div>
                     </div>
                   </label>
 
                   {isLast && (
                     <span
-                      className={`ml-2 text-[11px] md:text-sm leading-[1.2] max-w-[80px] md:max-w-none ${
-                        isSelected ? "text-blue-100" : "text-gray-500"
-                      }`}
+                      className={`ml-2 text-[11px] md:text-sm leading-[1.2] max-w-[80px] md:max-w-none ${isSelected ? "text-blue-100" : "text-gray-500"
+                        }`}
                     >
                       {option.text}
                     </span>
@@ -241,31 +237,30 @@ const TestPage = () => {
   return (
     <>
       <Helmet>
-        <title>Şəxsiyyət Testi | Octopus</title>
+        <title>{t("test_intro.take_test_title")} | Octopus</title>
         <meta
           name="description"
-          content="Şəxsiyyət testi ilə hansı şəxsiyyət tipinə daha yaxın olduğunuzu öyrənin."
+          content={t("test_intro.description")}
         />
       </Helmet>
 
       <div className="bg-zinc-100 min-h-screen">
         <div className="container mx-auto px-2 py-20">
           <p className="style-p mb-8 text-lg text-center font-medium text-gray-700">
-            Bu pulsuz şəxsiyyət testi sizə 9 şəxsiyyət tipindən hansının sizə ən
-            uyğun olduğunu göstərəcək.
+            {t("test_intro.description")}
           </p>
 
           <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
             <div className="flex flex-col gap-2 p-6 bg-primary-blue">
               <h3 className="text-white text-center font-bold text-xl tracking-wide">
-                ŞƏXSİYYƏT TESTİNDƏN KEÇMƏK
+                {t("test_intro.take_test_title")}
               </h3>
               <div className="flex text-blue-100 text-[11px] md:text-sm gap-2 md:gap-6 items-center justify-center mt-2 opacity-90">
-                <span>Qətiyyən razı deyiləm</span>
+                <span>{t("test_intro.scale.disagree")}</span>
                 <span className="w-1 h-1 bg-white rounded-full"></span>
-                <span>Neytral</span>
+                <span>{t("test_intro.scale.neutral")}</span>
                 <span className="w-1 h-1 bg-white rounded-full"></span>
-                <span>Tamamilə razıyam</span>
+                <span>{t("test_intro.scale.agree")}</span>
               </div>
             </div>
 
@@ -274,7 +269,7 @@ const TestPage = () => {
                 {questions.length > 0 ? (
                   <div className="flex flex-col gap-1">{renderQuestions()}</div>
                 ) : (
-                  <div className="text-center py-10">Yüklənir...</div>
+                  <div className="text-center py-10">{t("test_intro.loading")}</div>
                 )}
               </form>
 
@@ -285,7 +280,7 @@ const TestPage = () => {
                     className="border-primary-blue border-[2px] rounded-lg py-2 px-8 font-semibold text-primary-blue hover:bg-primary-blue hover:text-white transition-all duration-300"
                     onClick={prevQuestions}
                   >
-                    Geri
+                    {t("test_intro.buttons.back")}
                   </button>
                 )}
 
@@ -295,7 +290,7 @@ const TestPage = () => {
                     className="bg-primary-blue border-primary-blue border-[2px] rounded-lg py-2 px-8 font-semibold text-white hover:bg-blue-700 transition-all duration-300"
                     onClick={nextQuestions}
                   >
-                    Növbəti
+                    {t("test_intro.buttons.next")}
                   </button>
                 )}
 
@@ -306,35 +301,12 @@ const TestPage = () => {
                       className="bg-green-600 border-green-600 border-[2px] rounded-lg py-2 px-8 font-semibold text-white hover:bg-green-700 transition-all duration-300 shadow-md"
                       onClick={submitAnswers}
                     >
-                      Nəticəni göstər
+                      {t("test_intro.buttons.show_result")}
                     </button>
                   )}
               </div>
             </div>
           </div>
-
-          {/* <Modal
-            title="Sizin MBTI Nəticəniz"
-            open={isModalOpen}
-            onCancel={() => setIsModalOpen(false)}
-            footer={[
-              <Button key="close" onClick={() => setIsModalOpen(false)}>
-                Bağla
-              </Button>,
-            ]}
-          >
-            {score && (
-              <div className="text-center p-6">
-                <p className="text-lg font-medium mb-2">Sizin Tipiniz:</p>
-                <Link
-                  to={"/result/?type=" + getMBTIType(score)}
-                  className="text-3xl font-bold text-blue-600 hover:underline"
-                >
-                  {getMBTIType(score)}
-                </Link>
-              </div>
-            )}
-          </Modal> */}
           <ToastContainer position="bottom-right" />
         </div>
       </div>

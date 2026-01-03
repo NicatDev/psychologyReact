@@ -15,6 +15,8 @@ import AdminLogin from "../pages/AdminLogin/index.js";
 import AdminDashboard from "../pages/AdminDashboard/index.js";
 import AdminUsers from "../pages/AdminUsers/index.js";
 import AdminOrders from "../pages/AdminOrders/index.js";
+import Register from "../pages/Register/index";
+import VerifyEmail from "../pages/VerifyEmail/index";
 
 const AppRoutes = () => {
 
@@ -32,16 +34,18 @@ const AppRoutes = () => {
         <Route path="/test-packages" element={<TestPackages />} />
       </Route>
 
-        <Route path="admin" element={<AdminRoute />}>
-          <Route index element={<Navigate to="dashboard" />} />
-          <Route path="dashboard" element={<AdminDashboard />} />
-          <Route path="users" element={<AdminUsers />} />
-          <Route path="orders" element={<AdminOrders />} />
-        </Route>
+      <Route path="admin" element={<AdminRoute />}>
+        <Route index element={<Navigate to="dashboard" />} />
+        <Route path="dashboard" element={<AdminDashboard />} />
+        <Route path="users" element={<AdminUsers />} />
+        <Route path="orders" element={<AdminOrders />} />
+      </Route>
 
       <Route path="admin/login" element={<AdminLogin />} />
 
       <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/verify-email" element={<VerifyEmail />} />
     </Routes>
   );
 };

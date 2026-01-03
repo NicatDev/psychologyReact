@@ -8,3 +8,10 @@
 body {
     font-family: "Poppins", sans-serif;
 }
+
+@media (max-width: 600px) {
+  .text-7xl {
+    font-size: 1.6rem !important;
+    line-height: normal !important;
+  }
+}

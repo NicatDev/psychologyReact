@@ -7,8 +7,10 @@ import {
   FaYoutube,
   FaLinkedinIn,
 } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 
 const Footer = () => {
+  const { t } = useTranslation();
   return (
     <div className="bg-[#0f172b]">
       <div className="flex flex-col gap-6">
@@ -24,25 +26,25 @@ const Footer = () => {
               className="hover:underline hover:text-primary-blue duration-300"
               to="/blogs"
             >
-              Bloqlar
+              {t("header.blogs")}
             </Link>
             <Link
               className="hover:underline hover:text-primary-blue duration-300"
               to="/about-us"
             >
-              Haqqımızda
+              {t("header.about")}
             </Link>
             <Link
               className="hover:underline hover:text-primary-blue duration-300"
               to="/contact-us"
             >
-              Əlaqə
+              {t("header.contact")}
             </Link>
             <Link
               className="hover:underline hover:text-primary-blue duration-300"
               to="/test"
             >
-              Testlər
+              {t("footer.tests")}
             </Link>
           </div>
 
@@ -68,7 +70,7 @@ const Footer = () => {
 
         {/* Copyright */}
         <div className="container px-4 mx-auto text-center text-white pb-6 text-sm md:text-base">
-          <p>© Copyrights 2024. Bütün hüquqlar qorunur.</p>
+          <p>{t("footer.rights")}</p>
         </div>
       </div>
     </div>

@@ -1,23 +1,29 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { FaBars, FaTimes } from "react-icons/fa";
+import { FaBars, FaTimes, FaGlobe } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "@/context/UserContext";
 import logo from "../../shared/media/imgs/logo.png";
 import ProfileDropdown from "../../shared/components/ProfileDropDown";
 import { toast, ToastContainer } from "react-toastify";
+import { useTranslation } from "react-i18next";
+import LanguageSwitcher from "@/shared/components/LanguageSwitcher";
+
 const Header = () => {
   const { user, logout } = useUser();
+  const { t, i18n } = useTranslation();
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
+
   const menu = [
-    { title: "Haqqımızda", link: "/about-us" },
-    { title: "Bloqlar", link: "/blogs" },
-    { title: "Planlar", link: "/test-packages" },
-    { title: "Əlaqə", link: "/contact-us" },
-    { title: "Testə başla!", link: "/test", isButton: true },
+    { title: t("header.about"), link: "/about-us" },
+    { title: t("header.blogs"), link: "/blogs" },
+    { title: t("header.plans"), link: "/test-packages" },
+    { title: t("header.contact"), link: "/contact-us" },
+    { title: t("header.start_test"), link: "/test", isButton: true },
   ];
+
   console.log(user, "");
   const handleLogout = () => {
     logout();
@@ -36,14 +42,14 @@ const Header = () => {
         {/* Desktop Menu */}
         <div className="hidden lg:flex items-center gap-8 text-lg">
           {menu.map((item, index) => {
-            const handleClick = (e:any) => {
-              if (item.title === "Testə başla!" && !user) {
-                e.preventDefault(); // Linkin navigasiyasını dayandırır
-                toast.error("Zəhmət olmasa, əvvəlcə daxil olun"); // toast mesajı göstərir
+            const handleClick = (e: any) => {
+              if (item.title === t("header.start_test") && !user) {
+                e.preventDefault();
+                toast.error("Zəhmət olmasa, əvvəlcə daxil olun");
               }
-             if (item.title === "Testə başla!" && user && user?.active_test_count==0) {
-                e.preventDefault(); // Linkin navigasiyasını dayandırır
-                toast.error("Test etmək üçün hesabınızda aktiv test paketi olmalıdır"); // toast mesajı göstərir
+              if (item.title === t("header.start_test") && user && user?.active_test_count == 0) {
+                e.preventDefault();
+                toast.error("Test etmək üçün hesabınızda aktiv test paketi olmalıdır");
               }
             };
 
@@ -62,12 +68,17 @@ const Header = () => {
               </Link>
             );
           })}
+
+
+          {/* Language Switcher Desktop */}
+          <LanguageSwitcher />
+
           {!user ? (
             <Link
-              className="font-medium bg-indigo-600 text-white py-2 px-10 rounded-md"
+              className="font-medium bg-indigo-600 text-white py-2 px-10 rounded-md hover:bg-indigo-700 transition"
               to="/login"
             >
-              Daxil ol
+              {t("header.login")}
             </Link>
           ) : (
             <ProfileDropdown user={user} onLogout={handleLogout} />
@@ -75,7 +86,10 @@ const Header = () => {
         </div>
 
         {/* Mobile Hamburger */}
-        <div className="lg:hidden">
+        <div className="lg:hidden flex items-center gap-4">
+          {/* Language Switcher Mobile (Small) */}
+          <LanguageSwitcher />
+
           <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
             {mobileMenuOpen ? <FaTimes size={28} /> : <FaBars size={28} />}
           </button>
@@ -101,11 +115,11 @@ const Header = () => {
             ))}
             {!user ? (
               <Link
-                className="font-medium bg-indigo-600 text-white py-2 px-10 text-center rounded-md"
+                className="font-medium bg-indigo-600 text-white py-2 px-10 text-center rounded-md hover:bg-indigo-700 transition"
                 to="/login"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Daxil ol
+                {t("header.login")}
               </Link>
             ) : (
               <ProfileDropdown user={user} onLogout={handleLogout} />

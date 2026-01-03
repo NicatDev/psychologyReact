@@ -1,0 +1,134 @@
+{
+  "header": {
+    "about": "About Us",
+    "blogs": "Blogs",
+    "plans": "Plans",
+    "contact": "Contact",
+    "start_test": "Start Test!",
+    "login": "Login",
+    "logout": "Logout",
+    "profile": "Profile"
+  },
+  "auth": {
+    "register": "Register",
+    "verify_email": "Verify Email",
+    "email": "Email",
+    "password": "Password",
+    "confirm_password": "Confirm Password",
+    "verification_code": "Verification Code",
+    "submit": "Submit",
+    "already_have_account": "Already have an account? Login",
+    "dont_have_account": "Don't have an account? Register",
+    "verify_button": "Verify",
+    "resend_code": "Resend Code"
+  },
+  "footer": {
+    "rights": "© Copyrights 2024. All rights reserved.",
+    "tests": "Tests"
+  },
+  "about": {
+    "title_fallback": "About Us",
+    "desc_fallback": "Learn more about Octopus and our mission."
+  },
+  "home": {
+    "hero_title": "Understanding who you are.",
+    "hero_subtitle": "Personality tests that can help at home, at work, and in relationships",
+    "business": {
+      "title": "Discover your team's potential",
+      "description": "With our tests, you can increase your business productivity, reduce conflicts, and strengthen team communication. Start in a short time. No waste of time, just results.",
+      "start_button": "Start"
+    }
+  },
+  "blogs": {
+    "title_latest_articles": "Our Latest Articles",
+    "title_latest_blogs": "Our Latest Blogs",
+    "read_more": "Read More",
+    "prev": "Previous",
+    "next": "Next"
+  },
+  "plans": {
+    "title": "Plans",
+    "no_plan": "No plans available",
+    "test_count": "Test count",
+    "price": "Price",
+    "more_info": "More Info",
+    "close_info": "Close Info",
+    "buy_now": "Buy Now",
+    "payment_fail": "Payment failed, something went wrong!",
+    "payment_error": "An error occurred during payment!",
+    "redirect_error": "Could not redirect to payment page"
+  },
+  "test_intro": {
+    "description": "This free personality test will show you which of the 9 personality types suits you best.",
+    "take_test_title": "TAKE THE PERSONALITY TEST",
+    "scale": {
+      "disagree": "Strongly Disagree",
+      "neutral": "Neutral",
+      "agree": "Strongly Agree"
+    },
+    "buttons": {
+      "back": "Back",
+      "next": "Next",
+      "show_result": "Show Result"
+    },
+    "loading": "Loading...",
+    "error_login": "Please login first!",
+    "error_no_active": "You don't have an active test package!",
+    "warn_answer_all": "Please answer all questions."
+  },
+  "profile": {
+    "title": "My Profile",
+    "tabs": {
+      "info": "Information",
+      "update": "Update Info",
+      "avatar": "Profile Picture",
+      "password": "Change Password"
+    },
+    "fields": {
+      "name": "First Name",
+      "surname": "Last Name",
+      "email": "Email Address",
+      "current_pass": "Current Password",
+      "new_pass": "New Password",
+      "confirm_pass": "Confirm New Password",
+      "active_test_count": "Active Test Attempts"
+    },
+    "buttons": {
+      "update": "Update",
+      "change_pass": "Change Password"
+    },
+    "test_results": "Test Results",
+    "no_history": "No test history available",
+    "view_questions": "View Questions",
+    "view_result": "View Result",
+    "view": "View",
+    "collapse": "Collapse",
+    "test_title_prefix": "Personality Test"
+  },
+  "banner": {
+    "about": "About Us",
+    "contact": "Contact Us",
+    "blogs": "Blogs",
+    "plans": "Plans"
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "You can contact us for your questions or suggestions.",
+    "form": {
+      "name": "Name",
+      "name_placeholder": "Enter your name",
+      "email": "Email Address",
+      "email_placeholder": "Enter your email address",
+      "subject": "Subject",
+      "subject_placeholder": "Enter subject",
+      "message": "Message",
+      "message_placeholder": "Write your message",
+      "send": "Send"
+    }
+  },
+  "common": {
+    "loading": "Loading...",
+    "success": "Success",
+    "error": "Error"
+  }
+}

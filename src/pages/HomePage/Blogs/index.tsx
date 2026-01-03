@@ -1,33 +1,35 @@
 import { Link } from "react-router-dom";
 import API from "@/api";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   showThree?: boolean;
 }
 
 const Blogs = ({ showThree }: Props) => {
+  const { t } = useTranslation();
   const [blogs, setBlogs] = useState([])
-    const getBlogs = async () => {
-      const response = await API.Auth.blog();
-  
-      if (response.status === 200) {
-        setBlogs(response.data.results)
-      } else {
-        throw new Error(response.data);
-      }
-    };
-  
-    useEffect(() => {
-      getBlogs()
-    }, [])
-  
+  const getBlogs = async () => {
+    const response = await API.Auth.blog();
+
+    if (response.status === 200) {
+      setBlogs(response.data.results)
+    } else {
+      throw new Error(response.data);
+    }
+  };
+
+  useEffect(() => {
+    getBlogs()
+  }, [])
+
 
   return (
     <div className="py-20">
       <div className="container px-2 mx-auto flex flex-col gap-10">
         <h2 className="text-4xl font-bold text-center text-primary-blue">
-          Ən son məqalələrimiz
+          {t("blogs.title_latest_articles")}
         </h2>
         <div className="grid gap-10 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
           {blogs.slice(0, showThree ? 3 : 6).map(({ id, image, title, content }) => (
@@ -50,7 +52,7 @@ const Blogs = ({ showThree }: Props) => {
                 to={`/blog-detail/${id}`}
                 className="mt-6 flex items-center gap-2 text-lg text-indigo-700 font-semibold cursor-pointer group"
               >
-                Daha çox oxu
+                {t("blogs.read_more")}
                 <svg
                   width="15"
                   height="12"

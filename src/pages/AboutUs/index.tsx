@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import ab01 from "../../shared/media/ab01.jpg";
 import API from "@/api";
 import { Helmet } from "react-helmet-async";
+import { useTranslation } from "react-i18next";
 
 const Index = () => {
+  const { t } = useTranslation();
   const [about, setAbout] = useState<{
     title?: string;
     miniTitle?: string;
@@ -31,24 +33,24 @@ const Index = () => {
     <>
       <Helmet>
         <title>
-          {about.title ? `${about.title} | Octopus` : "About Us | Octopus"}
+          {about.title ? `${about.title} | Octopus` : `${t("about.title_fallback")} | Octopus`}
         </title>
         <meta
           name="description"
           content={
             about.miniTitle
               ? about.miniTitle
-              : "Learn more about Octopus and our mission."
+              : t("about.desc_fallback")
           }
         />
         <meta
           property="og:title"
-          content={about.title || "About Us | Octopus"}
+          content={about.title || `${t("about.title_fallback")} | Octopus`}
         />
         <meta
           property="og:description"
           content={
-            about.miniTitle || "Learn more about Octopus and our mission."
+            about.miniTitle || t("about.desc_fallback")
           }
         />
         <meta property="og:type" content="website" />

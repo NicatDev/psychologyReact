@@ -1,0 +1,124 @@
+{
+    "header": {
+        "about": "Haqqımızda",
+        "blogs": "Bloqlar",
+        "plans": "Planlar",
+        "contact": "Əlaqə",
+        "start_test": "Testə başla!",
+        "login": "Daxil ol",
+        "logout": "Çıxış",
+        "profile": "Profil"
+    },
+    "auth": {
+        "register": "Qeydiyyat",
+        "verify_email": "E-poçtu təsdiqlə",
+        "email": "E-poçt",
+        "password": "Şifrə",
+        "confirm_password": "Şifrəni təsdiqlə",
+        "verification_code": "Təsdiq kodu",
+        "submit": "Təsdiqlə",
+        "already_have_account": "Artıq hesabınız var? Daxil olun",
+        "dont_have_account": "Hesabınız yoxdur? Qeydiyyatdan keçin",
+        "verify_button": "Təsdiqlə",
+        "resend_code": "Kodu yenidən göndər"
+    },
+    "footer": {
+        "rights": "© Copyrights 2024. Bütün hüquqlar qorunur.",
+        "tests": "Testlər"
+    },
+    "home": {
+        "hero_title": "Kim olduğunu anla.",
+        "hero_subtitle": "Evdə, işdə və münasibətlərdə köməkçi ola biləcək şəxsiyyət testləri",
+        "business": {
+            "title": "Komandanızın potensialını kəşf edin",
+            "description": "Bizim testlərimizlə biznesinizin produktivliyini artıra, konfliktləri azalda və komanda daxili əlaqəni gücləndirə bilərsiniz. Qısa müddətdə başlayın. Vaxt itkisinə yox, ancaq nəticələr.",
+            "start_button": "Başlamaq"
+        }
+    },
+    "blogs": {
+        "title_latest_articles": "Ən son məqalələrimiz",
+        "title_latest_blogs": "Ən son bloqlarımız",
+        "read_more": "Daha çox oxu",
+        "prev": "Əvvəlki",
+        "next": "Sonrakı"
+    },
+    "plans": {
+        "title": "Planlar",
+        "no_plan": "Plan mövcud deyil",
+        "test_count": "Test sayı",
+        "price": "Qiymət",
+        "more_info": "Ətraflı məlumat",
+        "close_info": "Məlumatı bağla",
+        "buy_now": "İndi al",
+        "payment_fail": "Ödəniş uğursuz oldu, bir şey səhv getdi!",
+        "payment_error": "Ödəniş zamanı xəta baş verdi!",
+        "redirect_error": "Ödəniş səhifəsinə yönləndirmək alınmadı"
+    },
+    "test_intro": {
+        "description": "Bu pulsuz şəxsiyyət testi sizə 9 şəxsiyyət tipindən hansının sizə ən uyğun olduğunu göstərəcək.",
+        "take_test_title": "ŞƏXSİYYƏT TESTİNDƏN KEÇMƏK",
+        "scale": {
+            "disagree": "Qətiyyən razı deyiləm",
+            "neutral": "Neytral",
+            "agree": "Tamamilə razıyam"
+        },
+        "buttons": {
+            "back": "Geri",
+            "next": "Növbəti",
+            "show_result": "Nəticəni göstər"
+        },
+        "loading": "Yüklənir...",
+        "error_login": "Zəhmət olmasa daxil olun!",
+        "error_no_active": "Aktiv test paketiniz yoxdur!",
+        "warn_answer_all": "Zəhmət olmasa bütün sualları cavablandırın."
+    },
+    "profile": {
+        "title": "Profilim",
+        "tabs": {
+            "info": "Məlumatlar",
+            "update": "Məlumatları Yenilə",
+            "avatar": "Profil Şəkli",
+            "password": "Şifrəni Dəyiş"
+        },
+        "fields": {
+            "name": "Ad",
+            "surname": "Soyad",
+            "email": "Email ünvanı",
+            "current_pass": "Cari Şifrə",
+            "new_pass": "Yeni Şifrə",
+            "confirm_pass": "Yeni Şifrəni Təsdiqlə",
+            "active_test_count": "Aktiv test cəhdi"
+        },
+        "buttons": {
+            "update": "Yenilə",
+            "change_pass": "Şifrəni Dəyiş"
+        },
+        "test_results": "Test nəticələri",
+        "no_history": "Test keçmişiniz mövcud deyil",
+        "view_questions": "Suallara Bax",
+        "view_result": "Nəticəyə Bax",
+        "view": "Bax",
+        "collapse": "Yığ",
+        "test_title_prefix": "Şəxsiyyət Testi"
+    },
+    "contact": {
+        "title": "Bizimlə əlaqə",
+        "subtitle": "Suallarınız və ya təklifləriniz üçün bizimlə əlaqə saxlaya bilərsiniz.",
+        "form": {
+            "name": "Ad",
+            "name_placeholder": "Adınızı daxil edin",
+            "email": "Email ünvanı",
+            "email_placeholder": "Email ünvanınızı daxil edin",
+            "subject": "Mövzu",
+            "subject_placeholder": "Mövzunu daxil edin",
+            "message": "Mesaj",
+            "message_placeholder": "Mesajınızı yazın",
+            "send": "Göndər"
+        }
+    },
+    "common": {
+        "loading": "Yüklənir...",
+        "success": "Uğurlu",
+        "error": "Xəta"
+    }
+}

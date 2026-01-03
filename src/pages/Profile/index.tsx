@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import API from "@/api";
-import { FiUser, FiMail, FiEye, FiEyeOff, FiHash  } from "react-icons/fi";
+import { FiUser, FiMail, FiEye, FiEyeOff, FiHash } from "react-icons/fi";
 import UserImg from "../../shared/media/imgs/userImg.jpg";
 import ProfileTestResults from "../../shared/components/ProfileTestResults";
 import { useUser } from "@/context/UserContext";
 import { useNavigate, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 interface ProfileFormValues {
   first_name: string;
@@ -20,13 +21,6 @@ interface PasswordFormValues {
   newPassword: string;
   confirmPassword: string;
 }
-
-const tabs = [
-  { id: "info", label: "Məlumatlar" },
-  { id: "update", label: "Məlumatları Yenilə" },
-  { id: "avatar", label: "Profil Şəkli" },
-  { id: "password", label: "Şifrəni Dəyiş" },
-];
 
 const InputField = ({
   id,
@@ -45,10 +39,19 @@ const InputField = ({
 }) => {
   const [showPassword, setShowPassword] = useState(false);
   const inputType = isPassword ? (showPassword ? "text" : "password") : type;
+  const { t } = useTranslation();
 
   const hasError = formik.touched[name] && formik.errors[name];
 
-
+  const getLabel = () => {
+    if (id === "first_name") return t("profile.fields.name");
+    if (id === "last_name") return t("profile.fields.surname");
+    if (id === "email") return t("profile.fields.email");
+    if (id === "currentPassword") return t("profile.fields.current_pass");
+    if (id === "newPassword") return t("profile.fields.new_pass");
+    if (id === "confirmPassword") return t("profile.fields.confirm_pass");
+    return id;
+  }
 
   return (
     <div className="relative mb-4">
@@ -56,19 +59,7 @@ const InputField = ({
         htmlFor={id}
         className="block text-sm font-medium text-gray-900 mb-1"
       >
-        {id === "first_name"
-          ? "Ad"
-          : id === "last_name"
-          ? "Soyad"
-          : id === "email"
-          ? "Email ünvanı"
-          : id === "currentPassword"
-          ? "Cari Şifrə"
-          : id === "newPassword"
-          ? "Yeni Şifrə"
-          : id === "confirmPassword"
-          ? "Yeni Şifrəni Təsdiqlə"
-          : id}
+        {getLabel()}
       </label>
 
       <div className="relative">
@@ -76,19 +67,18 @@ const InputField = ({
           id={id}
           name={name as string}
           type={inputType}
-          placeholder={placeholder || "Daxil edin"}
+          placeholder={placeholder || (getLabel() + "...")}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values[name as string] || ""}
-          className={`block w-full rounded-md bg-white px-3 pr-10 py-1.5 text-base text-gray-900 border ${
-            hasError ? "border-red-500" : "border-blue-500"
-          } focus:outline-none focus:ring-1 focus:ring-blue-500 placeholder:text-gray-400 sm:text-sm`}
+          className={`block w-full rounded-md bg-white px-3 pr-10 py-1.5 text-base text-gray-900 border ${hasError ? "border-red-500" : "border-blue-500"
+            } focus:outline-none focus:ring-1 focus:ring-blue-500 placeholder:text-gray-400 sm:text-sm`}
           autoComplete={
             isPassword
               ? "current-password"
               : id.toLowerCase() === "email"
-              ? "email"
-              : undefined
+                ? "email"
+                : undefined
           }
         />
         {isPassword && (
@@ -113,6 +103,7 @@ const InputField = ({
 };
 
 const ProfilePage: React.FC = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("info");
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
@@ -131,16 +122,23 @@ const ProfilePage: React.FC = () => {
     image: null,
   });
 
+  const tabs = [
+    { id: "info", label: t("profile.tabs.info") },
+    { id: "update", label: t("profile.tabs.update") },
+    { id: "avatar", label: t("profile.tabs.avatar") },
+    { id: "password", label: t("profile.tabs.password") },
+  ];
 
   const location = useLocation();
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const paypal = params.get("paypal");
-    if(!paypal)return;
-    sessionStorage.setItem('paypal','1')
-    if(paypal=='success'){
-      toast.success('Ödəniş uğurla tamamlandı!')}
-  }, [location.search]);
+    if (!paypal) return;
+    sessionStorage.setItem('paypal', '1')
+    if (paypal == 'success') {
+      toast.success(t("common.success"))
+    }
+  }, [location.search, t]);
 
 
   const [profileStatus, setProfileStatus] = useState<{
@@ -171,11 +169,11 @@ const ProfilePage: React.FC = () => {
       email: userData.email || "",
     },
     validationSchema: Yup.object({
-      first_name: Yup.string().required("Ad daxil edin"),
-      last_name: Yup.string().required("Soyad daxil edin"),
+      first_name: Yup.string().required(t("profile.fields.name") + " " + t("common.error")),
+      last_name: Yup.string().required(t("profile.fields.surname") + " " + t("common.error")),
       email: Yup.string()
         .email("Doğru email daxil edin")
-        .required("Email tələb olunur"),
+        .required(t("profile.fields.email") + " " + t("common.error")),
     }),
     onSubmit: async (values, { setSubmitting }) => {
       try {
@@ -191,10 +189,10 @@ const ProfilePage: React.FC = () => {
             ...response.data,
             image: prev.image,
           }));
-          setProfileStatus({ success: "Profil məlumatları uğurla yeniləndi!" });
+          setProfileStatus({ success: t("common.success") });
           await getProfile();
         } else {
-          setProfileStatus({ error: "Profil yenilənmədi" });
+          setProfileStatus({ error: t("common.error") });
         }
       } catch (err) {
         setProfileStatus({ error: "Xəta baş verdi" });
@@ -216,13 +214,13 @@ const ProfilePage: React.FC = () => {
 
         const response = await API.Auth.profilePPUpdate(formData);
         if (response.status === 200) {
-          setStatus({ success: "Profil şəkli uğurla yeniləndi!" });
+          setStatus({ success: t("common.success") });
           setAvatarFile(null);
           setAvatarPreview(null);
           await getProfile();
           refreshUser();
         } else {
-          setStatus({ error: "Şəkil yenilənmədi" });
+          setStatus({ error: t("common.error") });
         }
       } catch (err) {
         setStatus({ error: "Xəta baş verdi" });
@@ -240,13 +238,13 @@ const ProfilePage: React.FC = () => {
       confirmPassword: "",
     },
     validationSchema: Yup.object({
-      currentPassword: Yup.string().required("Cari şifrə tələb olunur"),
+      currentPassword: Yup.string().required(t("profile.fields.current_pass") + " " + t("common.error")),
       newPassword: Yup.string()
-        .min(6, "Şifrə ən az 6 simvol olmalıdır")
-        .required("Yeni şifrə tələb olunur"),
+        .min(6, "min 6")
+        .required(t("profile.fields.new_pass") + " " + t("common.error")),
       confirmPassword: Yup.string()
-        .oneOf([Yup.ref("newPassword")], "Şifrələr uyğun gəlmir")
-        .required("Yeni şifrəni təsdiqləyin"),
+        .oneOf([Yup.ref("newPassword")], "Mismatch")
+        .required(t("profile.fields.confirm_pass") + " " + t("common.error")),
     }),
     onSubmit: async (values, { setSubmitting, resetForm, setStatus }) => {
       try {
@@ -256,10 +254,10 @@ const ProfilePage: React.FC = () => {
         };
         const response = await API.Auth.profilePasswordUpdate(data);
         if (response.status === 200) {
-          setStatus({ success: "Şifrə uğurla yeniləndi!" });
+          setStatus({ success: t("common.success") });
           resetForm();
         } else {
-          setStatus({ error: "Şifrə dəyişdirilə bilmədi" });
+          setStatus({ error: t("common.error") });
         }
       } catch (err) {
         setStatus({ error: "Xəta baş verdi" });
@@ -272,18 +270,17 @@ const ProfilePage: React.FC = () => {
   return (
     <>
       <div className="container mx-auto mt-10 mb-11 bg-white p-8 rounded shadow">
-        <h1 className="text-3xl font-semibold mb-6">Profilim</h1>
+        <h1 className="text-3xl font-semibold mb-6">{t("profile.title")}</h1>
 
         <div className="border-b border-gray-300 mb-6">
           <div className="flex gap-4 overflow-x-auto scrollbar-hide whitespace-nowrap">
             {tabs.map((tab) => (
               <button
                 key={tab.id}
-                className={`px-4 py-2 border-b-2 font-medium text-sm shrink-0 ${
-                  activeTab === tab.id
+                className={`px-4 py-2 border-b-2 font-medium text-sm shrink-0 ${activeTab === tab.id
                     ? "border-blue-500 text-blue-600"
                     : "border-transparent text-gray-600 hover:text-blue-600"
-                }`}
+                  }`}
                 onClick={() => setActiveTab(tab.id)}
               >
                 {tab.label}
@@ -301,7 +298,7 @@ const ProfilePage: React.FC = () => {
                   <FiUser size={24} />
                 </div>
                 <div>
-                  <p className="text-gray-500 text-sm">Ad və Soyad</p>
+                  <p className="text-gray-500 text-sm">{t("profile.fields.name")} & {t("profile.fields.surname")}</p>
                   <p className="text-lg font-medium text-gray-900">
                     {userData.first_name} {userData.last_name}
                   </p>
@@ -309,22 +306,22 @@ const ProfilePage: React.FC = () => {
               </div>
               <div className="flex items-center mb-5">
                 <div className="flex-shrink-0 bg-blue-100 text-blue-600 rounded-full p-3 mr-4">
-                  <FiHash  size={24} />
+                  <FiHash size={24} />
                 </div>
                 <div>
-                  <p className="text-gray-500 text-sm">Aktiv test cəhdi</p>
+                  <p className="text-gray-500 text-sm">{t("profile.fields.active_test_count")}</p>
                   <p className="text-lg font-medium text-gray-900">
                     {user?.active_test_count}
                   </p>
                 </div>
               </div>
-              
+
               <div className="flex items-center">
                 <div className="flex-shrink-0 bg-green-100 text-green-600 rounded-full p-3 mr-4">
                   <FiMail size={24} />
                 </div>
                 <div>
-                  <p className="text-gray-500 text-sm">Email Ünvanı</p>
+                  <p className="text-gray-500 text-sm">{t("profile.fields.email")}</p>
                   <p className="text-lg font-medium text-gray-900">
                     {userData.email}
                   </p>
@@ -373,7 +370,7 @@ const ProfilePage: React.FC = () => {
                 disabled={profileFormik.isSubmitting}
                 className="bg-blue-500 disabled:bg-blue-300 text-white px-5 py-2 rounded hover:bg-blue-600 transition"
               >
-                Yenilə
+                {t("profile.buttons.update")}
               </button>
             </form>
           )}
@@ -433,7 +430,7 @@ const ProfilePage: React.FC = () => {
                 disabled={avatarFormik.isSubmitting || !avatarFile}
                 className="bg-blue-500 disabled:bg-blue-300 text-white px-5 py-2 rounded hover:bg-blue-600 transition"
               >
-                Yenilə
+                {t("profile.buttons.update")}
               </button>
             </form>
           )}
@@ -480,7 +477,7 @@ const ProfilePage: React.FC = () => {
                 disabled={passwordFormik.isSubmitting}
                 className="bg-blue-500 disabled:bg-blue-300 text-white px-5 py-2 rounded hover:bg-blue-600 transition"
               >
-                Şifrəni Dəyiş
+                {t("profile.buttons.change_pass")}
               </button>
             </form>
           )}

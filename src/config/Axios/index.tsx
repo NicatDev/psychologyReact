@@ -12,9 +12,13 @@ let failedRequests = [];
 axios.interceptors.request.use(
   (req) => {
     const accessToken = localStorage.getItem("access");
+    const lang = localStorage.getItem("i18nextLng") || "en";
     if (accessToken) {
-      req.headers["authorization"] = `Bearer ${accessToken}`;
+      if (!req.url?.includes('register')) {
+        req.headers["authorization"] = `Bearer ${accessToken}`;
+      }
     }
+    req.headers["Accept-Language"] = lang;
     return req;
   },
   (err) => {
@@ -28,7 +32,7 @@ axios.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-  
+
 
     if (error.response?.status === 401 && !originalRequest._retry) {
       if (isRefreshing) {
@@ -45,7 +49,7 @@ axios.interceptors.response.use(
       originalRequest._retry = true;
       isRefreshing = true;
 
-      const refresh= localStorage.getItem("refresh");
+      const refresh = localStorage.getItem("refresh");
       const token = localStorage.getItem("access");
 
       return new Promise((resolve, reject) => {
@@ -58,7 +62,7 @@ axios.interceptors.response.use(
             } = data;
 
             localStorage.setItem("access", access);
-            
+
             axios.defaults.headers.common.Authorization = `Bearer ${access}`;
             originalRequest.headers.Authorization = `Bearer ${access}`;
 

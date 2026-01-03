@@ -33,7 +33,7 @@ export const useUser = () => {
 };
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | {}>({});
   const [loading, setLoading] = useState(true);
 
   const getProfile = async () => {
