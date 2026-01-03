@@ -92,7 +92,7 @@ const Blogs = () => {
                 <h3 className="text-xl text-gray-900 font-semibold mb-4 hover:text-indigo-600">
                   {title}
                 </h3>
-                <p className="text-gray-500 flex-grow">{content}</p>
+                <p className="text-gray-500 flex-grow">{content?.length>300?content?.slice(0, 300):content}</p>
                 <Link
                   to={`/blog-detail/${id}`}
                   className="mt-6 flex items-center gap-2 text-indigo-700 font-semibold cursor-pointer group"

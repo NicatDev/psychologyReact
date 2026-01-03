@@ -121,5 +121,11 @@
         "loading": "Yüklənir...",
         "success": "Uğurlu",
         "error": "Xəta"
-    }
+    },
+    "banner": {
+    "about": "Haqqımızda",
+    "contact": "Əlaqə",
+    "blogs": "Bloqlar",
+    "plans": "Planlar"
+  }
 }
