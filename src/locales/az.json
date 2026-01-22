@@ -56,7 +56,7 @@
         "redirect_error": "Ödəniş səhifəsinə yönləndirmək alınmadı"
     },
     "test_intro": {
-        "description": "Bu pulsuz şəxsiyyət testi sizə 9 şəxsiyyət tipindən hansının sizə ən uyğun olduğunu göstərəcək.",
+        "description": "Bu şəxsiyyət testi sizə 9 şəxsiyyət tipindən hansının sizə ən uyğun olduğunu göstərəcək.",
         "take_test_title": "ŞƏXSİYYƏT TESTİNDƏN KEÇMƏK",
         "scale": {
             "disagree": "Qətiyyən razı deyiləm",

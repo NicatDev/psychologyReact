@@ -60,7 +60,7 @@
     "redirect_error": "Could not redirect to payment page"
   },
   "test_intro": {
-    "description": "This free personality test will show you which of the 9 personality types suits you best.",
+    "description": "This personality test will show you which of the 9 personality types suits you best.",
     "take_test_title": "TAKE THE PERSONALITY TEST",
     "scale": {
       "disagree": "Strongly Disagree",
